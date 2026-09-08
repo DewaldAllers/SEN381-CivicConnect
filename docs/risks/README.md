@@ -1,0 +1,74 @@
+# Initial Risk Register
+
+Version 0.1 working draft | 8 September 2026 | Owner: Tristan Els | Status: **draft for team review, not an approved baseline**
+
+Next review: Milestone 2. SRC-MASTER section 12 (p. 12) makes this a live artefact that has to be reviewed at every milestone, so a register that still reads the same at M2 has not been maintained.
+
+Each entry names a cause, an uncertain event and a consequence. SRC-MASTER section 12 (p. 12) rejects vague entries such as "coding problems", because a risk that does not name its cause cannot be mitigated and a risk that does not name its consequence cannot be prioritised.
+
+## Rating scale
+
+The scale is a 3 by 3 grid. [DEC-005](../decisions/README.md#dec-005-use-a-3-3-probability-and-impact-scale) records why the team did not use a 5 by 5 grid: with no historical project data, the middle bands of a wider scale would be guesses presented as measurements.
+
+Probability, judged over the window from now to the end of Milestone 4:
+
+| Score | Band | Meaning |
+| --- | --- | --- |
+| 1 | Low | Nothing currently points to it. It would take a change in circumstances. |
+| 2 | Medium | Plausible on current evidence, or partial signs are already visible. |
+| 3 | High | Already showing, or it depends on something unresolved and outside the team's control. |
+
+Impact, judged against delivered scope, milestone schedule, and the team's ability to evidence a control the brief requires:
+
+| Score | Band | Meaning |
+| --- | --- | --- |
+| 1 | Minor | Absorbed inside a milestone. No baselined artefact changes. |
+| 2 | Moderate | Rework of one or more baselined artefacts, or a milestone deliverable is weakened. |
+| 3 | Major | A milestone gate outcome is threatened, or a control the brief requires cannot be evidenced. |
+
+Priority is probability multiplied by impact. 1 to 2 is Low, 3 to 4 is Medium, 6 to 9 is High. Two risks can share a score and still need different responses, so every entry carries its own mitigation rather than relying on rank order.
+
+## Risks that have already occurred
+
+SRC-MASTER section 12 (p. 12) says a risk becomes an issue once it materialises, and should then connect to actions and decisions. Two causes below have already happened. They stay in the register because their consequences are still uncertain, but the cause is recorded as observed fact, not as a prediction.
+
+RSK-001 and RSK-002 both have causes that are already true. Neither consequence has occurred yet.
+
+## Register
+
+| ID | Cause, uncertain event and consequence | P | I | Pri | Mitigation | Contingency and trigger | Owner | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| RSK-001 | Because GitHub refuses branch protection on a private repository under a free plan (observed 2026-09-07, HTTP 403), a substantive change could reach `main` without the two non-author approvals the brief requires, or history could be rewritten. The baseline would then not be defensible as a controlled product state, and the governance evidence marks would not be earned. | 2 | 3 | 6 | Operate the two-approval rule as a written procedure. All three members work on feature branches only. No member merges their own pull request. State the gap openly in the governance evidence rather than implying compliance. | If an unapproved change reaches `main`, revert it as a new commit, record it in the Decision Log, and raise it in the pull request rather than rewriting history. Trigger: any commit on `main` without a linked pull request. | Tristan | Cause materialised, consequence open |
+| RSK-002 | Because two approvals must come from members other than the author, and one member had made no commits to their branch as at 2026-09-08, a pull request could sit without the required approvals at the deadline. The team would then either merge without the required control or miss the milestone gate. | 3 | 3 | 9 | Raise pull requests early and small rather than one large request near the deadline. Agree review turnaround in the Team Working Agreement. Confirm all three members hold write access. | Merge nothing without two approvals. If the gate is at risk, present the milestone from the unmerged branches and record the shortfall honestly. Trigger: a pull request open with fewer than two approvals 12 hours before a deadline. | Tristan | Cause materialised, consequence open |
+| RSK-003 | Because three members drafted in parallel and Part 1 scope and constraints are not yet in the repository while Part 2 requirements are already drafted, the requirements could commit to behaviour that the scope baseline later excludes. The RTM and acceptance criteria would need rework after they were meant to be baselined. | 3 | 2 | 6 | Cross-read the branches before merging rather than after. Part 3 avoids editing Part 2 files, see DEC-004. Reconcile the duplicated source register at integration. | Treat any contradiction found at integration as a change request under SRC-MASTER section 14 (p. 13) instead of a silent edit. Trigger: a requirement with no matching scope statement, or a scope exclusion that contradicts a drafted requirement. | Tristan | Open |
+| RSK-004 | Because the usability and performance targets in NFR-004 and NFR-005 were proposed by the team rather than taken from a stakeholder or a measurement, the targets could prove unachievable or irrelevant when they are first tested in M3. A baselined requirement would then have to change under change control late in the project. | 2 | 2 | 4 | Mark both targets as proposed in the requirements, which Part 2 has done. Seek stakeholder or lecturer confirmation before baseline sign-off. Record the test environment and data volume as outstanding. | Raise a change request with impact analysis rather than quietly relaxing the number. Trigger: first measurement in M3 that misses the target, or stakeholder feedback that the target is wrong. | Dewald | Open |
+| RSK-005 | Because five proposals covering status transitions, the meaning of overdue, permission scope, the notification channel and the quality targets are still unconfirmed, the baseline could be signed off with acceptance criteria that cannot be tested. M2 design and M3 test design would then rest on rules nobody has agreed. | 2 | 3 | 6 | Close the five proposals as a named agenda item before sign-off. Do not mark the requirements baselined while any proposal is open. | If a proposal cannot be closed in time, record it as a condition on the milestone gate outcome rather than signing off as fully accepted. Trigger: sign-off date reached with any proposal still open. | Dewald | Open |
+| RSK-006 | Because service requests will carry personal contact details and matters such as security concerns and lost property, and the team has not confirmed which data protection obligations apply, the design could store or expose personal data with no lawful basis, no retention limit and no deletion route. Security and privacy rework would follow, and the team could not evidence a considered position at M3 or M4. | 2 | 3 | 6 | Treat personal data as a named forward engineering concern, see [FEC-002](../forward-engineering/README.md). Confirm before M2 which obligations apply, most likely the Protection of Personal Information Act 4 of 2013. Keep sensitive fields out of any sample or test data. | Reduce scope to the minimum personal data the capabilities need, and record the residual risk rather than claiming the system is compliant. Trigger: any design or schema proposal that stores contact details or free-text detail without a retention rule. | Tristan | Open |
+| RSK-007 | Because the stack is deliberately deferred to M2 and Belgium Campus does not guarantee that a chosen language, framework or service is available or supported on institutional machines (SRC-MASTER section 25, p. 23), the team could select tooling in M2 that will not run in the environment available to it, or that carries a learning curve the schedule cannot absorb. Construction would slip in M3. | 2 | 2 | 4 | Check availability on the institutional environment as part of the M2 selection, which is already in the DEC-007 criteria. Prefer tooling at least one member has used. Run a small proof of concept before committing. | Fall back to the most familiar viable option and record the reasoning and the capability trade-off in an ADR. Trigger: a proof of concept that will not install or run on a team machine. | Liam | Open |
+| RSK-008 | Because the M1 artefacts were largely produced in the final days of the milestone window, there could be too little time for the meaningful review the brief requires. Approvals would become rubber-stamping, which SRC-MASTER section 9 (p. 11) says may receive no credit. | 3 | 2 | 6 | Commit in small readable stages so a reviewer can follow the change. Give reviewers specific questions instead of asking for general approval. Start M2 artefacts earlier in the window. | Record an honest review note where a review was shallow, rather than presenting a thin approval as a full one. Trigger: an approval given with no comments on a substantive change. | Tristan | Open |
+| RSK-009 | Because each part was authored by one member and 20 of the 50 M1 marks are individual, with any student able to be asked about any artefact (SRC-M1 section 6.2, p. 6), a member could be unable to explain an artefact another member wrote. Individual marks would fall even where the team evidence is strong. | 3 | 3 | 9 | Hold a walkthrough where each member presents their artefacts to the other two and answers questions. Use the M1 indicative defence questions as practice. Each member traces one requirement end to end. | If a member is not ready, prioritise the artefacts most likely to be questioned: the highest priority risk, the deferred decision and the governance gap. Trigger: the walkthrough not completed before the presentation. | All three, coordinated by Tristan | Open |
+| RSK-010 | Because no deployment platform has been chosen and free-tier limits have not been researched, the staging deployment M3 requires could be blocked, or could need payment the cost constraint does not allow. The team would have no environment parity evidence at M3. | 2 | 2 | 4 | Research candidate platforms and their free-tier limits during M2, not M3. Record likely operational cost beyond the educational context, which SRC-MASTER section 18 (p. 15) requires. | Deploy staging locally or on an institutional machine and record honestly what differs from production. Trigger: a candidate platform whose free tier does not cover the staging workload. | Liam | Open |
+| RSK-011 | Because artefacts are being produced under deadline pressure, the repository history could read as a bulk upload rather than progressive work. SRC-MASTER section 23 (p. 22) gives limited or no credit to evidence reconstructed immediately before assessment. | 2 | 3 | 6 | Commit each artefact as a separate, described change as it is written. Do not squash the history into one commit. Do not backdate commits. | Present the history as it is and explain the schedule honestly, including the causes, rather than presenting it as steady work. Trigger: a single commit adding several unrelated artefacts. | Tristan | Open |
+| RSK-012 | Because the team uses AI assistants and SRC-MASTER section 10 (p. 12) says AI output is not authoritative evidence and never transfers accountability, an artefact could enter the PED that its owner cannot explain, defend or modify. Individual defence marks would be lost, and the work would be exposed under academic integrity rules. | 2 | 3 | 6 | Record material AI-assisted work in the AI Usage Register with the verification applied. Each member reads and can restate their own artefacts in their own words before approval. Reviewers question content, not formatting. | Withdraw or rewrite any artefact its owner cannot defend, rather than presenting it. Trigger: a member unable to explain a section they own during the walkthrough. | Dewald owns the register; each member accountable for their own work | Open |
+
+## Highest priority risks
+
+Two entries score 9. SRC-M1 section 3 (p. 3) asks the team to defend the highest priority risk, so the reasoning for both is set out here.
+
+RSK-002, reviewer availability, is rated 3 for probability because the cause is not a forecast. As at 8 September the branch `feature/m1-member1-foundation` still held only the repository's initial commit, and the milestone is due on 9 September. Impact is 3 because the consequence is not a delay but a choice between two failures: merge without the two approvals the brief requires, which breaks a mandatory control, or hold the merge and miss the gate. Neither outcome can be recovered by working harder on the artefacts, which is what separates this from the other entries.
+
+RSK-009, individual defence readiness, is rated 3 and 3 because the mark structure makes it near certain to be tested. The individual component is 20 of 50 raw marks, assessors may direct any question to any member, and the brief states plainly that a student cannot rely on a teammate to answer. The team has divided the work by part, which is efficient for production and directly creates this exposure. The mitigation is the only one in the register that cannot be done by writing anything: the walkthrough has to actually happen.
+
+RSK-001 scores 6 rather than 9 because the team can still follow the control by agreement even though nothing enforces it. That rating depends on all three members holding to the procedure. If any unapproved change reaches `main`, probability moves to 3 and the score to 9.
+
+## What this register does not cover
+
+No dependency or vulnerability risks are listed, because no application dependencies exist yet. That gap closes in M2 once the stack is chosen, and SRC-MASTER section 16 (p. 14) will then require dependency review as part of the security work.
+
+No risks are recorded against stakeholder availability, because the team has not yet established whether a real stakeholder is available to consult or whether the brief is the only source. Part 1 should settle that, and a risk should be added if the answer is that no stakeholder can be reached.
+
+## References
+
+Republic of South Africa (2013) *Protection of Personal Information Act 4 of 2013*. Cited in RSK-006 as the obligation most likely to apply. The team has not yet confirmed its applicability to this project, which is recorded as missing information in [FEC-002](../forward-engineering/README.md).
+
+Sources cited as SRC-MASTER, SRC-M1 and SRC-GH resolve in the [Part 3 index](../part-3-index.md#references).
