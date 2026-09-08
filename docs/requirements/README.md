@@ -17,7 +17,7 @@ This is the requirements contribution to the Project Engineering Document (PED) 
 
 The Master Project Brief v1.1 defines a community organisation whose requests are scattered across email, calls, WhatsApp, spreadsheets and paper. CivicConnect must improve visibility, responsibility and reporting through a controlled request record (sections 2-3, pp. 6-7).
 
-These working need IDs connect Part 2 to the team stakeholder and scope sections. They are derived from the brief, not from interviews. The stakeholder-section owner should reconcile these IDs during PED integration rather than create duplicate needs.
+These working need IDs explain the source of the Part 2 requirements. They are derived from the brief, not from interviews. They can be reconciled with the wider project during later integration; this branch does not contain the other sections.
 
 | Need ID | Stakeholder and need | Source |
 | --- | --- | --- |
@@ -36,11 +36,11 @@ All entries are **Draft**. A capability stated in the brief is source-backed, bu
 
 ## Boundaries and integration
 
-The scope covered here is submission, categorisation, tracking, authorised staff handling, feedback and oversight. Notifications are proposed inside CivicConnect; external email/SMS/WhatsApp integration, automatic duplicate detection and extra analytics are not commitments in this draft. The brief does not prescribe those solutions. Validate these exclusions with the scope owner.
+The scope covered here is submission, categorisation, tracking, authorised staff handling, feedback and oversight. Notifications are proposed inside CivicConnect; external email/SMS/WhatsApp integration, automatic duplicate detection and extra analytics are not commitments in this draft. The brief does not prescribe those solutions. These boundaries remain subject to validation before baseline approval.
 
-The three-student team, four milestones, low-cost preference and measurable quality expectations constrain the work (Master section 4, p. 8). The [RTM handover table](RTM.md#cross-artefact-handover) identifies risks and later concerns for other members to integrate. No final technology, architecture, database, interface or deployment choice is made.
+The three-student team, four milestones, low-cost preference and measurable quality expectations constrain the work (Master section 4, p. 8). The [RTM dependency notes](RTM.md#requirement-dependencies) explain the consequences of these requirements, not separate risk or forward-engineering deliverables. No final technology, architecture, database, interface or deployment choice is made.
 
-When a baselined requirement changes: retain its ID and old version; record the reason and impact; update acceptance criteria, RTM, scope/constraints, risks and later affected evidence; obtain approval before incorporating the change. See [change request template](../../templates/change-request.md).
+When a baselined requirement changes: retain its ID and old version; record the reason and impact; update acceptance criteria, RTM and later affected evidence; identify consequences for scope, constraints and risks; obtain approval before incorporating the change. Record the change and its review in the relevant pull request.
 
 ## Abbreviations and references
 

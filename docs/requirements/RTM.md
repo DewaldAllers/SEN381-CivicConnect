@@ -62,9 +62,9 @@ The Part 2 branch is `codex/m1-part2-requirements-foundation`. Its [draft review
 
 **If changed:** allowing a requester to view another person's request would affect permissions, scope, AC-FR-003, NFR-001, privacy risks, design and regression tests. Assess and approve that change before updating the baseline.
 
-## Cross-artefact handover
+## Requirement dependencies
 
-These are Part 2 implications for the teammates responsible for the other sections, not completed risk/decision registers.
+These notes help explain the effects of the Part 2 requirements. They are not separate risk, constraint or forward-engineering deliverables.
 
 | Requirements | Scope / constraint connection | Risk and later consideration to integrate |
 | --- | --- | --- |
@@ -74,10 +74,10 @@ These are Part 2 implications for the teammates responsible for the other sectio
 | FR-011; NFR-002/003 | Reliable, attributable service record. | Lost or incomplete history undermines accountability; consider persistence, consistent updates and recovery evidence. |
 | FR-012; NFR-004/005 | Small team and low-cost constraints; proposed convenience/quality targets remain negotiable. | Optional scope or unsupported load assumptions can consume time; consider usability, workload tests and later capacity/cost choices. |
 
-The [stakeholder](../stakeholders/README.md), [scope](../scope/README.md), [constraint](../constraints/README.md), [risk](../risks/README.md) and [forward engineering](../forward-engineering/README.md) owners should add their approved IDs to these links during PED integration.
+Links to approved stakeholder, scope, constraint, risk and forward-engineering IDs can be added during later project integration. Those sections are outside this branch.
 
 ## Keeping it current
 
-For a new requirement, allocate a new ID and add its source/need, priority and AC link. For a change, retain the ID, record the approved change reference and update affected links and tests. Do not reuse deleted/retired IDs. Before baseline review, check every requirement has criteria and no AC is orphaned. Record the reviewed commit and actual approvals in the [baseline record](../PED/baseline-review.md).
+For a new requirement, allocate a new ID and add its source/need, priority and AC link. For a change, retain the ID, record the approved change reference and update affected links and tests. Do not reuse deleted/retired IDs. Before baseline review, check every requirement has criteria and no AC is orphaned. Link the reviewed commit and actual approvals from the relevant pull request; formal project baseline sign-off is a later integration step.
 
 Source: Master section 11, p. 12; M1 section 3, p. 3.

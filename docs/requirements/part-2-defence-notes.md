@@ -45,7 +45,7 @@ Codex helped draft and check the structure. Our AI register distinguishes that a
 ## Before Thursday
 
 - Review the five proposals with the team; settle the category/field limits, permission matrix and overdue rules needed for pass/fail decisions.
-- Practise the FR-003 trace once using the actual files. Be ready to explain another member's scope, risk and forward-engineering links too.
+- Practise the FR-003 trace once using the actual files. Be ready to explain how a requirement change affects scope, risks and later design or tests; the [dependency notes](RTM.md#requirement-dependencies) provide examples.
 - Record your actual source checks and changes in the AI register; obtain the two other members' reviews.
 - State unresolved governance/sign-off limits honestly. The private repository's protection entitlement was unavailable at the last check; this draft cannot make it compliant.
 
