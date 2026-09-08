@@ -1,6 +1,6 @@
 # Team Working Agreement
 
-Status: proposed structure; **not agreed or signed**. Sources: SRC-M1 section 10, page 8, and [contribution procedure](../../CONTRIBUTING.md). Full requirements await SRC-MASTER.
+Status: proposed structure; **not agreed or signed**. Sources: SRC-M1 section 10, page 8, SRC-MASTER sections 8-11, and [contribution procedure](../../CONTRIBUTING.md).
 
 | Topic | Proposed arrangement / pending decision |
 | --- | --- |
@@ -13,7 +13,7 @@ Status: proposed structure; **not agreed or signed**. Sources: SRC-M1 section 10
 | Baseline/change authority | Confirm with Master Brief; use impact analysis and retained approval evidence |
 | AI accountability | Each member explains and verifies accepted AI-assisted work; log actual use and changes |
 | Individual defence | Each member prepares to locate and explain all team artefacts |
-| Repository controls | Resolve unavailable branch protection and third-member access before claiming compliant governance |
+| Repository controls | Both teammates now have Write access; resolve unavailable branch protection before claiming compliant governance |
 
 | Member | Agreement status | Date | Evidence |
 | --- | --- | --- | --- |

@@ -1,8 +1,8 @@
 # Forward Engineering Considerations workspace
 
-Status: integration placeholder | Owner: team to agree | Issue #12
+Status: integration placeholder | Owner: team to agree
 
-SRC-M1 section 4, page 4, requires **5-7 project-specific concerns**. The concern list cannot be completed without the CivicConnect scenario. The categories in the brief are examples, not automatically confirmed CivicConnect requirements.
+SRC-M1 section 4, page 4, requires **5-7 project-specific concerns**. The Master Brief scenario is now available; integrate the [Part 2 handover](../requirements/RTM.md#cross-artefact-handover). The categories in the brief are examples, not automatically confirmed CivicConnect requirements.
 
 | Concern ID | Concern and source | Why it matters now | Related requirement/constraint/risk | Later decision or activity affected | Information missing | Risk of ignoring it | Owner / revisit trigger | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -1,8 +1,8 @@
 # Problem, business need and scope
 
-Status: integration placeholder | Owner: team to agree | Issues #3 and #5
+Status: integration placeholder | Owner: team to agree
 
-SRC-M1 section 3, page 3, requires concise project-specific analysis and explicit in-scope, out-of-scope and deferred/future scope. Record evidence for the current problem, stakeholder value and desired outcome once the Master Brief/scenario is available.
+SRC-M1 section 3, page 3, requires concise project-specific analysis and explicit in-scope, out-of-scope and deferred/future scope. The Master Brief is now available; use its sections 2-4 and reconcile the [Part 2 boundaries](../requirements/README.md#boundaries-and-integration).
 
 | Scope ID | Capability / boundary | In / out / deferred | Source and linked need | Rationale / trade-off | Related requirements | Reconsideration trigger | Approval status |
 | --- | --- | --- | --- | --- | --- | --- | --- |

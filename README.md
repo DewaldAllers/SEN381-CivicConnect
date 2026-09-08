@@ -2,32 +2,33 @@
 
 Software Engineering 381 | Belgium Campus ITversity | Milestone 1
 
-**Status: engineering foundation in preparation; no approved product baseline.**
+**Status: Part 2 review draft prepared; no approved product baseline.**
 
 This repository preserves controlled engineering artefacts, issues, branches, commits, reviews and later lifecycle evidence. The intended M1 output is a team-reviewed PED v1.0 engineering baseline [SRC-M1, sections 2-3].
 
 ## Start here
 
 - [PED integration index](docs/PED/README.md)
-- [Part 2 work and evidence gaps](docs/requirements/README.md)
+- [Part 2 requirements, acceptance criteria and RTM](docs/requirements/README.md)
+- [Short presentation and defence notes](docs/requirements/part-2-defence-notes.md)
 - [Source register](docs/sources.md)
 - [Contribution and review procedure](CONTRIBUTING.md)
 - [Governance status](evidence/github-governance.md)
-- [Milestone issues](https://github.com/DewaldAllers/SEN381-CivicConnect/issues)
+- [Pull Requests](https://github.com/DewaldAllers/SEN381-CivicConnect/pulls)
 
 ## Current blockers
 
-1. The **SEN381 CivicConnect Master Project Brief** named in SRC-M1 section 1 has not been supplied. None of the three supplied PDFs defines the product scenario. Product actors, workflows, scope and service levels must be obtained before requirements can be baselined. See issue #2.
-2. GitHub returned HTTP 403 for private-repository branch protection and rulesets on 2026-09-07. Main is **not technically protected**. This is a milestone governance gap, not an accepted exception. See issue #15.
-3. Liamdv12's Write invitation is pending; Tristan's GitHub username is pending. Substantive changes require two other team members' reviews, and must remain unmerged until the review and governance conditions are resolved.
+1. The Master Brief is now available and read. The 12 FRs and 5 NFRs are drafted from it; [five detailed proposals](docs/requirements/decisions-to-confirm.md) need validation before baseline approval.
+2. GitHub still returned HTTP 403 for private-repository main protection on 2026-09-08. Main is **not technically protected**. This is a governance gap, not an accepted exception.
+3. Liamdv12 and tristanels now have Write access. Two non-author reviews and formal sign-off remain pending. The 17 earlier issues were deleted at the user's request; none has been recreated. Establish any future backlog through the agreed team workflow.
 
 ## Team and responsibility
 
 | Member | GitHub | Responsibility currently established |
 | --- | --- | --- |
 | Dewald Allers | DewaldAllers | Part 2: requirements, acceptance criteria, RTM and AI Usage Register |
-| Liam de Villiers | Liamdv12 | Remaining allocation to be agreed; invitation pending |
-| Tristan Els | Pending | Remaining allocation to be agreed; invitation later |
+| Liam de Villiers | Liamdv12 | Remaining allocation to be agreed; Write access present |
+| Tristan Els | tristanels | Remaining allocation to be agreed; Write access present |
 
 Names come from SRC-A1; the Part 2 split comes from the user's request. All three members remain responsible for understanding the whole baseline [SRC-M1, section 6.2].
 

@@ -1,8 +1,8 @@
 # Contribution and review procedure
 
-Status: v0.1 proposed procedure; team agreement and Master Brief reconciliation pending.
+Status: v0.2 proposed procedure; team agreement pending.
 
-SRC-M1 section 3.1 requires progressive issues, commits, branches and Pull Requests (PRs). Section 8 question 8 explicitly identifies two approvals from team members other than the author. Section 1 delegates full governance rules to the missing Master Brief. These references are resolved in [sources](docs/sources.md).
+SRC-M1 section 3.1 requires progressive issues, commits, branches and Pull Requests (PRs). SRC-MASTER section 9, page 11, confirms protected main and two approvals from team members other than the author. These references are resolved in [sources](docs/sources.md).
 
 1. Open or take an issue with an agreed owner and observable completion criteria. Do not assume another member has accepted an assignment.
 2. Fetch main and work on a descriptive branch, such as `docs/m1-stakeholders`. The Codex-assisted Part 2 branch uses `codex/m1-part2-requirements-foundation`.
@@ -16,7 +16,7 @@ SRC-M1 section 3.1 requires progressive issues, commits, branches and Pull Reque
 
 ## Enforcement status
 
-Main is currently **unprotected**: private-repository branch protection and rulesets are unavailable under the account's current entitlement. The procedure above cannot technically prevent a direct push. See [live observations](evidence/github-governance.md) and issue #15. Keep substantive work in PRs while this is resolved. Do not weaken the two-reviewer rule to work around missing access.
+Main is currently **unprotected**: private-repository branch protection is unavailable under the account's current entitlement. The procedure above cannot technically prevent a direct push. See [dated observations](evidence/github-governance.md). Keep substantive work in PRs while this is resolved. Do not weaken the two-reviewer rule to work around access or entitlement limits.
 
 Once protection is available, reconcile the Master Brief and configure two required approvals, administrator enforcement, stale approval dismissal, conversation resolution and force-push/deletion restrictions as applicable. Verify by reading the settings back. Do not add fictitious CI checks; CI implementation is outside M1 scope.
 

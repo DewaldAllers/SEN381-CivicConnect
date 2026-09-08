@@ -6,7 +6,8 @@ Authority: SRC-M1 sections 9-10, pages 7-8, resolved in [sources](../sources.md)
 
 ## Readiness checks
 
-- [ ] Master Brief/scenario and governing standards obtained and reconciled.
+- [x] Master Brief/scenario obtained and read by Codex; Part 2 source links established.
+- [ ] Team has checked the source interpretation and completed cross-section reconciliation.
 - [ ] Problem, stakeholders, conflicts, scope and constraints validated.
 - [ ] Product FRs/NFRs have IDs, sources, justified priorities and testable acceptance criteria.
 - [ ] All TBDs preventing acceptance decisions resolved, or explicitly handled by an authorised gate condition.
@@ -28,7 +29,7 @@ Authority: SRC-M1 sections 9-10, pages 7-8, resolved in [sources](../sources.md)
 | Exact commit and linked artefact revisions | Pending |
 | Review date and evidence | Pending |
 | Reviewer names and decisions | Pending; no signatures collected |
-| Unresolved conditions, owners and due dates | Master/scenario; product baseline; governance entitlement; third-member access; team review |
+| Unresolved conditions, owners and due dates | Part 2 proposals; team section integration/product baseline; governance entitlement; human verification and team review |
 | Formal gate outcome and authority | Not recorded |
 
 Do not convert checked automation results or a merged PR into human signatures or lecturer acceptance.

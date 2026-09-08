@@ -1,6 +1,6 @@
 # Constraints and interactions
 
-Status: integration placeholder | Owner: team to agree | Issue #6
+Status: integration placeholder | Owner: team to agree
 
 SRC-M1 section 3, page 3, calls for scope, schedule, cost/resources, quality and security constraints and their implications. Do not infer a product constraint from a generic Assignment 1 example.
 

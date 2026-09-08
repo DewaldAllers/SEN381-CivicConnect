@@ -81,4 +81,3 @@ The [stakeholder](../stakeholders/README.md), [scope](../scope/README.md), [cons
 For a new requirement, allocate a new ID and add its source/need, priority and AC link. For a change, retain the ID, record the approved change reference and update affected links and tests. Do not reuse deleted/retired IDs. Before baseline review, check every requirement has criteria and no AC is orphaned. Record the reviewed commit and actual approvals in the [baseline record](../PED/baseline-review.md).
 
 Source: Master section 11, p. 12; M1 section 3, p. 3.
-

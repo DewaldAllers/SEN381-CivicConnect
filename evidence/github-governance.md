@@ -4,6 +4,8 @@ Observed: 2026-09-07 | Repository: https://github.com/DewaldAllers/SEN381-CivicC
 
 Status: partial setup; **protected-main compliance blocked**. Relevant source: SRC-M1 sections 1, 3.1 and 8 question 8; see [source register](../docs/sources.md).
 
+**Update, 8 September:** the Master Brief has been read; section 9, p. 11, confirms the controls. Liamdv12 and tristanels both now have Write access. Main-protection readback still returns the entitlement error. The 17 setup issues were deleted at the user's request; none was recreated. The table below preserves the original dated observations and is not a current invitation-status report.
+
 | Item | Observed state | Evidence / consequence |
 | --- | --- | --- |
 | Authenticated account | DewaldAllers | GitHub CLI and connected profile agree |
@@ -23,7 +25,7 @@ Status: partial setup; **protected-main compliance blocked**. Relevant source: S
 
 ## Resolving the enforcement gap
 
-The user confirmed private visibility. No visibility change or paid plan purchase is authorised by this setup. GitHub documentation says private protected branches require an eligible plan. Resolve entitlement or obtain and record an explicit lecturer-approved alternative, then reconcile the missing Master Brief. Until then, the repository must not be presented as compliant with protected-main controls.
+The user confirmed private visibility. No visibility change or paid plan purchase is authorised by this setup. GitHub documentation says private protected branches require an eligible plan. Resolve entitlement or obtain and record an explicit lecturer-approved alternative under the Master Brief's controls. Until then, the repository must not be presented as compliant with protected-main controls.
 
 When protection is available, implement the required two non-author approvals and applicable stale-review, admin, conversation, force-push and deletion controls. Read settings back and capture authentic evidence. Do not create a CI workflow simply to simulate enforcement or bypass review.
 

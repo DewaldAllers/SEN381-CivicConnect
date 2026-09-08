@@ -1,8 +1,10 @@
 # Engineering Decision Log
 
-Status: v0.1 draft | Owner: team to agree | Issue #13
+Status: v0.2 draft | Owner: team to agree
 
 Record only genuine actions/decisions with their actual authority. The entries below document user-authorised setup and evidence-based deferment; **they are not team baseline approvals**. Sources resolve in [sources.md](../sources.md).
+
+Update, 8 September: the Master Brief was obtained and fully read on 7 September; DEC-002's missing-source condition is resolved. Part 2 is now drafted for review. The issue references in the dated decision entries below are historical: those issues were deleted at the user's request and are not active controls.
 
 | ID | Date | Decision / status | Evidence and alternatives | Rationale and consequences | Authority / review | Revisit trigger |
 | --- | --- | --- | --- | --- | --- | --- |

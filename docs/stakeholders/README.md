@@ -1,8 +1,8 @@
 # Stakeholders and needs
 
-Status: integration placeholder | Owner: team to agree | Issue #4
+Status: integration placeholder | Owner: team to agree
 
-SRC-M1 section 3, page 3, requires relevant stakeholders, needs, influence/interest and meaningful conflicts. Product stakeholders cannot yet be identified from SRC-MASTER because it is missing. The student team must not be substituted for CivicConnect's product stakeholders.
+SRC-M1 section 3, page 3, requires relevant stakeholders, needs, influence/interest and meaningful conflicts. SRC-MASTER sections 2-3 now supply the requester, staff and management context. Reconcile the working NEED-P2 IDs in the [Part 2 index](../requirements/README.md) with this team analysis. The student team must not be substituted for CivicConnect's product stakeholders.
 
 | Stakeholder ID | Role / group | Source/page | Interest | Influence | Need ID and statement | Conflict / competing expectation | Validation authority/status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
