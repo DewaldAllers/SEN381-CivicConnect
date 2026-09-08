@@ -20,4 +20,4 @@ No unsupported uptime guarantee, peak-user forecast, retention period or disaste
 
 NFR-001 affects access boundaries and data exposure; NFR-002 affects how a change and its history stay consistent; NFR-003 affects persistence/recovery; NFR-004 affects interaction design; NFR-005 affects data access, workload testing and hosting capacity. These are evaluation criteria for later design, not a choice of architecture or technology.
 
-References and source copies: [Part 2 index](README.md# abbreviations-and-references) and [source register](../sources.md).
+References and source copies: [Part 2 index](README.md#abbreviations-and-references) and [source register](../sources.md).
