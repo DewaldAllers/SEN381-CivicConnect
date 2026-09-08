@@ -19,6 +19,6 @@ This branch contains only Dewald's Part 2 contribution and its supporting materi
 
 - [Source register](docs/sources.md).
 - [Part 2 documentation checks](evidence/part-2-validation.md).
-- [Draft review pull request](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/18).
+- [Previous draft review pull request](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/18) - automatically closed when its branch was renamed; not merged.
 
-Work remains on `codex/m1-part2-requirements-foundation`. Proposed details and student verification remain pending; the required peer reviews are still needed before approval. No product implementation or executed product tests are claimed.
+Work remains on `m1-part2-requirements-foundation`. Proposed details and student verification remain pending; the required peer reviews are still needed before approval. No product implementation or executed product tests are claimed.

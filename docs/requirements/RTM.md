@@ -50,7 +50,7 @@ These are reserved columns and planned test identifiers, **not claims that desig
 | NFR-004 | TBD - M2 | TBD - M3 | T-NFR-004 planned; not run | None yet | TBD - M4 |
 | NFR-005 | TBD - M2 | TBD - M3 | T-NFR-005 planned; not run | None yet | TBD - M4 |
 
-The Part 2 branch is `codex/m1-part2-requirements-foundation`. Its [draft review PR](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/18) links these artefacts and commits; no approval or merge has occurred. There are no active GitHub issues for these requirements; the earlier setup issues were deleted at the user's request. If issues are created later through the agreed team workflow, add their links alongside the requirement and PR. Issue history has not been reconstructed.
+The Part 2 branch is `m1-part2-requirements-foundation`. The [previous draft review PR](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/18) preserves the earlier review context; GitHub automatically closed it when the branch was renamed. No approval or merge has occurred, and no replacement PR has been opened. There are no active GitHub issues for these requirements; the earlier setup issues were deleted at the user's request. If issues are created later through the agreed team workflow, add their links alongside the requirement and PR. Issue history has not been reconstructed.
 
 ## One trace to present
 
