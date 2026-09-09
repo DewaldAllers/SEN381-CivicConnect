@@ -11,7 +11,7 @@ This is the Part 3 share of the Milestone 1 (M1) required outputs (SRC-M1, secti
 3. [Forward Engineering Considerations](forward-engineering/README.md). Later lifecycle concerns that already affect M1 work.
 4. [GitHub governance evidence](../evidence/github-governance.md). Observed repository controls, and the gap between what the brief requires and what the repository enforces.
 
-Supporting files: the [team working agreement](PED/team-working-agreement.md), drafted from Part 3 because the governance rules and the agreement describe the same controls, and the [Part 3 defence notes](part-3-defence-notes.md).
+Supporting file: the [team working agreement](PED/team-working-agreement.md), drafted from Part 3 because the governance rules and the agreement describe the same controls.
 
 ## What this branch contains
 
