@@ -1,8 +1,8 @@
 # AI Usage Register
 
-Version 0.5 | Updated: 8 September 2026 | Responsible member: Dewald Allers
+Version 0.6 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; human verification pending**
 
-Purpose: record how AI supported source analysis, project setup and Part 2 preparation, as required by Master sections 10-10.1, p. 12. Dewald is responsible for understanding and checking his section; the team is responsible for reviewing and approving the baseline. Completed checks and pending reviews are distinguished below.
+Purpose: record how AI supported source analysis, project setup and Part 2 preparation, as required by SRC-MASTER, sections 10-10.1, p. 12. Dewald is responsible for understanding and checking his section; the team is responsible for reviewing and approving the baseline. Completed checks and pending reviews are distinguished below.
 
 | Date / member | Tool | Activity and purpose | AI contribution / output used | Verification actually performed | Decision / changes or rejections | Evidence | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -17,3 +17,7 @@ Dewald will check the requirements and acceptance criteria against the cited bri
 | --- | --- | --- | --- | --- | --- |
 
 Record completed reviews with the date, reviewer, work checked, corrections or decisions, supporting evidence and outcome.
+
+## References
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1, sections 10-10.1, p. 12. Cited as `SRC-MASTER`. Full source record: [Part 2 source register](../sources.md).

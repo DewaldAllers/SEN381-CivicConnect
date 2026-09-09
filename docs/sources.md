@@ -1,6 +1,6 @@
-# Source register and evidence boundary
+# Part 2 source register and evidence boundary
 
-Status: v0.2 draft | Updated: 2026-09-08 | Human verification: pending
+Version 0.3 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **draft source register; human verification pending**
 
 The three supplied PDFs were read completely before project artefact authoring. Text was read page by page; the M1 output table, Assignment 1 Decision Horizon Map and assignment evidence-control page were also rendered and inspected. These are **AI-assisted source checks**, not independent human verification.
 
@@ -47,10 +47,18 @@ The Master Brief resolves the original scenario gap. It establishes requester, s
 
 Assignment 1 uses concise causal explanations, tables and lifecycle reasoning. This style informs the new structure. Its research claims and citations have not been independently reverified for M1; references include inconsistent years and incomplete entries. No stack scores or previous AI verification claims have been imported as M1 facts.
 
-## External references
+## References
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1. Cited as `SRC-MASTER`.
+
+Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundation and Requirements Baseline*. Cited as `SRC-M1`.
+
+de Villiers, L., Els, T. and Allers, D. (n.d.) *SEN381 Assignment 1 - HONNE*. Cited as `SRC-A1`.
+
+Belgium Campus ITversity (2026) *SEN381 Assignment1 Research_Foundations*. Cited as `SRC-A1-BRIEF`.
 
 GitHub (n.d.) *Managing protected branches*. Available at: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches (Accessed: 7 September 2026).
 
 GitHub (n.d.) *About protected branches*. Available at: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches (Accessed: 7 September 2026).
 
-These are working references, not a claim that the institution's full prescribed referencing format has been verified. Reconcile that format during PED integration.
+The source identifiers provide the in-text citations used throughout Part 2. These are working references, not a claim that the institution's full prescribed referencing format has been verified. Reconcile that format during PED integration.

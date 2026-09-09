@@ -1,6 +1,6 @@
 # Initial Requirements Traceability Matrix (RTM)
 
-Version 0.2 | 8 September 2026 | Owner: Dewald Allers | Status: **Draft; 12 FRs and 5 NFRs**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; 12 FRs and 5 NFRs**
 
 One evolving matrix connects the source and stakeholder need to each requirement and its acceptance criteria. The requirement files contain the authoritative wording; short labels here avoid maintaining two conflicting copies. Need suffixes such as NEED-P2-02/03 mean both NEED-P2-02 and NEED-P2-03. Definitions and full references are in the [Part 2 index](README.md).
 
@@ -8,23 +8,23 @@ One evolving matrix connects the source and stakeholder need to each requirement
 
 | ID / requirement | Stakeholder need | Source | Priority | Acceptance criteria | Status |
 | --- | --- | --- | --- | --- | --- |
-| [FR-001: Submit a valid request](functional-requirements.md) | NEED-P2-01 | Master p. 7 | Must | [AC-FR-001](acceptance-criteria.md#ac-fr-001) | Draft |
-| [FR-002: Controlled category choice](functional-requirements.md) | NEED-P2-01 | Master p. 7 | Must | [AC-FR-002](acceptance-criteria.md#ac-fr-002) | Draft |
-| [FR-003: Own request list and status](functional-requirements.md) | NEED-P2-01 | Master p. 7 | Must | [AC-FR-003](acceptance-criteria.md#ac-fr-003) | Draft |
-| [FR-004: Request feedback](functional-requirements.md) | NEED-P2-01 | Master p. 7 | Must | [AC-FR-004](acceptance-criteria.md#ac-fr-004) | Draft |
-| [FR-005: Staff queue and details](functional-requirements.md) | NEED-P2-02 | Master p. 7 | Must | [AC-FR-005](acceptance-criteria.md#ac-fr-005) | Draft |
-| [FR-006: Category/status filtering](functional-requirements.md) | NEED-P2-02 | Master p. 7 | Must | [AC-FR-006](acceptance-criteria.md#ac-fr-006) | Draft |
-| [FR-007: Request ownership](functional-requirements.md) | NEED-P2-02 | Master p. 7 | Must | [AC-FR-007](acceptance-criteria.md#ac-fr-007) | Draft |
-| [FR-008: Controlled status transitions](functional-requirements.md) | NEED-P2-02 | Master p. 7 | Must | [AC-FR-008](acceptance-criteria.md#ac-fr-008) | Draft |
-| [FR-009: Record work and due date](functional-requirements.md) | NEED-P2-02/03 | Master pp. 6-7 | Must | [AC-FR-009](acceptance-criteria.md#ac-fr-009) | Draft |
-| [FR-010: Management summary and lists](functional-requirements.md) | NEED-P2-03 | Master p. 7 | Must | [AC-FR-010](acceptance-criteria.md#ac-fr-010) | Draft |
-| [FR-011: Attributable lifecycle history](functional-requirements.md) | NEED-P2-02/03 | Master pp. 6-7 | Must | [AC-FR-011](acceptance-criteria.md#ac-fr-011) | Draft |
-| [FR-012: Oldest-first ordering](functional-requirements.md) | NEED-P2-02 | Master p. 7 | Should | [AC-FR-012](acceptance-criteria.md#ac-fr-012) | Draft |
-| [NFR-001: Permission enforcement](non-functional-requirements.md) | NEED-P2-04 | Master pp. 6, 14 | Must | [AC-NFR-001](acceptance-criteria.md#ac-nfr-001) | Draft |
-| [NFR-002: History completeness/integrity](non-functional-requirements.md) | NEED-P2-02/03/04 | Master pp. 6-7 | Must | [AC-NFR-002](acceptance-criteria.md#ac-nfr-002) | Draft |
-| [NFR-003: Persistence across restart](non-functional-requirements.md) | NEED-P2-04 | Master p. 6 | Must | [AC-NFR-003](acceptance-criteria.md#ac-nfr-003) | Draft |
-| [NFR-004: First-use usability](non-functional-requirements.md) | NEED-P2-01/04 | Master p. 6 | Should | [AC-NFR-004](acceptance-criteria.md#ac-nfr-004) | Draft |
-| [NFR-005: Responsiveness](non-functional-requirements.md) | NEED-P2-01/02/03/04 | Master pp. 6, 8 | Should | [AC-NFR-005](acceptance-criteria.md#ac-nfr-005) | Draft |
+| [FR-001: Submit a valid request](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-001](acceptance-criteria.md#ac-fr-001) | Draft |
+| [FR-002: Controlled category choice](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-002](acceptance-criteria.md#ac-fr-002) | Draft |
+| [FR-003: Own request list and status](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-003](acceptance-criteria.md#ac-fr-003) | Draft |
+| [FR-004: Request feedback](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-004](acceptance-criteria.md#ac-fr-004) | Draft |
+| [FR-005: Staff queue and details](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-005](acceptance-criteria.md#ac-fr-005) | Draft |
+| [FR-006: Category/status filtering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-006](acceptance-criteria.md#ac-fr-006) | Draft |
+| [FR-007: Request ownership](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-007](acceptance-criteria.md#ac-fr-007) | Draft |
+| [FR-008: Controlled status transitions](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-008](acceptance-criteria.md#ac-fr-008) | Draft |
+| [FR-009: Record work and due date](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-009](acceptance-criteria.md#ac-fr-009) | Draft |
+| [FR-010: Management summary and lists](functional-requirements.md) | NEED-P2-03 | SRC-MASTER, p. 7 | Must | [AC-FR-010](acceptance-criteria.md#ac-fr-010) | Draft |
+| [FR-011: Attributable lifecycle history](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-011](acceptance-criteria.md#ac-fr-011) | Draft |
+| [FR-012: Oldest-first ordering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Should | [AC-FR-012](acceptance-criteria.md#ac-fr-012) | Draft |
+| [NFR-001: Permission enforcement](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, pp. 6, 14 | Must | [AC-NFR-001](acceptance-criteria.md#ac-nfr-001) | Draft |
+| [NFR-002: History completeness/integrity](non-functional-requirements.md) | NEED-P2-02/03/04 | SRC-MASTER, pp. 6-7 | Must | [AC-NFR-002](acceptance-criteria.md#ac-nfr-002) | Draft |
+| [NFR-003: Persistence across restart](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, p. 6 | Must | [AC-NFR-003](acceptance-criteria.md#ac-nfr-003) | Draft |
+| [NFR-004: First-use usability](non-functional-requirements.md) | NEED-P2-01/04 | SRC-MASTER, p. 6 | Should | [AC-NFR-004](acceptance-criteria.md#ac-nfr-004) | Draft |
+| [NFR-005: Responsiveness](non-functional-requirements.md) | NEED-P2-01/02/03/04 | SRC-MASTER, pp. 6, 8 | Should | [AC-NFR-005](acceptance-criteria.md#ac-nfr-005) | Draft |
 
 ## Later lifecycle evidence
 
@@ -54,7 +54,7 @@ The Part 2 branch is `m1-part2-requirements-foundation`. The [previous draft rev
 
 ## One trace to present
 
-**Master pp. 6-7:** requesters currently lack visibility of progress.
+**Source:** requesters currently lack visibility of progress (SRC-MASTER, sections 2-3, pp. 6-7).
 
 **NEED-P2-01 -> FR-003 -> AC-FR-003:** a requester must see their own submitted requests and current status. The criterion uses two requesters: A sees A's two requests, not B's, and sees the changed status after a refresh.
 
@@ -80,4 +80,4 @@ Links to approved stakeholder, scope, constraint, risk and forward-engineering I
 
 For a new requirement, allocate a new ID and add its source/need, priority and AC link. For a change, retain the ID, record the approved change reference and update affected links and tests. Do not reuse deleted/retired IDs. Before baseline review, check every requirement has criteria and no AC is orphaned. Link the reviewed commit and actual approvals from the relevant pull request; formal project baseline sign-off is a later integration step.
 
-Source: Master section 11, p. 12; M1 section 3, p. 3.
+Sources: SRC-MASTER, section 11, p. 12; SRC-M1, section 3, p. 3. Full references: [Part 2 index](README.md#references).

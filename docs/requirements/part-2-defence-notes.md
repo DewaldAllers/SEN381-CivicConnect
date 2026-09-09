@@ -1,6 +1,6 @@
 # Part 2 - Simple presentation and defence notes
 
-Prepared for Dewald | Presentation planned for Thursday, 10 September 2026
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **presentation preparation; review status must be stated accurately**
 
 Use this to learn and practise. Present only the review/sign-off status that is true on the day. The current files are a **review draft**, with no executed product tests.
 
@@ -8,7 +8,7 @@ Use this to learn and practise. Present only the review/sign-off status that is 
 
 "My part defines what CivicConnect needs to do and how we will check whether it succeeds.
 
-The Master Brief describes requests getting lost across different communication channels. Requesters need visibility, staff need clear responsibility, and management needs reliable information about the work.
+The Master Brief describes requests getting lost across different communication channels. Requesters need visibility, staff need clear responsibility, and management needs reliable information about the work (SRC-MASTER, sections 2-3, pp. 6-7).
 
 I organised the draft into 12 functional requirements and five non-functional requirements. Functional requirements describe behaviour, such as submitting a request or recording its status. Non-functional requirements describe quality, such as limiting access or preserving saved records after a restart.
 
@@ -47,6 +47,12 @@ Codex helped draft and check the structure. Our AI register distinguishes that a
 - Review the five proposals with the team; settle the category/field limits, permission matrix and overdue rules needed for pass/fail decisions.
 - Practise the FR-003 trace once using the actual files. Be ready to explain how a requirement change affects scope, risks and later design or tests; the [dependency notes](RTM.md#requirement-dependencies) provide examples.
 - Record your actual source checks and changes in the AI register; obtain the two other members' reviews.
-- State unresolved governance/sign-off limits honestly. The private repository's protection entitlement was unavailable at the last check; this draft cannot make it compliant.
+- State unresolved review/sign-off limits honestly. Main branch protection is now configured, but it does not replace actual teammate reviews, agreed proposals or formal sign-off.
 
-References: Master sections 2-3, 9-11 and 19, pp. 6-7, 11-12 and 16-17; M1 sections 6-8. Full references: [sources](../sources.md).
+## References
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1. Cited as `SRC-MASTER`; sections used: 2-3, 9-11 and 19, pp. 6-7, 11-12 and 16-17.
+
+Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundation and Requirements Baseline*. Cited as `SRC-M1`; sections used: 6-8.
+
+Full source records: [Part 2 source register](../sources.md).

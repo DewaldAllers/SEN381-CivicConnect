@@ -1,8 +1,8 @@
 # Acceptance criteria
 
-Version 0.2 | 8 September 2026 | Owner: Dewald Allers | Status: **Draft; no tests executed**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; no tests executed**
 
-Each heading is a stable acceptance-criteria ID linked to one requirement. Its bullets are the criteria for that requirement; all must pass. These criteria use the [proposed rules](decisions-to-confirm.md) until the team validates them. Use synthetic test records and users. Keep expected and actual results separate in later test evidence.
+Each heading is a stable acceptance-criteria ID linked to one requirement. Its bullets are the criteria for that requirement; all must pass. These criteria operationalise the source-backed requirements in the [functional](functional-requirements.md) and [non-functional](non-functional-requirements.md) requirement tables (SRC-M1, section 3, p. 3). They use the [proposed rules](decisions-to-confirm.md) until the team validates them. Use synthetic test records and users. Keep expected and actual results separate in later test evidence.
 
 ## AC-FR-001
 
@@ -98,4 +98,4 @@ Each heading is a stable acceptance-criteria ID linked to one requirement. Its b
 
 For each planned test retain: Test ID, requirement/AC ID, artefact version/commit, environment, input/precondition, expected result, actual result, pass/fail, date and defect link if failed. The [RTM](RTM.md) reserves future evidence columns. Passing these criteria does not by itself prove the whole product is secure or fit for every possible situation.
 
-References: Master sections 3, 11 and 15, pp. 7, 12 and 14; M1 section 3, p. 3. Full references: [source register](../sources.md).
+Sources: SRC-MASTER, sections 3, 11 and 15, pp. 7, 12 and 14; SRC-M1, section 3, p. 3. Full references: [Part 2 index](README.md#references).
