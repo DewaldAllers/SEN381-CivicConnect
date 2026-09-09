@@ -87,7 +87,7 @@ This is deliberately not a checkbox that one person ticks for everybody. An agre
 | Member | Agreed | Date | Pull request |
 | --- | --- | --- | --- |
 | Liam de Villiers | Not yet | | |
-| Dewald Allers | Not yet | | |
+| Dewald Allers | Agreed |2026-09-09 | #26 |
 | Tristan Els | Agreed | 2026-09-09 | #24 |
 
 Until every row says Agreed, the honest statement at the baseline gate is that the working agreement is drafted and followed in practice but not yet formally agreed. Say that instead of presenting it as ratified.
