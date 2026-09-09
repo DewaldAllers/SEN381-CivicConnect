@@ -17,8 +17,9 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | [DEC-003](#dec-003-branch-and-pull-request-workflow-instead-of-committing-to-main) | 2026-09-07 | Work on feature branches, merge through pull requests | Taken | Individual, applied by both active members | In force |
 | [DEC-004](#dec-004-keep-part-3-on-its-own-branch-and-reuse-the-agreed-folder-paths) | 2026-09-08 | Keep Part 3 on its own branch, reuse agreed folder paths, do not edit another member's files | Taken | Part 3 owner | In force |
 | [DEC-005](#dec-005-use-a-3-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Part 3 owner, proposed to team | Proposed |
-| [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner, needs team and lecturer input | Open |
+| [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner, needs team and lecturer input | Closed 2026-09-09, superseded by DEC-008 |
 | [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Part 3 owner, proposed to team | Open |
+| [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | Executed, protection rules still to be applied |
 
 ---
 
@@ -34,8 +35,9 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Visibility was traded against plan entitlement. That trade was not visible to the team at the time the choice was made. |
 | Risks | Recorded as [RSK-001](../risks/README.md). |
 | Evidence | Repository exists and is private. Governance readback is dated 2026-09-07 in [GitHub governance evidence](../../evidence/github-governance.md). |
-| Later consequence | GitHub refused branch protection on a private repository under a free plan, returning HTTP 403 with the message `Upgrade to GitHub Pro or make this repository public to enable this feature`. The repository ruleset endpoint refused the same way. The two-approval control the brief requires is therefore procedural, not enforced. This consequence was found after the decision, not predicted before it. See [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap). |
-| Revisit trigger | The team obtains an eligible plan, the lecturer approves a visibility change, or GitHub changes free-plan entitlement. |
+| Later consequence | GitHub refused branch protection on a private repository under a free plan, returning HTTP 403 with the message `Upgrade to GitHub Pro or make this repository public to enable this feature`. The repository ruleset endpoint refused the same way. The two-approval control the brief requires was therefore procedural rather than enforced for the first two days of the project, and on 2026-09-08 an unreviewed change reached `main` during that window. This consequence was found after the decision, not predicted before it. Reversed on 2026-09-09 by [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection). |
+| Would the team decide differently | The private choice was reasonable on the evidence available on 2026-09-07. Nothing in the GitHub repository creation flow states that branch protection depends on visibility under a free plan, and the team found out only when it tried to apply the control. The learning is not that private was wrong, but that a required control should be tested at the point the environment is set up rather than assumed to be available. |
+| Revisit trigger | Closed by DEC-008. |
 
 ## DEC-002 Defer requirements until the Master Brief was located
 
@@ -110,8 +112,23 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Risks | An unreviewed or force-pushed change reaches `main` while nothing enforces the rule. Recorded as [RSK-001](../risks/README.md). |
 | Evidence | Dated endpoint responses in [GitHub governance evidence](../../evidence/github-governance.md). |
 | Missing information | Whether the lecturer permits or expects a public coursework repository. Whether any team member already holds an eligible plan. Whether the Student Developer Pack application would be approved before 2026-09-09. |
-| Later consequence | Recorded at M2. |
-| Revisit trigger | Lecturer guidance received, Student Developer Pack approved, or a member reports an eligible plan. Whichever comes first. |
+| Later consequence | Closed on 2026-09-09. The team resolved the missing information by deciding to make the repository public, which removed the entitlement barrier at no cost. See [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection). The deferment lasted about one day and cost nothing, because no design or implementation work depended on it. |
+| Revisit trigger | Closed. |
+
+## DEC-008 Make the repository public to obtain branch protection
+
+| Field | Entry |
+| --- | --- |
+| Context | [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) left the response to the branch protection gap open. On 2026-09-08 an unreviewed change reached `main` while nothing enforced the two-approval rule, which turned the forecast in [RSK-001](../risks/README.md) into an actual event and made the deferment costly to continue. |
+| Constraints | No budget for a paid plan (SRC-MASTER section 4, p. 8). Milestone 1 due 2026-09-09. Branch protection on a free plan requires a public repository. |
+| Alternatives | Keep the repository private and continue with an unenforceable procedure. Apply for the GitHub Student Developer Pack and wait. Buy GitHub Pro. Make the repository public. |
+| Decision | Make the repository public. Confirmed public on 2026-09-09 by API readback showing `visibility: public`. |
+| Rationale | It is the only option that removes the entitlement barrier at no cost and within the schedule. The Student Developer Pack approval time is outside the team's control, and buying a plan breaks the cost constraint. |
+| Trade-offs | Coursework becomes readable by anyone, including other teams. The team accepts a plagiarism exposure it cannot control in exchange for a mandatory control it can now enforce. The repository holds no secrets or personal data, so the exposure is limited to the team's own written work. |
+| Risks | Other teams could copy the artefacts. This does not remove the team's own accountability, and the commit history shows authorship and dates. Recorded as a residual risk rather than mitigated away. |
+| Evidence | API readback on 2026-09-09 returns `private: False` and `visibility: public`. Recorded in [GitHub governance evidence](../../evidence/github-governance.md). |
+| Later consequence | Branch protection is now available and has to be applied. Making the setting available is not the same as configuring it, and the control is not met until the rules exist and are read back. |
+| Revisit trigger | Lecturer instruction to make coursework repositories private, or completion of the module. |
 
 ## DEC-007 Defer stack, architecture, persistence, CI and deployment platform
 
