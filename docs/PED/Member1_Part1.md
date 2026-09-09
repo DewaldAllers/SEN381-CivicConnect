@@ -3,10 +3,10 @@
 1.1	Problem Statement
 The development of CivicConnect aims at improving the fragmented manner in which the organization handles service requests. Currently, there are several unstructured ways of requesting services, ranging from email, phone calls, WhatsApp messages, Excel sheets, and even paperwork.
 This disjointed process results in operational and management of information issues. There could be duplications, missing, wrong assignments, and loss of requests through the different communication channels. The requestors will have very little idea if the requests have been received, assigned, delayed, completed, or closed. It will be hard for the staff to prioritize, identify ownership and manage the requests. The management will have very little information on the pending, overdue, and completed requests, as well as having a manual, inconsistent and auditable reporting process.
-Essentially, the problem is that there is no single controlled record throughout the lifecycle of a service request. (Brief, 2026)
+Essentially, the problem is that there is no single controlled record throughout the lifecycle of a service request (SRC-MASTER, section 2, p. 6).
 
 1.2	Business Need
-The organization should implement a digital platform where the submission, management, monitoring and reporting on requests for service can be done in a secure and traceable manner. CivicConnect should ensure that there is improved visibility and accountability while avoiding unnecessary burdens.
+The organization should implement a digital platform where the submission, management, monitoring and reporting on requests for service can be done in a secure and traceable manner (SRC-MASTER, section 2.1, p. 6). CivicConnect should ensure that there is improved visibility and accountability while avoiding unnecessary burdens.
 -	Increase visibility of service requests.
 -	Increase accountability for request ownership and updates.
 -	Increase coordination between requestors and support staff.
@@ -25,7 +25,7 @@ The stakeholder analysis will help to identify the different stakeholders involv
 3.	Scope Baseline
    
 3.1	Scope Statement
-The CivicConnect portal will offer a digital environment within which the submissions, administration, monitoring and reporting of community service requests can take place. The system will be able to meet the bare minimum capabilities required for requesters, staff and management as per the Master Project Brief. Any other functionality will only be considered if there is a justification of its stakeholder benefits and impacts on project aspects.
+The CivicConnect portal will offer a digital environment within which the submissions, administration, monitoring and reporting of community service requests can take place. The system will be able to meet the bare minimum capabilities required for requesters, staff and management as per the Master Project Brief (SRC-MASTER, section 3, p. 7). Any other functionality will only be considered if there is a justification of its stakeholder benefits and impacts on project aspects.
 
 3.2	In-Scope Product Functionality
 Requester Functionality
@@ -51,7 +51,7 @@ Management
 17.	Access enough information to support accountability and service-performance analysis.
 3.3	Out-of-Scope for M1
 
-M1 is a fundamental milestone, not a developmental milestone. The following are not necessary M1 project decisions or deliverables unless specifically designated as exploratory evidence:
+M1 is a fundamental milestone, not a developmental milestone. The following are not necessary M1 project decisions or deliverables unless specifically designated as exploratory evidence (SRC-M1, section 5, pp. 4-5):
 -	Final technology-stack selection.
 -	Final software architecture.
 -	Detailed database schema/persistence implementation.
@@ -65,7 +65,7 @@ M1 is a fundamental milestone, not a developmental milestone. The following are 
 3.5	Deliberate Scope Deferment
 Decision: Team does not undertake commitment towards any other feature until M1 unless it is justifiable with the value added by the stakeholders and the impact of such feature on the project constraints have been analyzed.
 
-Reasoning: Each new feature adds more responsibility to design, secure, implement, test, document and deploy the project. The team would first set a controlled baseline of minimal business capability before moving onto any new feature.
+Reasoning: Each new feature adds more responsibility to design, secure, implement, test, document and deploy the project (SRC-MASTER, section 3.1, p. 7). The team would first set a controlled baseline of minimal business capability before moving onto any new feature.
 Expected benefits: This helps in protecting scheduling, resources, quality, security, and completion of projects without losing the choice of making justified changes through change control at a later stage.
 
 4.1	Scope Constraint
@@ -75,16 +75,16 @@ The development team cannot keep adding features to the system indefinitely with
 The project must progress through four formal milestones within the SEN381 delivery period. Schedule pressure should be managed through prioritisation and scope control rather than silently reducing testing or security.
 
 4.3	Cost Constraint
-The student has only a few skills, resources and time to complete this task. It is stated in the Master Project Brief that preference should be given to using free and affordable services wherever possible.
+The student has only a few skills, resources and time to complete this task. It is stated in the Master Project Brief that preference should be given to using free and affordable services wherever possible (SRC-MASTER, section 4, p. 8).
 
 4.4	Quality Constraint
-Quality assertions have to be ultimately substantiated with concrete evidence. CivicConnect cannot be deemed as a success simply because the application runs; there is a need for requirements, acceptance criteria, testing, quality gates, defects and more evidence.
+Quality assertions have to be ultimately substantiated with concrete evidence (SRC-MASTER, section 15, p. 14). CivicConnect cannot be deemed as a success simply because the application runs; there is a need for requirements, acceptance criteria, testing, quality gates, defects and more evidence.
 
 4.5	Security Constraint
-Security should be a part of the engineering process all through its life cycle. Early thought on security is essential with respect to authentication, authorization, least privilege, protection of sensitive data, handling of secrets, dependency security, security testing, and residual security risks.
+Security should be a part of the engineering process all through its life cycle (SRC-MASTER, section 16, p. 14). Early thought on security is essential with respect to authentication, authorization, least privilege, protection of sensitive data, handling of secrets, dependency security, security testing, and residual security risks.
 
 4.6	Technology Constraint
-There is no specified technology stack, architecture or platform. Technology choices for later stages need to take into consideration architecture compatibility, skills and learning curve, security, maintainability, testing, deployment, costs and platform constraints.
+There is no specified technology stack, architecture or platform (SRC-MASTER, section 18.1, p. 15; section 25, p. 23). Technology choices for later stages need to take into consideration architecture compatibility, skills and learning curve, security, maintainability, testing, deployment, costs and platform constraints.
 
 4.7	Constraint Trade-Off
 A major CivicConnect constraint interaction is the effect of additional scope on schedule, resources and quality.
@@ -124,7 +124,7 @@ Joint responsibilities:
 -	Keep the communication professional during the entire project.
 
 5.4	GitHub Working Agreement
-This implies that GitHub will be used as an engineering control system instead of just being used for file storage.
+This implies that GitHub will be used as an engineering control system instead of just being used for file storage (SRC-MASTER, section 9, p. 11).
 Issue → Branch → Meaningful Commit → Pull Request → Review → Two Approvals → Protected Main
 -	One team-controlled repository should be used except when a specific arrangement has been approved.
 -	Protect the Main repository and treat it as the Controlled Product State.
@@ -137,7 +137,7 @@ Issue → Branch → Meaningful Commit → Pull Request → Review → Two Appro
 -	Preserve the history of repository.
 
 5.5	Peer Review Agreement
-Each team member will carry out substantive reviews of the contributions of other team members. Reviews should be done keeping in mind compatibility with requirements and acceptance criteria, correctness, maintainability, privacy/security, testing, changes in dependencies, traceability and if the change is needed in the controlled baseline.
+Each team member will carry out substantive reviews of the contributions of other team members (SRC-MASTER, section 9.1, p. 11). Reviews should be done keeping in mind compatibility with requirements and acceptance criteria, correctness, maintainability, privacy/security, testing, changes in dependencies, traceability and if the change is needed in the controlled baseline.
 Review Comment → Author Response → Correction → Re-review → Approval → Merge
 
 5.6	Conflict Resolution
@@ -153,7 +153,7 @@ Review Comment → Author Response → Correction → Re-review → Approval →
 Prior to baselining PED v1.0, all three team members must ensure that the problem and business requirement have been identified, the stakeholder needs have been analyzed, the scope has been established, the constraints and risks have been assessed, the requirements and traceability are consistent, GitHub control has been set up, AI assistance has been documented, references are provided, and the PED has been reviewed by the team members.
 
 6.	Member 1 Evidence Plan
-As part of supporting personal accountability, Member 1 needs to provide genuine evidence on GitHub on the work that he owns. The Master Project Brief calls for commits, issues/task ownership, Pull Requests, contribution and reviews to documentation.
+As part of supporting personal accountability, Member 1 needs to provide genuine evidence on GitHub on the work that he owns. The Master Project Brief calls for commits, issues/task ownership, Pull Requests, contribution and reviews to documentation (SRC-MASTER, section 8.1, p. 10).
 Evidence	Recommended Member 1 Activity
 Issues	M1-01 Problem and Business Need; M1-02 Stakeholder Analysis; M1-03 Scope Baseline; M1-04 Constraints Analysis; M1-05 Team Working Agreement.
 Branch	feature/m1-member1-foundation (or the team's agreed naming convention).
@@ -175,3 +175,11 @@ Give an example of a constraint ripple effect.	Additional scope increases engine
 
 
 
+
+## References
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1. Cited above as **SRC-MASTER**. Sections used: 2 and 2.1 (scenario and business need, p. 6), 3 (minimum business capabilities, p. 7), 3.1 (additional features and scope discipline, p. 7), 4 (project constraints, p. 8), 8.1 (minimum individual evidence, p. 10), 9 and 9.1 (GitHub governance and meaningful review, p. 11), 15 (quality engineering, p. 14), 16 (security engineering, p. 14), 18.1 (technology selection, p. 15), 25 (student disclaimer, p. 23).
+
+Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundation and Requirements Baseline*. Cited above as **SRC-M1**. Sections used: 5 (explicit M1 boundaries, pp. 4-5).
+
+Full source records, including document fingerprints, are in the [source register](../sources.md).

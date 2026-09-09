@@ -25,3 +25,5 @@ Automated documentation validation: PASS across 11 Markdown files and 93 relativ
 ## Citation and scope cleanup check - 9 September 2026
 
 The Part 2 Markdown/README portfolio was updated without editing the Member 1 Word document. A fresh check found 12 functional requirements, 5 non-functional requirements and 17 acceptance-criteria sets; no bare `Master section`/`M1 section` locators or legacy `(Brief, 2026)` citations remain in the Part 2 requirement and AI-register files. The requirements-folder link check found 82 local links and zero broken targets; Git whitespace checks passed. These automated checks do not constitute product testing or stakeholder validation.
+
+Sources: SRC-M1, section 3.1, p. 4; section 9.1, p. 8. Full references: [Part 2 index](../docs/requirements/README.md#references) and [source register](../docs/sources.md).

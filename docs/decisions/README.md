@@ -81,7 +81,7 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | The source register is duplicated in two places until integration, which is a known inconsistency, not an accident. Waiting for the other branches would have been cleaner but would have left Part 3 with no progressive commit history. |
 | Risks | Duplicate reference lists could disagree at integration. Recorded as [RSK-003](../risks/README.md). |
 | Evidence | Commit `c9870c8` on `m1-part3-risk-decisions-governance`. |
-| Later consequence | Integration has to merge the two reference lists into `docs/sources.md` and delete the integration note in the Part 3 index. That work is known now instead of being discovered at sign-off. |
+| Later consequence | Reconciled on 2026-09-09 after all three parts merged. `docs/sources.md` is now the single project source register and the authority for source records and fingerprints. The Part 3 index keeps its reference list as a reading aid and says which register wins if they disagree. The work was known in advance instead of being discovered at sign-off, which is what the entry was for. |
 | Revisit trigger | PED v1.0 integration. |
 
 ## DEC-005 Use a 3 by 3 probability and impact scale

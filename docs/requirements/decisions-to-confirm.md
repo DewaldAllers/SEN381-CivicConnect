@@ -26,3 +26,5 @@ The Master Brief offers general competencies. The below-mentioned details have m
 "Closed" and "Rejected" statuses are Terminal within this hypothetical baseline. All other statuses are rejected while retaining the original request type. "Open" implies that the request is "Submitted", "Accepted" or "In Progress". "Completed" feedback includes resolution and closure of the request. A completed request will continue to stay in the Completed category until it is closed. Overdue is a computed flag rather than a separate status.
 
 If there is a change in the proposal, keep its ID and modify its wording and acceptance criteria.
+
+Sources: SRC-MASTER, sections 3 and 11, pp. 7 and 12; SRC-M1, section 3, p. 3. Full references: [Part 2 index](README.md#references).

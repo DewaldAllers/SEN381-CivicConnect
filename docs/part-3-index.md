@@ -47,7 +47,7 @@ Part 2 requirements are a review draft with five open proposals, so acceptance c
 
 ## Integration note
 
-Part 2 keeps the project source register at `docs/sources.md` on its own branch. Editing a file another member owns before integration would create an avoidable merge conflict, so Part 3 repeats only the source identifiers it cites, using the same identifiers. These must be merged into one register at PED integration, and this section deleted. See [DEC-004](decisions/README.md).
+During drafting, Part 3 repeated the source identifiers it cites here because `docs/sources.md` was owned by Part 2 on a separate branch, and editing it would have caused an avoidable merge conflict. All three parts are now merged, so `docs/sources.md` is the project source register and the authority for source records and document fingerprints. The reference list below is retained as the Part 3 reading aid and uses the same `SRC-` identifiers. Where the two differ, `docs/sources.md` is correct. See [DEC-004](decisions/README.md).
 
 ## References
 
