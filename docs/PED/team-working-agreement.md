@@ -4,7 +4,7 @@ Version 0.1 draft for agreement | 9 September 2026 | Drafted by: Tristan Els | S
 
 SRC-M1 section 10 (p. 8) lists an agreed and controlled team working agreement as a submission readiness item. This is a draft. It becomes the agreement when all three members have approved it in a pull request, and not before. Any member may propose changes to it in review.
 
-The rules below exist because the repository has already shown what happens without them. On 2026-09-08 a pull request was merged into `main` by its own author with no review recorded. That is described in the [GitHub governance evidence](../../evidence/github-governance.md) and is the reason several of these rules are written as absolutes rather than as preferences.
+The rules below exist because the repository has already shown what happens without them. On 2026-09-08 a pull request was merged into `main` by its own author with no review recorded. That is described in the [GitHub governance evidence](../../evidence/github-governance.md) and is the reason several of these rules are written as absolutes instead of preferences.
 
 ## Members and ownership
 
@@ -38,7 +38,7 @@ A review should say at least one specific thing about the change. Useful questio
 
 If a review finds nothing wrong, say what was checked. "Read the twelve risk entries, checked each has a cause and a contingency, agree with the two rated 9" is a review. "LGTM" is not.
 
-Reviews are expected within 12 hours on a working day. If a member cannot review in time, they say so in the pull request rather than leaving it silent.
+Reviews are expected within 12 hours on a working day. If a member cannot review in time, they say so in the pull request instead of leaving it silent.
 
 ## Handling the pull request that was not reviewed
 
@@ -48,7 +48,7 @@ SRC-MASTER section 23 (p. 22) prefers an analysed failure to a hidden one, and s
 
 ## Artefact discipline
 
-Identifiers are permanent. A requirement, risk, decision or concern keeps its ID for the life of the project. Superseded entries are marked as superseded rather than deleted, so the history of the team's thinking stays readable.
+Identifiers are permanent. A requirement, risk, decision or concern keeps its ID for the life of the project. Superseded entries are marked as superseded, not deleted, so the history of the team's thinking stays readable.
 
 Baselined content is not silently edited. After sign-off, a change goes through the change request and impact analysis process in SRC-MASTER section 14 (p. 13).
 
@@ -72,7 +72,7 @@ Each member should be able to do the following without help: trace one requireme
 
 ## Meetings and communication
 
-Decisions that affect more than one part are recorded in the Decision Log rather than left in chat, because a decision nobody wrote down cannot be defended at a milestone.
+Decisions that affect more than one part are recorded in the Decision Log, not left in chat, because a decision nobody wrote down cannot be defended at a milestone.
 
 Where a member finds a defect in another member's artefact, they raise it with that member directly and in the pull request, not silently work around it.
 

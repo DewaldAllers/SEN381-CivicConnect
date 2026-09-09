@@ -4,7 +4,7 @@ Version 0.1 working draft | Observed 9 September 2026 | Owner: Tristan Els | Sta
 
 Repository: `DewaldAllers/SEN381-CivicConnect`
 
-SRC-MASTER section 9 (p. 11) treats GitHub as part of the engineering control environment rather than as file storage, and SRC-M1 section 3.1 (p. 4) requires progressive repository evidence from the start of M1. This document records what the repository actually shows, including where it does not meet the required controls. SRC-MASTER section 23 (p. 22) says a working feature that violates required configuration or review controls may lose marks, so recording the gap is worth more than presenting the repository as compliant.
+SRC-MASTER section 9 (p. 11) treats GitHub as part of the engineering control environment, not as file storage, and SRC-M1 section 3.1 (p. 4) requires progressive repository evidence from the start of M1. This document records what the repository actually shows, including where it does not meet the required controls. SRC-MASTER section 23 (p. 22) says a working feature that violates required configuration or review controls may lose marks, so recording the gap is worth more than presenting the repository as compliant.
 
 Every statement below is either verifiable from the git history in this clone, or marked as needing a check that requires repository settings access. Nothing is claimed on the basis that it ought to be true.
 
@@ -34,7 +34,7 @@ Every statement below is either verifiable from the git history in this clone, o
 | `154ead6` | 2026-09-08 20:54:09 +0200 | Liamdv12 | Add files via upload |
 | `eef0aa9` | 2026-09-08 21:01:39 +0200 | Liamdv12 | Merge pull request #20 from DewaldAllers/feature/m1-member1-foundation |
 
-Three points follow from this history, recorded as observations rather than conclusions about any member's intent.
+Three points follow from this history, recorded as observations, not as conclusions about any member's intent.
 
 The same account authored all three commits and merged the pull request. The reviews endpoint for PR #20 returns an empty list, so no approval was recorded by anyone. SRC-MASTER section 9 (p. 11) requires a minimum of two approvals from team members other than the author and states that self-approval is not accepted. This control was not met for the content currently on `main`.
 
@@ -46,17 +46,17 @@ The commit `154ead6` carries GitHub's default message for a web upload and adds 
 
 The branch protection gap was recorded as a decision and a risk before this history existed. [DEC-001](../docs/decisions/README.md#dec-001-create-a-private-team-repository) records the private repository choice and the entitlement consequence found afterwards. [DEC-006](../docs/decisions/README.md#dec-006-defer-the-response-to-the-branch-protection-gap) records why the team has not yet chosen between making the repository public, applying for an eligible plan, or continuing with the control as a written procedure.
 
-[RSK-001](../docs/risks/README.md) forecast that a substantive change could reach `main` without the required approvals while nothing enforced the rule, and set a trigger saying its probability would rise to 3 if that happened. It happened the same evening. The entry now records the event rather than the forecast. [RSK-011](../docs/risks/README.md) forecast bulk upload patterns weakening the evidence of progressive work, and `154ead6` is an instance of that pattern.
+[RSK-001](../docs/risks/README.md) forecast that a substantive change could reach `main` without the required approvals while nothing enforced the rule, and set a trigger saying its probability would rise to 3 if that happened. It happened the same evening. The entry now records the event, not the forecast. [RSK-011](../docs/risks/README.md) forecast bulk upload patterns weakening the evidence of progressive work, and `154ead6` is an instance of that pattern.
 
-Recording these before the event, and then recording the event against them, is what makes the register live rather than decorative.
+Recording these before the event, and then recording the event against them, is what keeps the register useful. A register nobody updates after the event proves nothing.
 
 ## Part 3 branch conduct
 
-The Part 3 work follows the procedure the team cannot enforce technically.
+Part 3 followed the two-approval procedure during the period when nothing enforced it, which is the window PR #20 fell into.
 
 Work is on `m1-part3-risk-decisions-governance`, created from `main` and never committed to `main` directly. Each artefact was committed as a separate described change, so a reviewer can read the history in stages. No commit was backdated and no history was rewritten. The branch will reach `main` only through a pull request, and Part 3 will not merge its own pull request regardless of whether GitHub would allow it.
 
-Four commits as at the time of writing: `c9870c8` index and references, `99fe627` decision log, `fa665fd` risk register, `6a88c36` forward engineering considerations.
+Commits as at 9 September: `c9870c8` index and references, `99fe627` decision log, `fa665fd` risk register, `6a88c36` forward engineering considerations, `6ac43ce` governance evidence, then updates recording the public visibility change and the applied protection rule.
 
 ## Actions arising
 
@@ -65,7 +65,7 @@ Four commits as at the time of writing: `c9870c8` index and references, `99fe627
 | Check PR #20 for recorded approvals | Tristan | Done 2026-09-09. Zero reviews recorded |
 | Decide the response to the protection gap, closing DEC-006 | All three | Done 2026-09-09. Repository made public under DEC-008 |
 | Apply branch protection rules to `main` and read the settings back | Dewald, repository owner | Done 2026-09-09. `protected: true` confirmed by API readback |
-| Record PR #20 as a control not met at the baseline gate rather than leaving it unstated | All three | Outstanding |
+| Record PR #20 as a control not met at the baseline gate instead of leaving it unstated | All three | Outstanding |
 | Re-review the content merged by PR #20 under a follow-up pull request, so it receives the review it did not get | Liam raises, Dewald and Tristan review | Outstanding |
 | Add a `.gitignore` to `main` at integration | Tristan | Outstanding. One exists only on the Part 2 branch |
 | Commit Part 1 content in a reviewable text format alongside the `.docx` | Liam | Outstanding. A binary cannot be reviewed as a diff |
@@ -79,7 +79,7 @@ Applied by the repository owner on 2026-09-09, after the repository was made pub
 | Require a pull request before merging | On | Direct development on `main` not permitted |
 | Required number of approvals | 2 | Minimum two approvals |
 | Dismiss stale pull request approvals when new commits are pushed | On | An approval should apply to the reviewed content, not to whatever arrives later |
-| Require conversation resolution before merging | On | Review comments answered rather than ignored |
+| Require conversation resolution before merging | On | Review comments must be answered before merge |
 | Do not allow bypassing the above settings | On | Prevents an administrator merging around the rule, which would make the control cosmetic |
 | Allow force pushes | Off | History stays authentic |
 | Allow deletions | Off | The controlled product state cannot be removed |
@@ -88,11 +88,11 @@ GitHub does not offer a separate self-approval switch. Requiring two approvals f
 
 Four settings were deliberately left off. Status checks and required deployments have nothing to check yet, because no pipeline or environment exists and M1 does not require one (SRC-M1 section 5, pp. 4-5). Signed commits were not required because the team has no key management arrangement, and enabling it would block commits without improving review. Linear history was not required because it depends on enabling squash or rebase merging, which would collapse the staged commit history that SRC-M1 section 3.1 (p. 4) asks the team to preserve.
 
-The setting that matters most is "Do not allow bypassing the above settings". Without it the repository owner can merge around the rule, and the control becomes a display rather than an enforcement.
+The setting that matters most is "Do not allow bypassing the above settings". Without it the repository owner can merge around the rule, and nothing is actually enforced.
 
 With three members and two required approvals, every merge now needs all three people. That is what the brief requires, and it makes reviewer availability an operational dependency rather than a courtesy. It is recorded as [RSK-002](../docs/risks/README.md).
 
-SRC-M1 section 9.1 (p. 8) treats a citation to documentation as support for why a control matters, not as evidence that the team applied it, so the readback above rather than the GitHub documentation is what evidences this control.
+SRC-M1 section 9.1 (p. 8) treats a citation to documentation as support for why a control matters, not as evidence that the team applied it, so the readback above, and not the GitHub documentation, is what evidences this control.
 
 ## Recheck commands
 

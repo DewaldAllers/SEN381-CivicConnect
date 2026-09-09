@@ -28,7 +28,7 @@ Part 3 only. Parts 1 and 2 belong to other members and are not copied here.
 
 Part 3 does not create requirements, scope or stakeholders. Where a risk, concern or decision points at a requirement, it cites the Part 2 identifier (`FR-nnn`, `NFR-nnn`, `AC-...`, `P-nn`) as drafted on the `m1-part2-requirements-foundation` branch. Those identifiers are still drafts, so every Part 3 reference to them inherits that draft status.
 
-Two dependencies are unresolved. Both are recorded as risks rather than assumed away:
+Two dependencies are unresolved. Both are recorded as risks, not assumed away:
 
 Part 1 scope and constraint artefacts are not in the repository yet, so risks about scope stability are rated against the constraints in the brief (SRC-MASTER, section 4, p. 8) instead of an agreed team scope baseline. See [RSK-003](risks/README.md).
 

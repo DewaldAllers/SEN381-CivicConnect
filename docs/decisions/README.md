@@ -19,7 +19,7 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | [DEC-005](#dec-005-use-a-3-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Part 3 owner, proposed to team | Proposed |
 | [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner, needs team and lecturer input | Closed 2026-09-09, superseded by DEC-008 |
 | [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Part 3 owner, proposed to team | Open |
-| [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | Executed, protection rules still to be applied |
+| [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | Executed, protection applied and confirmed 2026-09-09 |
 
 ---
 
@@ -35,8 +35,8 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Visibility was traded against plan entitlement. That trade was not visible to the team at the time the choice was made. |
 | Risks | Recorded as [RSK-001](../risks/README.md). |
 | Evidence | Repository exists and is private. Governance readback is dated 2026-09-07 in [GitHub governance evidence](../../evidence/github-governance.md). |
-| Later consequence | GitHub refused branch protection on a private repository under a free plan, returning HTTP 403 with the message `Upgrade to GitHub Pro or make this repository public to enable this feature`. The repository ruleset endpoint refused the same way. The two-approval control the brief requires was therefore procedural rather than enforced for the first two days of the project, and on 2026-09-08 an unreviewed change reached `main` during that window. This consequence was found after the decision, not predicted before it. Reversed on 2026-09-09 by [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection). |
-| Would the team decide differently | The private choice was reasonable on the evidence available on 2026-09-07. Nothing in the GitHub repository creation flow states that branch protection depends on visibility under a free plan, and the team found out only when it tried to apply the control. The learning is not that private was wrong, but that a required control should be tested at the point the environment is set up rather than assumed to be available. |
+| Later consequence | GitHub refused branch protection on a private repository under a free plan, returning HTTP 403 with the message `Upgrade to GitHub Pro or make this repository public to enable this feature`. The repository ruleset endpoint refused the same way. The two-approval control the brief requires was therefore procedural and not enforced for the first two days of the project, and on 2026-09-08 an unreviewed change reached `main` during that window. This consequence was found after the decision, not predicted before it. Reversed on 2026-09-09 by [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection). |
+| Would the team decide differently | The private choice was reasonable on the evidence available on 2026-09-07. Nothing in the GitHub repository creation flow states that branch protection depends on visibility under a free plan, and the team found out only when it tried to apply the control. The learning is not that private was wrong, but that a required control should be tested at the point the environment is set up, not assumed to be available. |
 | Revisit trigger | Closed by DEC-008. |
 
 ## DEC-002 Defer requirements until the Master Brief was located
@@ -51,7 +51,7 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Cost time early in the milestone in exchange for avoiding rework across requirements, acceptance criteria and the RTM. |
 | Risks | Schedule pressure later in the milestone. Related to [RSK-008](../risks/README.md). |
 | Evidence | Source register entry for SRC-MASTER records the brief being located on the course portal and read on 2026-09-07. Requirements were first committed on 2026-09-08 (`b188d7a`). |
-| Later consequence | The brief was located the same day, so the delay was under one day. The requirements drafted afterwards cite specific Master Brief sections and pages rather than assumptions. |
+| Later consequence | The brief was located the same day, so the delay was under one day. The requirements drafted afterwards cite specific Master Brief sections and pages instead of assumptions. |
 | Revisit trigger | Closed. No longer open. |
 
 ## DEC-003 Branch and pull request workflow instead of committing to main
@@ -66,7 +66,7 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Slower than committing directly, and it needs both other members available to review. It also creates merge work at integration, since three branches touch the same PED. |
 | Risks | Reviewer availability. Recorded as [RSK-002](../risks/README.md). |
 | Evidence | Branches `m1-part2-requirements-foundation`, `m1-part3-risk-decisions-governance` and `feature/m1-member1-foundation`. `main` still holds only the initial commit `bbd2c78`. |
-| Later consequence | Commits are staged and readable per change rather than arriving as one upload. SRC-MASTER section 23 (p. 22) gives limited or no credit to evidence reconstructed immediately before assessment, so the staged history matters. |
+| Later consequence | Commits are staged and readable per change instead of arriving as one upload. SRC-MASTER section 23 (p. 22) gives limited or no credit to evidence reconstructed immediately before assessment, so the staged history matters. |
 | Revisit trigger | Integration of the three parts into PED v1.0, when the merge order has to be agreed. |
 
 ## DEC-004 Keep Part 3 on its own branch and reuse the agreed folder paths
@@ -78,10 +78,10 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Alternatives | Invent new Part 3 folder paths. Reuse the paths from the 7 September scaffold. Wait for Parts 1 and 2 to merge first, then add Part 3 on top. |
 | Decision | Reuse the scaffold paths `docs/risks/`, `docs/forward-engineering/`, `docs/decisions/` and `evidence/github-governance.md`. Do not edit `docs/sources.md` or `README.md` before integration. Repeat the cited source identifiers in the Part 3 index instead. |
 | Rationale | Reusing the agreed paths means the three branches merge without path conflicts. Not editing another member's files avoids conflicts in exactly the files most likely to be edited at the same time. |
-| Trade-offs | The source register is duplicated in two places until integration, which is a known inconsistency rather than an accident. Waiting for the other branches would have been cleaner but would have left Part 3 with no progressive commit history. |
+| Trade-offs | The source register is duplicated in two places until integration, which is a known inconsistency, not an accident. Waiting for the other branches would have been cleaner but would have left Part 3 with no progressive commit history. |
 | Risks | Duplicate reference lists could disagree at integration. Recorded as [RSK-003](../risks/README.md). |
 | Evidence | Commit `c9870c8` on `m1-part3-risk-decisions-governance`. |
-| Later consequence | Integration has to merge the two reference lists into `docs/sources.md` and delete the integration note in the Part 3 index. That work is known now rather than discovered at sign-off. |
+| Later consequence | Integration has to merge the two reference lists into `docs/sources.md` and delete the integration note in the Part 3 index. That work is known now instead of being discovered at sign-off. |
 | Revisit trigger | PED v1.0 integration. |
 
 ## DEC-005 Use a 3 by 3 probability and impact scale
@@ -93,7 +93,7 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Alternatives | A 5 by 5 scale. A 3 by 3 scale. Qualitative ratings with no arithmetic. |
 | Decision | Rate probability and impact from 1 to 3 each, with written definitions, and set priority from the product. |
 | Rationale | A 5 by 5 scale implies precision the team cannot support with no historical data, and the middle bands would be guesses dressed as measurements. A 3 by 3 scale forces a decision between low, medium and high, which the team can defend. |
-| Trade-offs | Less discrimination between risks. Several risks share the same score, so the register needs written justification per risk rather than relying on rank order. |
+| Trade-offs | Less discrimination between risks. Several risks share the same score, so the register needs written justification per risk, because rank order alone does not separate them. |
 | Risks | Two risks with the same score may need different responses. The register carries a note where that happens. |
 | Evidence | Scale definitions in the [Risk Register](../risks/README.md). |
 | Later consequence | Risks reviewed at M2, M3 and M4 have to use the same scale, or the trend across milestones is meaningless. |
@@ -125,9 +125,9 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Decision | Make the repository public. Confirmed public on 2026-09-09 by API readback showing `visibility: public`. |
 | Rationale | It is the only option that removes the entitlement barrier at no cost and within the schedule. The Student Developer Pack approval time is outside the team's control, and buying a plan breaks the cost constraint. |
 | Trade-offs | Coursework becomes readable by anyone, including other teams. The team accepts a plagiarism exposure it cannot control in exchange for a mandatory control it can now enforce. The repository holds no secrets or personal data, so the exposure is limited to the team's own written work. |
-| Risks | Other teams could copy the artefacts. This does not remove the team's own accountability, and the commit history shows authorship and dates. Recorded as a residual risk rather than mitigated away. |
+| Risks | Other teams could copy the artefacts. This does not remove the team's own accountability, and the commit history shows authorship and dates. Recorded as a residual risk, not mitigated away. |
 | Evidence | API readback on 2026-09-09 returns `private: False` and `visibility: public`. Recorded in [GitHub governance evidence](../../evidence/github-governance.md). |
-| Later consequence | Branch protection is now available and has to be applied. Making the setting available is not the same as configuring it, and the control is not met until the rules exist and are read back. |
+| Later consequence | Branch protection was applied the same morning and confirmed by API readback returning `protected: true` for `main`. Making the setting available was not the same as configuring it, so the control was only met once the rules existed and were read back. |
 | Revisit trigger | Lecturer instruction to make coursework repositories private, or completion of the module. |
 
 ## DEC-007 Defer stack, architecture, persistence, CI and deployment platform
