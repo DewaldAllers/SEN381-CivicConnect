@@ -2,7 +2,7 @@
 
 Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal**
 
-Sources and need IDs: [Part 2 index](README.md). Detailed proposals P-01 to P-04 are in [decisions to confirm](decisions-to-confirm.md). Each AC link leads to observable criteria, not an executed test.
+Sources and ID need for: [Part 2 index](README.md). Proposals for detailed projects P-01 through P-04 are listed in [confirming decisions](decisions-to-confirm.md). Each AC link will lead you to criteria, not the test itself
 
 | ID | Requirement statement | Source / stakeholder | Priority and reason | Acceptance |
 | --- | --- | --- | --- | --- |
@@ -19,4 +19,4 @@ Sources and need IDs: [Part 2 index](README.md). Detailed proposals P-01 to P-04
 | FR-011 | The system shall make a request's submission, ownership changes, status changes and recorded actions available as a chronological history to authorised viewers, with the actor, time and change recorded. | SRC-MASTER, sections 2-3, pp. 6-7; NEED-P2-02/03; visibility in P-03 | Must Have - addresses weak accountability and the missing lifecycle record. | [AC-FR-011](acceptance-criteria.md#ac-fr-011) |
 | FR-012 | The system shall let authorised staff order their permitted request list by submission time, oldest first. | SRC-MASTER, section 3 staff, p. 7; NEED-P2-02 | Should Have - helps inspect ageing work; FR-006 already satisfies basic request finding. | [AC-FR-012](acceptance-criteria.md#ac-fr-012) |
 
-FR-003 covers the brief's list/history of submitted requests. FR-011 is a different concept: the event history of one request. Requirement priority is not the operational urgency of an individual service request; no separate urgency-scoring feature is committed here.
+The FR-003 pertains to the list/history of requests that have been submitted. FR-011 refers to a separate idea which is the history of events for one request. Priority requirement does not refer to the urgency requirement of an individual service request.
