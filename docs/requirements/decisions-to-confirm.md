@@ -2,7 +2,7 @@
 
 Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **documented proposals**
 
-The Master Brief supplies broad capabilities. The following proposed details make the requirements testable; they are not facts supplied by the lecturer (SRC-MASTER, section 3, p. 7).
+The Master Brief offers general competencies. The below-mentioned details have made the requirements testable. They do not refer to the facts provided by the lecturer (SRC-MASTER, Section 3, p. 7).
 
 | ID | Proposed detail | Reason and affected requirements | Proposal state |
 | --- | --- | --- | --- |
@@ -23,6 +23,6 @@ The Master Brief supplies broad capabilities. The following proposed details mak
 | In Progress | Resolved | Authorised staff provide resolution information. |
 | Resolved | Closed | Authorised staff confirm closure. |
 
-Rejected and Closed are terminal in this proposed baseline. Other transitions are refused without changing the request. 'Open' means Submitted, Accepted or In Progress. 'Completed' feedback covers resolution and closure. A resolved request can remain in the resolved group until closed. Overdue is a derived flag, not another status. These rules guide the requirements; they do not select an implementation.
+"Closed" and "Rejected" statuses are Terminal within this hypothetical baseline. All other statuses are rejected while retaining the original request type. "Open" implies that the request is "Submitted", "Accepted" or "In Progress". "Completed" feedback includes resolution and closure of the request. A completed request will continue to stay in the Completed category until it is closed. Overdue is a computed flag rather than a separate status.
 
-When a proposal changes, retain its ID and update its wording, acceptance criteria and traceability links together.
+If there is a change in the proposal, keep its ID and modify its wording and acceptance criteria.
