@@ -78,13 +78,19 @@ Where a member finds a defect in another member's artefact, they raise it with t
 
 ## Agreement
 
-This document takes effect when all three members have approved it. Record the approving pull request and date here at that point.
+This document takes effect when all three members have approved it. It is not in force until every row below says Agreed.
+
+To record agreement, each member replies on the pull request that carries this file with one line giving their name, the date, and the words "I have read the team working agreement and agree to it". A member who wants a change says so in the same reply instead of agreeing, and the change is made before anyone else agrees. When all three replies are recorded, one member edits the table below to replace Not yet with Agreed, adds the date and the pull request number, and raises that edit as its own pull request for the other two to approve.
+
+This is deliberately not a checkbox that one person ticks for everybody. An agreement recorded by a single member is not evidence that three people agreed, and SRC-M1 section 10 (p. 8) lists the agreement as something the team agrees and controls.
 
 | Member | Agreed | Date | Pull request |
 | --- | --- | --- | --- |
 | Liam de Villiers | Not yet | | |
 | Dewald Allers | Not yet | | |
-| Tristan Els | Not yet | | |
+| Tristan Els | Agreed | 2026-09-09 | #24 |
+
+Until every row says Agreed, the honest statement at the baseline gate is that the working agreement is drafted and followed in practice but not yet formally agreed. Say that instead of presenting it as ratified.
 
 ## References
 

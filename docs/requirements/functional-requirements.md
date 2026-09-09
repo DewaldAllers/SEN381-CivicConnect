@@ -20,3 +20,5 @@ Sources and ID need for: [Part 2 index](README.md). Proposals for detailed proje
 | FR-012 | The system shall let authorised staff order their permitted request list by submission time, oldest first. | SRC-MASTER, section 3 staff, p. 7; NEED-P2-02 | Should Have - helps inspect ageing work; FR-006 already satisfies basic request finding. | [AC-FR-012](acceptance-criteria.md#ac-fr-012) |
 
 The FR-003 pertains to the list/history of requests that have been submitted. FR-011 refers to a separate idea which is the history of events for one request. Priority requirement does not refer to the urgency requirement of an individual service request.
+
+Sources: SRC-MASTER, sections 3 and 11, pp. 7 and 12; SRC-M1, section 3, p. 3. Full references: [Part 2 index](README.md#references).

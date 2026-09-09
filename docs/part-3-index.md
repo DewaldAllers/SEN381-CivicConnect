@@ -11,7 +11,7 @@ This is the Part 3 share of the Milestone 1 (M1) required outputs (SRC-M1, secti
 3. [Forward Engineering Considerations](forward-engineering/README.md). Later lifecycle concerns that already affect M1 work.
 4. [GitHub governance evidence](../evidence/github-governance.md). Observed repository controls, and the gap between what the brief requires and what the repository enforces.
 
-Supporting files: the [team working agreement](PED/team-working-agreement.md), drafted from Part 3 because the governance rules and the agreement describe the same controls, and the [Part 3 defence notes](part-3-defence-notes.md).
+Supporting file: the [team working agreement](PED/team-working-agreement.md), drafted from Part 3 because the governance rules and the agreement describe the same controls.
 
 ## What this branch contains
 
@@ -47,7 +47,7 @@ Part 2 requirements are a review draft with five open proposals, so acceptance c
 
 ## Integration note
 
-Part 2 keeps the project source register at `docs/sources.md` on its own branch. Editing a file another member owns before integration would create an avoidable merge conflict, so Part 3 repeats only the source identifiers it cites, using the same identifiers. These must be merged into one register at PED integration, and this section deleted. See [DEC-004](decisions/README.md).
+During drafting, Part 3 repeated the source identifiers it cites here because `docs/sources.md` was owned by Part 2 on a separate branch, and editing it would have caused an avoidable merge conflict. All three parts are now merged, so `docs/sources.md` is the project source register and the authority for source records and document fingerprints. The reference list below is retained as the Part 3 reading aid and uses the same `SRC-` identifiers. Where the two differ, `docs/sources.md` is correct. See [DEC-004](decisions/README.md).
 
 ## References
 
