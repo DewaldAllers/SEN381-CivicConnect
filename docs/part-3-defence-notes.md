@@ -40,6 +40,18 @@ Master Brief section 3 (p. 7) says management must identify overdue requests. De
 
 That thread runs from the brief, through a stakeholder need, a requirement, a defect in the requirement, a forward concern and a risk. It also shows Part 3 doing work on Part 2's artefact, which is what cross-review is for.
 
+## AI assistance on Part 3
+
+SRC-M1 section 8 (p. 7), question 9, asks each student to show one AI-assisted contribution and say what they verified, rejected or changed. The answer has to be mine, not the team's, so it is recorded here as well as in the team [AI Usage Register](ai-register/AI-Usage-Register.md), which Part 2 owns.
+
+An AI assistant was used to draft the Part 3 artefacts. I set the scope, reviewed each commit before it was made, and decided what went in. The work was committed in stages so that each change can be read on its own.
+
+What was checked against the repository instead of taken on trust: the state of PR #20, where the reviews endpoint returned an empty list and the author and merging account were the same; the branch protection status, from an API readback returning `protected: true` for `main`; and the commit history and timings quoted in the governance evidence. The commands to repeat these checks are in that document, so the claims are re-testable and not assertions.
+
+What I changed or rejected during the work: the AI Usage Register entry for this work was not created inside Part 2's file, because Part 2 owns it and editing another member's artefact before integration would cause the merge conflict DEC-004 exists to avoid. The Protection of Personal Information Act reference in RSK-006 and FEC-002 is recorded as the obligation most likely to apply and explicitly not confirmed, because no member has checked whether it binds a student project. Risk owners were assigned from what members actually own, not spread evenly.
+
+Before presenting this, confirm the account above matches what I personally did and adjust it if not. An entry I cannot defend is worse than no entry, because SRC-MASTER section 10 (p. 12) states that "AI generated it" is never an acceptable engineering defence.
+
 ## Where Part 3 is weak
 
 Say these before an assessor finds them.
