@@ -25,6 +25,7 @@ Before PED v1.0 is baselined, the team should verify that:
 - [ ] Risks identified by Member 3 do not contradict the agreed scope.
 - [ ] Decisions and deferred items are consistent across the PED.
 - [ ] GitHub governance supports the agreed team working process.
+- [ ] Member 3's risk register has been reviewed and updated to consider the Member 1 constraints once the constraints are available in the repository.
 
 ## Baseline Readiness
 
