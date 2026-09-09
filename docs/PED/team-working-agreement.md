@@ -86,7 +86,7 @@ This is deliberately not a checkbox that one person ticks for everybody. An agre
 
 | Member | Agreed | Date | Pull request |
 | --- | --- | --- | --- |
-| Liam de Villiers | Not yet | | |
+| Liam de Villiers | Yes |2026/09/09 |Member1_Part1 |
 | Dewald Allers | Not yet | | |
 | Tristan Els | Agreed | 2026-09-09 | #24 |
 
