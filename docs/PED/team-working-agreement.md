@@ -82,7 +82,7 @@ This document takes effect when all three members have approved it. Record the a
 
 | Member | Agreed | Date | Pull request |
 | --- | --- | --- | --- |
-| Liam de Villiers | Not yet | | |
+| Liam de Villiers | Yes |2026/09/09 |Member1_Part1 |
 | Dewald Allers | Not yet | | |
 | Tristan Els | Not yet | | |
 
