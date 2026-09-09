@@ -2,7 +2,7 @@
 
 Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal; 12 FRs and 5 NFRs**
 
-One evolving matrix connects the source and stakeholder need to each requirement and its acceptance criteria. The requirement files contain the authoritative wording; short labels here avoid maintaining two conflicting copies. Need suffixes such as NEED-P2-02/03 mean both NEED-P2-02 and NEED-P2-03. Definitions and full references are in the [Part 2 index](README.md).
+An evolving matrix is used to link the need and source to the requirement and acceptance criteria. The requirement documents include the official wording; short names are used here in order not to have two contradictory versions of the same information. Names like NEED-P2-02/03 are to be interpreted as NEED-P2-02 and NEED-P2-03. Definitions and full references are provided in the [Part 2 index](README.md).
 
 ## Current M1 traceability
 
@@ -28,7 +28,7 @@ One evolving matrix connects the source and stakeholder need to each requirement
 
 ## Later lifecycle evidence
 
-These are reserved columns and planned test identifiers, **not claims that design, code, testing or release has occurred**. T-FR-001, for example, will identify a verification record or test set covering all AC-FR-001 criteria. Split it into linked cases if needed later. Populate exact file/section, commit, PR and result references as work occurs; never replace a failure with an unsupported success label.
+This list contains reserved column and test identifiers, **not assertions of having performed design, coding, testing or release**. T-FR-001, for example, is to be used for identification of the verification case or suite that satisfies the entire AC-FR-001. Break it up into cases if needed in the future. Fill in file/section, commit, PR and test result references as work progresses; no failures shall ever be substituted for unproven successes.
 
 | Requirement ID | Design / architecture | Implementation | Planned test / verification | Change reference | Acceptance / release evidence |
 | --- | --- | --- | --- | --- | --- |
@@ -50,19 +50,19 @@ These are reserved columns and planned test identifiers, **not claims that desig
 | NFR-004 | TBD - M2 | TBD - M3 | T-NFR-004 planned; not run | None yet | TBD - M4 |
 | NFR-005 | TBD - M2 | TBD - M3 | T-NFR-005 planned; not run | None yet | TBD - M4 |
 
-## One trace to present
+## One trace to show
 
-**Source:** requesters currently lack visibility of progress (SRC-MASTER, sections 2-3, pp. 6-7).
+**Source:** lack of visibility on status updates for requesters (SRC-MASTER, sections 2-3, pages 6-7).
 
-**NEED-P2-01 -> FR-003 -> AC-FR-003:** a requester must see their own submitted requests and current status. The criterion uses two requesters: A sees A's two requests, not B's, and sees the changed status after a refresh.
+**NEED-P2-01 -> FR-003 -> AC-FR-003:** a requester must be able to see his own requests as well as the current status. The criterion is implemented by two requesters: A can only see his own two requests and the updated status after refreshing the page.
 
-**Later:** link the M2 ownership/access design; the M3 implementation and PR; planned T-FR-003 showing expected/actual results; and M4 acceptance/release evidence. Pair this with NFR-001 to check that access restrictions apply beyond the screen. None of this later evidence exists yet.
+**Further:** link M2 design of ownership/access; the M3 implementation and PR; the expected future T-FR-003 that will show the expected/actual results; and M4 acceptance and release information. Combine it with NFR-001 in order to confirm the access restriction outside the screen. No such further evidence available at this point.
 
-**If changed:** allowing a requester to view another person's request would affect permissions, scope, AC-FR-003, NFR-001, privacy risks, design and regression tests. Assess and approve that change before updating the baseline.
+**In case of change:** giving an ability to see another person's request would affect the permissions, scope, AC-FR-003, NFR-001, privacy issues, design and regression testing. Evaluate and approve the change first.
 
-## Requirement dependencies
+## Dependencies of requirement
 
-These notes help explain the effects of the Part 2 requirements. They are not separate risk, constraint or forward-engineering deliverables.
+The notes provide insights into how Part 2 requirements impact the system. The notes are not a risk, constraints, or forward engineering deliverable.
 
 | Requirements | Scope / constraint connection | Risk and later consideration to integrate |
 | --- | --- | --- |
