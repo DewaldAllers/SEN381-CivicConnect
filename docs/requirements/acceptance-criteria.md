@@ -27,15 +27,18 @@ Each heading represents an ID number for acceptance criteria and refers to one r
 ## AC-FR-005
 
 - For any staff member, requests within his permitted access range and outside, in case the member accesses the queue and a permitted request, then only permitted requests will appear and the selected request's details shall be those permitted.
+- A direct attempt to open an out-of-scope request must be denied without showing protected details.
 
 ## AC-FR-006
 
 - If there are records present in at least two categories and two statuses, and staff use the filter for category, for status and both of them, then each time the outcome will include all and only those records that are allowed and meet the criteria selected.
+- Clearing filters restores the permitted list; no matches show an empty result; filters must never expand access.
 
 ## AC-FR-007
 
 - If there is an un-owned request, and the authorized staff accept the ownership, then the identity of that authorized staff member will be considered as the current owner.
 - If there is an eligible staff member and the authorized staff assign the request to the mentioned person, then the owner will be changed and recorded in the history of the system.
+- An ineligible assignment target or unauthorised attempt must be rejected and the owner must stay unchanged.
 
 ## AC-FR-008
 
@@ -84,6 +87,7 @@ Each heading represents an ID number for acceptance criteria and refers to one r
 
 - Use five representative new requestors, an already prepared access session and the same task instructions: submit a valid sample request, and then find its current status. Start timing when the task instructions are issued; stop once both tasks are completed.
 - At least four subjects can successfully complete both tasks without help in less than five minutes for each. Take timing results and note completion and help provided. Do not make up subjects and their results.
+- This five-person usability check is initial evidence only, not proof for all users.
 
 ## AC-NFR-005
 
