@@ -1,6 +1,6 @@
 # Functional requirements
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; not an approved baseline**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal**
 
 Sources and need IDs: [Part 2 index](README.md). Detailed proposals P-01 to P-04 are in [decisions to confirm](decisions-to-confirm.md). Each AC link leads to observable criteria, not an executed test.
 

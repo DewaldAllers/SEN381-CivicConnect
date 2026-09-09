@@ -1,6 +1,6 @@
 # Acceptance criteria
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; no tests executed**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **planned acceptance criteria; no tests executed**
 
 Each heading is a stable acceptance-criteria ID linked to one requirement. Its bullets are the criteria for that requirement; all must pass. These criteria operationalise the source-backed requirements in the [functional](functional-requirements.md) and [non-functional](non-functional-requirements.md) requirement tables (SRC-M1, section 3, p. 3). They use the [proposed rules](decisions-to-confirm.md) until the team validates them. Use synthetic test records and users. Keep expected and actual results separate in later test evidence.
 

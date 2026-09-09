@@ -1,6 +1,6 @@
 # Initial Requirements Traceability Matrix (RTM)
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; 12 FRs and 5 NFRs**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal; 12 FRs and 5 NFRs**
 
 One evolving matrix connects the source and stakeholder need to each requirement and its acceptance criteria. The requirement files contain the authoritative wording; short labels here avoid maintaining two conflicting copies. Need suffixes such as NEED-P2-02/03 mean both NEED-P2-02 and NEED-P2-03. Definitions and full references are in the [Part 2 index](README.md).
 

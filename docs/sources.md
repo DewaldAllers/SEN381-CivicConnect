@@ -1,6 +1,6 @@
 # Part 2 source register and evidence boundary
 
-Version 0.3 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **draft source register; human verification pending**
+Version 0.3 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **source register**
 
 The three supplied PDFs were read completely before project artefact authoring. Text was read page by page; the M1 output table, Assignment 1 Decision Horizon Map and assignment evidence-control page were also rendered and inspected. These are **AI-assisted source checks**, not independent human verification.
 

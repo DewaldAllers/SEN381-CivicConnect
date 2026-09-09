@@ -1,8 +1,8 @@
 # Part 2 - Requirements, acceptance criteria and traceability
 
-**Version:** 0.3 review draft | **Date:** 9 September 2026 | **Owner:** Dewald Allers | **Status:** **draft for team review; not an approved baseline**
+**Version:** 0.3 | **Date:** 9 September 2026 | **Owner:** Dewald Allers | **Status:** **requirements baseline proposal**
 
-This is the requirements contribution to the Project Engineering Document (PED) v1.0. It is ready for team review, not signed off as an approved baseline. It describes intended product behaviour; no implementation or test results are claimed.
+This is my requirements contribution to the Project Engineering Document (PED) v1.0. It describes intended product behaviour; no implementation or test results are claimed.
 
 ## Read in this order
 
@@ -11,7 +11,7 @@ This is the requirements contribution to the Project Engineering Document (PED) 
 3. [Acceptance criteria](acceptance-criteria.md) - how satisfaction will be judged.
 4. [Requirements Traceability Matrix](RTM.md) - the links between the evidence and requirements.
 5. [Decisions to confirm](decisions-to-confirm.md) - five proposed details needing team validation.
-6. [AI Usage Register](../ai-register/AI-Usage-Register.md) and [presentation/defence notes](part-2-defence-notes.md).
+6. [AI Usage Register](../ai-register/AI-Usage-Register.md).
 
 ## Evidence and stakeholder needs
 
@@ -32,7 +32,7 @@ We use MoSCoW: **Must Have** means essential to the brief's minimum capabilities
 
 Filtering is Must Have; oldest-first sorting is Should Have because filtering already fulfils the brief's minimum requirement to search, filter **or** sort. Quality targets for usability and speed are Should Have and explicitly proposed. Their priority must be revisited if stakeholder evidence makes them essential.
 
-All entries are **Draft**. A capability stated in the brief is source-backed, but that does not mean the team's detailed wording or proposed business rules have been approved. Confirm the [five decisions](decisions-to-confirm.md), reconcile scope/constraints and obtain the required reviews before calling this a baseline. Later design/test columns may remain future evidence in M1.
+Each requirement is source-backed. The detailed business rules and measurement targets are identified as proposals where the brief does not supply the necessary detail. Later design and test columns remain future evidence in M1.
 
 ## Product scope boundary
 

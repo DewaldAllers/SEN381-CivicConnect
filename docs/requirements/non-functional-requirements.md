@@ -1,6 +1,6 @@
 # Non-functional requirements
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **draft for team review; not an approved baseline**
+Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal**
 
 The first three requirements express proposed, verifiable protections of CivicConnect's sensitive and accountable service record. The usability and performance numbers are explicitly **proposed targets**, not values supplied by the brief or measured in the organisation. See [P-03 and P-05](decisions-to-confirm.md).
 
