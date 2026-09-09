@@ -13,11 +13,11 @@ Every statement below is either verifiable from the git history in this clone, o
 | Control required by SRC-MASTER section 9 (p. 11) | Observed state on 9 September 2026 | How this was checked |
 | --- | --- | --- |
 | One controlled team repository | Met. One repository, default branch `main`. | Clone and remote listing |
-| `main` protected and treated as the controlled product state | **Not met at the time of writing.** Protection was refused while the repository was private under a free plan, returning HTTP 403 with `Upgrade to GitHub Pro or make this repository public to enable this feature` on 2026-09-07. The repository was made public on 2026-09-09 under DEC-008, so protection is now available but the rules have not yet been applied. | API readback 2026-09-09 returns `visibility: public`. Protection rules require the repository owner's account to apply |
+| `main` protected and treated as the controlled product state | **Met from 2026-09-09.** Protection was refused while the repository was private under a free plan, returning HTTP 403 with `Upgrade to GitHub Pro or make this repository public to enable this feature` on 2026-09-07. The repository was made public on 2026-09-09 under DEC-008 and the rule was applied the same morning. | API readback 2026-09-09 returns `visibility: public` and, for branch `main`, `protected: true`. Settings confirmed in the rule screen |
 | No direct development on `main` for substantive changes | Partly met. Three feature branches exist and carry the substantive work. `main` received two commits from a branch that was merged about nine minutes after its first commit. | `git log origin/main` |
 | Pull Requests required for substantive changes entering `main` | Met in form. PR #20 was used. | Merge commit `eef0aa9`, PR API |
-| Minimum two approvals from members other than the author | **Not met.** The reviews endpoint for PR #20 returns an empty list. No approval of any kind was recorded. | `GET /repos/.../pulls/20/reviews` on 2026-09-09 returned zero entries |
-| Self-approval not accepted | **Not met.** PR #20 was authored by `Liamdv12` and merged by `Liamdv12`. | PR API: `author: Liamdv12`, `merged_by: Liamdv12` |
+| Minimum two approvals from members other than the author | **Not met for PR #20, enforced from 2026-09-09.** The reviews endpoint for PR #20 returns an empty list, so no approval of any kind was recorded for the content currently on `main`. The protection rule applied on 2026-09-09 requires two approvals for every pull request after that point. | `GET /repos/.../pulls/20/reviews` on 2026-09-09 returned zero entries. Rule screen shows `Required number of approvals before merging: 2` |
+| Self-approval not accepted | **Not met for PR #20, enforced from 2026-09-09.** PR #20 was authored by `Liamdv12` and merged by `Liamdv12`. GitHub does not count an author's own review towards the required number, so requiring two approvals now prevents this. | PR API: `author: Liamdv12`, `merged_by: Liamdv12` |
 | Review quality, no rubber-stamping | Not applicable. No review took place, so review quality cannot be assessed. PR #20 was open for one minute and fifty one seconds, from `2026-09-08T18:59:48Z` to `2026-09-08T19:01:39Z`. | PR API `created_at` and `merged_at` |
 | Issues and tasks represent meaningful work | Partly met. One issue, #19, covers the Member 1 foundation work. Issue numbers #1 to #17 appear in a 7 September scaffold commit but are not present in the repository. | `GET /issues?state=all` on 2026-09-09 returns one non-PR issue |
 | Secrets not committed | Met so far. No credential, key or token appears in any tracked file. `main` carries no `.gitignore`; one exists only on the Part 2 branch. | `git ls-files` and inspection of tracked content |
@@ -64,15 +64,15 @@ Four commits as at the time of writing: `c9870c8` index and references, `99fe627
 | --- | --- | --- |
 | Check PR #20 for recorded approvals | Tristan | Done 2026-09-09. Zero reviews recorded |
 | Decide the response to the protection gap, closing DEC-006 | All three | Done 2026-09-09. Repository made public under DEC-008 |
-| Apply branch protection rules to `main` and read the settings back | Dewald, repository owner | Outstanding. Requires admin rights; see [rules to apply](#branch-protection-rules-to-apply) |
+| Apply branch protection rules to `main` and read the settings back | Dewald, repository owner | Done 2026-09-09. `protected: true` confirmed by API readback |
 | Record PR #20 as a control not met at the baseline gate rather than leaving it unstated | All three | Outstanding |
 | Re-review the content merged by PR #20 under a follow-up pull request, so it receives the review it did not get | Liam raises, Dewald and Tristan review | Outstanding |
 | Add a `.gitignore` to `main` at integration | Tristan | Outstanding. One exists only on the Part 2 branch |
 | Commit Part 1 content in a reviewable text format alongside the `.docx` | Liam | Outstanding. A binary cannot be reviewed as a diff |
 
-## Branch protection rules to apply
+## Branch protection rules applied
 
-The repository is public as of 2026-09-09, so these are available on the free plan. They require the owner's admin access. Settings, then Branches, then Add branch protection rule, with the branch name pattern `main`.
+Applied by the repository owner on 2026-09-09, after the repository was made public under DEC-008. The branch name pattern is `main`, and the rule screen reports that it applies to one branch. Confirmed independently by `GET /repos/DewaldAllers/SEN381-CivicConnect/branches/main`, which returns `protected: true`.
 
 | Setting | Value | Which requirement it satisfies |
 | --- | --- | --- |
@@ -86,7 +86,13 @@ The repository is public as of 2026-09-09, so these are available on the free pl
 
 GitHub does not offer a separate self-approval switch. Requiring two approvals from other accounts achieves it, because an author's own review does not count towards the required number.
 
-After applying the rules, read them back and record the result here. SRC-M1 section 9.1 (p. 8) treats a citation to documentation as support for why a control matters, not as evidence that the team applied it.
+Four settings were deliberately left off. Status checks and required deployments have nothing to check yet, because no pipeline or environment exists and M1 does not require one (SRC-M1 section 5, pp. 4-5). Signed commits were not required because the team has no key management arrangement, and enabling it would block commits without improving review. Linear history was not required because it depends on enabling squash or rebase merging, which would collapse the staged commit history that SRC-M1 section 3.1 (p. 4) asks the team to preserve.
+
+The setting that matters most is "Do not allow bypassing the above settings". Without it the repository owner can merge around the rule, and the control becomes a display rather than an enforcement.
+
+With three members and two required approvals, every merge now needs all three people. That is what the brief requires, and it makes reviewer availability an operational dependency rather than a courtesy. It is recorded as [RSK-002](../docs/risks/README.md).
+
+SRC-M1 section 9.1 (p. 8) treats a citation to documentation as support for why a control matters, not as evidence that the team applied it, so the readback above rather than the GitHub documentation is what evidences this control.
 
 ## Recheck commands
 
