@@ -1,6 +1,6 @@
-# Part 2 source register and evidence boundary
+# Project source register and evidence boundary
 
-Version 0.3 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **source register**
+Version 2.0 | Updated: 29 September 2026 | Owner: Dewald Allers | Status: **project source register**
 
 The three supplied PDFs were read completely before project artefact authoring. Text was read page by page; the M1 output table, Assignment 1 Decision Horizon Map and assignment evidence-control page were also rendered and inspected. These are **AI-assisted source checks**, not independent human verification.
 
@@ -65,4 +65,4 @@ GitHub (n.d.) *Managing protected branches*. Available at: https://docs.github.c
 
 GitHub (n.d.) *About protected branches*. Available at: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches (Accessed: 7 September 2026).
 
-The source identifiers provide the in-text citations used throughout Part 2. These are working references, not a claim that the institution's full prescribed referencing format has been verified. Reconcile that format during PED integration.
+The source identifiers provide the in-text citations used across the PED. These are working references, not a claim that the institution's full prescribed referencing format has been verified.

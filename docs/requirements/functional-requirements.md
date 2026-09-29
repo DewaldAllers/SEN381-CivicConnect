@@ -1,6 +1,6 @@
 # Functional requirements
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal**
+Version 1.0 | Baselined 9 September 2026 | Owner: Dewald Allers | Status: **baselined in PED v1.0; CR-002 raised**
 
 Sources and ID need for: [Part 2 index](README.md). Proposals for detailed projects P-01 through P-04 are listed in [confirming decisions](decisions-to-confirm.md). Each AC link will lead you to criteria, not the test itself
 

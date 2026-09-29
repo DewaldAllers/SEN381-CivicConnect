@@ -4,7 +4,7 @@ Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **new in PED v2.0
 
 An assumption is something we are treating as true without evidence, and would have to unwind if it turned out to be false. A dependency is something we need from someone else before a decision can close. SRC-MASTER section 12 (p. 12) asks for assumptions that could materially affect the project to be considered for risk treatment, so every entry here names the risk it connects to or says that it carries none.
 
-M1 held assumptions inside the artefacts that relied on them. The quality targets said they were proposals, the personal data position said its obligation was unconfirmed, and the stack deferment listed what was missing. That was readable in each place and invisible as a set. Architecture, persistence and technology decisions rest on several of them at once, which is the reason for collecting them now.
+M1 held assumptions inside the artefacts that relied on them. The quality targets said they were proposals, the personal data position said its obligation was unconfirmed, and the stack deferment listed what was missing. That was readable in each place and invisible as a set. The architecture, persistence and technology decisions rest on several of them at once.
 
 ## Why this register exists
 

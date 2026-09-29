@@ -1,6 +1,6 @@
 # GitHub governance evidence
 
-Version 0.1 working draft | Observed 9 September 2026 | Owner: Tristan Els | Status: **draft for team review, not an approved baseline**
+Version 1.0 | Observed 9 September 2026 | Owner: Tristan Els | Status: **baselined in PED v1.0; readback due again at the M2 gate**
 
 Repository: `DewaldAllers/SEN381-CivicConnect`
 

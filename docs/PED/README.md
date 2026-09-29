@@ -59,16 +59,16 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Forward Engineering Considerations | [forward-engineering/README.md](../forward-engineering/README.md) | v2.0 | Reviewed |
 | Engineering Decision Log and ADR index | [decisions/README.md](../decisions/README.md) | v2.0 | Reviewed and extended |
 | GitHub governance evidence | [github-governance.md](../../evidence/github-governance.md) | v1.0 | Baselined, rechecked for v2.0 |
-| AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v1.0 | Baselined, extended for v2.0 |
-| Source register | [sources.md](../sources.md) | v1.0 | Baselined, extended for v2.0 |
+| AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v2.0 | Extended with the M2 entries |
+| Source register | [sources.md](../sources.md) | v2.0 | Extended with SRC-M2 |
 | Architecturally significant requirements and quality drivers | Not yet in the repository | | Owner: Dewald Allers |
 | Architecture selection, diagrams and ADRs | Not yet in the repository | | Owner: Dewald Allers |
 | Data and persistence model | Not yet in the repository | | Owner: Dewald Allers |
 | Technology selection and deployment direction | Not yet in the repository | | Owner: Liam de Villiers |
 | Initial design and integration decisions | Not yet in the repository | | Owner: Liam de Villiers |
-| Application and technical documentation | [root README](../../README.md) | v1.0 | Describes the M1 documentation only, replaced once the application exists |
+| Application and technical documentation | [root README](../../README.md) | v2.0 | Covers the engineering record. Setup and run instructions follow the application |
 
-Rows marked as not yet in the repository are parts of v2.0 that have an owner and no artefact. They are listed so that a gap reads as a gap instead of being absent from the map.
+A row marked as not yet in the repository names a part of v2.0 that has an owner and no artefact.
 
 ## How this document is controlled
 

@@ -77,7 +77,7 @@ The baseline is the set of decisions stable enough to build against without reop
 | Initial interface and integration decisions where implementation reaches them | Liam de Villiers | Not yet in the repository |
 | Application and technical documentation matching the repository | All three | Not yet in the repository |
 
-The baseline cannot be approved while items on that list are missing, because approving it would mean committing to decisions nobody has recorded. The rows are here so the gap is measurable rather than implied.
+The baseline cannot be approved while items on that list are missing, because approving it would mean committing to decisions nobody has recorded.
 
 ### Open decisions and deferred concerns held outside the baseline
 

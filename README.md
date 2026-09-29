@@ -1,22 +1,41 @@
-# SEN381 CivicConnect — Part 2
+# CivicConnect
 
-Milestone 1 | Dewald Allers
+Community service request management platform. SEN381 integrated team project, Belgium Campus ITversity, 2026.
 
-This is my Part 2 contribution to the CivicConnect Project Engineering Document (PED).
+Liam de Villiers, Dewald Allers, Tristan Els.
 
-## Part 2 portfolio
+CivicConnect replaces a service request process currently spread across email, telephone, WhatsApp, spreadsheets and paper, where requests get duplicated, lost or misassigned and nobody can say who owns one. The system gives a request a single controlled record from submission to closure, so requesters can see progress, staff can see what is theirs, and management can see what is outstanding and overdue.
 
-- [Part 2 guide](docs/requirements/README.md) - reading order, context and abbreviations.
-- [Functional requirements](docs/requirements/functional-requirements.md) - 12 required behaviours.
-- [Non-functional requirements](docs/requirements/non-functional-requirements.md) - five quality requirements.
-- [Acceptance criteria](docs/requirements/acceptance-criteria.md) - checks for each requirement.
-- [Requirements Traceability Matrix](docs/requirements/RTM.md) - sources, requirements and verification links.
-- [Decisions to confirm](docs/requirements/decisions-to-confirm.md) - five proposals to validate.
-- [AI Usage Register](docs/ai-register/AI-Usage-Register.md).
+## Current state
 
-## Supporting references
+Engineering documentation only. There is no application code in this repository yet, and no build, test or run instructions, because there is nothing to build.
 
-- [Source register](docs/sources.md).
-- [Part 2 documentation checks](evidence/part-2-validation.md).
+The Architecture, Technology and Initial Design Baseline is open and tracked as [BL-002](docs/baselines/README.md). Construction starts against it once it is approved. The requirements baseline, PED v1.0, was approved on 9 September 2026.
 
-Part 2 defines CivicConnect's intended requirements and their planned verification. It contains no product implementation or executed product tests.
+## The engineering record
+
+Everything in this repository is one evolving Project Engineering Document. Start at the index, which carries the document control, the version history and a map of where each section lives, including the sections that do not exist yet.
+
+[Project Engineering Document index](docs/PED/README.md)
+
+| Area | Where |
+| --- | --- |
+| Requirements, acceptance criteria and proposals | [docs/requirements](docs/requirements/README.md) |
+| Requirements Traceability Matrix | [docs/requirements/RTM.md](docs/requirements/RTM.md) |
+| Change control register | [docs/change](docs/change/README.md) |
+| Baseline register and sign-off | [docs/baselines](docs/baselines/README.md) |
+| Engineering Decision Log and ADR index | [docs/decisions](docs/decisions/README.md) |
+| Risk Register | [docs/risks](docs/risks/README.md) |
+| Assumptions and dependencies | [docs/assumptions](docs/assumptions/README.md) |
+| Forward Engineering Considerations | [docs/forward-engineering](docs/forward-engineering/README.md) |
+| AI Usage Register | [docs/ai-register](docs/ai-register/AI-Usage-Register.md) |
+| Source register | [docs/sources.md](docs/sources.md) |
+| GitHub governance evidence | [evidence/github-governance.md](evidence/github-governance.md) |
+
+## How this repository is controlled
+
+`main` is the controlled product state and is protected. Nothing is committed to it directly. Every change, documentation included, enters through a pull request with two approvals from members other than the author, which on a team of three means every merge needs all of us. Force pushes and branch deletion are off, and administrators cannot bypass the rule.
+
+No credentials, keys, tokens or personal data are committed. The repository is public, so anything pushed is readable immediately.
+
+The rules and the reasoning behind them are in the [team working agreement](docs/PED/team-working-agreement.md). The observed state of the controls, including the one occasion they were not met, is in the [governance evidence](evidence/github-governance.md).
