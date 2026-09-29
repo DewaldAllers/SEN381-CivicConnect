@@ -1,25 +1,30 @@
-# Engineering Decision Log
+# Engineering Decision Log and ADR index
 
-Version 0.1 working draft | 8 September 2026 | Owner: Tristan Els | Status: **draft for team review, not an approved baseline**
+Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **reviewed at the M2 gate; 11 decisions, 6 ADRs expected**
 
-This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields; SRC-M1 section 3 (p. 3) limits M1 to genuine decisions already made and justified deferment.
+This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
-A deferred decision is a real engineering decision. It commits the team to a position (do not choose yet), states what evidence would settle it, and names the trigger to revisit. SRC-M1 section 4 (p. 4) treats deferment as acceptable and often correct when the team can say what is still missing.
+A deferred decision is a real engineering decision. It commits the team to a position, which is do not choose yet, states what evidence would settle it, and names the trigger to revisit. DEC-007 is the one that has now been carried long enough to see what the deferment actually cost, and its consequence is recorded below rather than left as a promise.
 
 ## Status of approvals
 
-No entry in this log has been approved by the team yet. Two of the entries were authorised by an individual member acting within their own part, and the rest are proposals from Part 3. The Master Brief requires two approvals from members other than the author before a substantive change enters `main` (SRC-MASTER section 9, p. 11), so approval is recorded through the Part 3 pull request, not by editing this line.
+The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-| ID | Date | Decision | Type | Authority so far | Status |
+The three M2 entries are raised on this branch and carry the same rule: they become approved when the pull request carrying them is approved and merged.
+
+| ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
-| [DEC-001](#dec-001-create-a-private-team-repository) | 2026-09-07 | Create one private team repository | Taken | Individual (repository owner) | Executed, consequence now known |
-| [DEC-002](#dec-002-defer-requirements-until-the-master-brief-was-located) | 2026-09-07 | Do not derive requirements until the Master Brief was located | Taken | Individual (Part 2 owner) | Closed 2026-09-07 |
-| [DEC-003](#dec-003-branch-and-pull-request-workflow-instead-of-committing-to-main) | 2026-09-07 | Work on feature branches, merge through pull requests | Taken | Individual, applied by both active members | In force |
-| [DEC-004](#dec-004-keep-part-3-on-its-own-branch-and-reuse-the-agreed-folder-paths) | 2026-09-08 | Keep Part 3 on its own branch, reuse agreed folder paths, do not edit another member's files | Taken | Part 3 owner | In force |
-| [DEC-005](#dec-005-use-a-3-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Part 3 owner, proposed to team | Proposed |
-| [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner, needs team and lecturer input | Closed 2026-09-09, superseded by DEC-008 |
-| [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Part 3 owner, proposed to team | Open |
-| [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | Executed, protection applied and confirmed 2026-09-09 |
+| [DEC-001](#dec-001-create-a-private-team-repository) | 2026-09-07 | Create one private team repository | Taken | Repository owner, ratified on merge of PR #22 | Closed, reversed by DEC-008 |
+| [DEC-002](#dec-002-defer-requirements-until-the-master-brief-was-located) | 2026-09-07 | Do not derive requirements until the Master Brief was located | Taken | Part 2 owner, ratified on merge of PR #23 | Closed 2026-09-07 |
+| [DEC-003](#dec-003-branch-and-pull-request-workflow-instead-of-committing-to-main) | 2026-09-07 | Work on feature branches, merge through pull requests | Taken | Team, ratified on merge of PR #22 | In force, now enforced by branch protection |
+| [DEC-004](#dec-004-keep-part-3-on-its-own-branch-and-reuse-the-agreed-folder-paths) | 2026-09-08 | Keep Part 3 on its own branch, reuse agreed folder paths, do not edit another member's files | Taken | Part 3 owner, ratified on merge of PR #22 | Closed at integration |
+| [DEC-005](#dec-005-use-a-3-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Team, ratified on merge of PR #22 | In force, used again at the M2 review |
+| [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner | Closed 2026-09-09, superseded by DEC-008 |
+| [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Team, ratified on merge of PR #22 | Revisit trigger fired 2026-09-29, closing under the M2 selection |
+| [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | In force, held as ASM-007 |
+| [DEC-009](#dec-009-hold-the-ped-as-linked-markdown-in-the-repository) | 2026-09-29 | Hold the PED as linked Markdown under version control rather than as one document | Taken | Raised on this branch | Raised |
+| [DEC-010](#dec-010-defer-the-p-05-quality-targets-rather-than-approving-them) | 2026-09-29 | Defer the NFR-004 and NFR-005 targets rather than baselining them | Deferred | Raised on this branch | Raised |
+| [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -66,8 +71,8 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Slower than committing directly, and it needs both other members available to review. It also creates merge work at integration, since three branches touch the same PED. |
 | Risks | Reviewer availability. Recorded as [RSK-002](../risks/README.md). |
 | Evidence | Branches `m1-part2-requirements-foundation`, `m1-part3-risk-decisions-governance` and `feature/m1-member1-foundation`. `main` still holds only the initial commit `bbd2c78`. |
-| Later consequence | Commits are staged and readable per change instead of arriving as one upload. SRC-MASTER section 23 (p. 22) gives limited or no credit to evidence reconstructed immediately before assessment, so the staged history matters. |
-| Revisit trigger | Integration of the three parts into PED v1.0, when the merge order has to be agreed. |
+| Later consequence | Commits are staged and readable per change instead of arriving as one upload. SRC-MASTER section 23 (p. 22) gives limited or no credit to evidence reconstructed immediately before assessment, so the staged history matters. The workflow stopped depending on discipline on 9 September, when branch protection made it the only way to reach `main`. The M2 work follows the same pattern on `m2-ped-continuity-and-change-control`. |
+| Revisit trigger | Fired at PED v1.0 integration, when the merge order was agreed and all three branches merged. Closed as a trigger; the workflow itself stays in force. |
 
 ## DEC-004 Keep Part 3 on its own branch and reuse the agreed folder paths
 
@@ -96,8 +101,8 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Less discrimination between risks. Several risks share the same score, so the register needs written justification per risk, because rank order alone does not separate them. |
 | Risks | Two risks with the same score may need different responses. The register carries a note where that happens. |
 | Evidence | Scale definitions in the [Risk Register](../risks/README.md). |
-| Later consequence | Risks reviewed at M2, M3 and M4 have to use the same scale, or the trend across milestones is meaningless. |
-| Revisit trigger | The team disagrees with a rating during review, or a milestone review finds the three bands too coarse. |
+| Later consequence | The scale was used again at the M2 review on 29 September, which is what makes the rating moves comparable. Four M1 ratings moved and nine new entries were rated on the same bands, so the change between milestones reads as a change in the project rather than a change in the measuring instrument. The coarseness the trade-off predicted showed up: six of the nine new entries scored 6, and the register relies on the written justification to separate them. |
+| Revisit trigger | The team disagrees with a rating during review, or a milestone review finds the three bands too coarse. Not fired at M2, although the clustering at 6 is the first sign of it. |
 
 ## DEC-006 Defer the response to the branch protection gap
 
@@ -127,8 +132,8 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Trade-offs | Coursework becomes readable by anyone, including other teams. The team accepts a plagiarism exposure it cannot control in exchange for a mandatory control it can now enforce. The repository holds no secrets or personal data, so the exposure is limited to the team's own written work. |
 | Risks | Other teams could copy the artefacts. This does not remove the team's own accountability, and the commit history shows authorship and dates. Recorded as a residual risk, not mitigated away. |
 | Evidence | API readback on 2026-09-09 returns `private: False` and `visibility: public`. Recorded in [GitHub governance evidence](../../evidence/github-governance.md). |
-| Later consequence | Branch protection was applied the same morning and confirmed by API readback returning `protected: true` for `main`. Making the setting available was not the same as configuring it, so the control was only met once the rules existed and were read back. |
-| Revisit trigger | Lecturer instruction to make coursework repositories private, or completion of the module. |
+| Later consequence | Branch protection was applied the same morning and confirmed by API readback returning `protected: true` for `main`. Making the setting available was not the same as configuring it, so the control was only met once the rules existed and were read back. The control has held since: every change into `main` after 9 September went through a pull request with two approvals. The decision also created a standing assumption, recorded as ASM-007, because the enforcement disappears the moment the repository goes private again. A second consequence arrives with the application: a public repository means a committed credential is readable immediately rather than eventually, which is RSK-021. |
+| Revisit trigger | Lecturer instruction to make coursework repositories private, or completion of the module. Tracked as DEP-008, which has never been answered and was only made irrelevant by the team deciding for itself. |
 
 ## DEC-007 Defer stack, architecture, persistence, CI and deployment platform
 
@@ -143,9 +148,79 @@ No entry in this log has been approved by the team yet. Two of the entries were 
 | Risks | Compressed construction time and learning curve. Recorded as [RSK-007](../risks/README.md) and [RSK-008](../risks/README.md). |
 | Missing information | The settled non-functional requirements, particularly the access control, history retention and performance targets. Whether the chosen tooling runs on the BC Desktop platform. Free-tier limits of any hosting candidate. |
 | Decision criteria for M2 | Fit against the baselined requirements and quality attributes. Team capability and realistic learning curve. Availability on the institutional environment. Dependency maturity and security support. Testing and automation support. Deployment and operational compatibility. Development and likely operational cost. Lock-in risk and the consequence if the technology becomes unavailable. These are the factors listed in SRC-MASTER section 18.1 (p. 15). |
-| Later consequence | Recorded at M2. |
-| Revisit trigger | Requirements baselined and the five Part 2 proposals closed, which is when the quality drivers become stable enough to choose against. |
+| Later consequence | The deferment ran from 8 to 29 September, three weeks of the project with no stack. What it bought was a selection made against a requirements baseline whose ambiguities have since been found and closed, rather than against the draft that existed on 8 September. Four changes came out of the M1 review, and two of them, CR-003 and CR-004, put constraints directly on the persistence and data decisions. Choosing the stack on 8 September would have meant choosing before those constraints existed. What it cost is three weeks of construction time, which lands on M3 rather than here, and the compressed decision window that RSK-014 now records. The criteria listed above were written on 8 September and are still the criteria the selection has to answer, which is the part of the deferment that worked best: it left something concrete behind rather than an intention. |
+| Revisit trigger | Fired on 29 September. CR-002 closes four of the five proposals and defers the fifth, so the quality drivers are now stable enough to choose against. The entry closes when the M2 technology and architecture ADRs are recorded, tracked as DEP-002. |
+
+## DEC-009 Hold the PED as linked Markdown in the repository
+
+| Field | Entry |
+| --- | --- |
+| Context | SRC-MASTER section 6 (p. 8) requires one Project Engineering Document that evolves through all four phases, and section 6.1 (p. 9) requires version history, consistent identifiers and no silent overwriting of baselined content. The team has been producing the PED as linked Markdown since M1 without recording that as a decision, which means the structure of the main deliverable rested on nobody. |
+| Constraints | Every part of the PED is reviewed through pull requests and needs the two approvals SRC-MASTER section 9 (p. 11) requires. Three members edit in parallel. The document has to be navigable by an assessor who has not seen it before. |
+| Alternatives | One Markdown file holding the whole PED. A word processor document committed as a binary. Linked Markdown files with an index carrying the document control. |
+| Decision | Keep the PED as linked Markdown files under `docs/`, with [docs/PED/README.md](../PED/README.md) carrying the document control, version history and section map. |
+| Rationale | Three members editing one file conflict on every merge. A binary cannot be reviewed as a diff, which PR #20 demonstrated when a 34 KB `.docx` entered `main` with nothing a reviewer could read. Linked Markdown gives each part its own history, so a reviewer sees what changed rather than that something changed. |
+| Trade-offs | There is no single printable artefact to hand over, and a reader can miss part of the document unless the index is maintained. The section map in the PED index carries that weight, and it has to list the parts that do not exist yet or the gap becomes invisible. |
+| Risks | An assessor navigating the repository may not find a section that is not on the map. Mitigated by the map listing unbuilt sections with their owners. |
+| Evidence | The PED index and its section map. The repository structure follows Appendix C of the Master Brief (p. 26). |
+| Later consequence | Recorded at M3. |
+| Revisit trigger | An assessor or the lecturer asks for the PED as one submitted document, or the section map stops being maintained. |
+
+## DEC-010 Defer the P-05 quality targets rather than approving them
+
+| Field | Entry |
+| --- | --- |
+| Context | NFR-004 promises that four of five first-time requesters complete a submission and status lookup unaided within five minutes. NFR-005 promises 95% of standard operations inside two seconds under ten concurrent users. Both numbers came from P-05, which the team wrote rather than took from a stakeholder or a measurement. CR-002 had to decide whether to approve them into the baseline alongside the other four proposals. |
+| Constraints | The environment the targets would be measured in does not exist, because the stack is being chosen in this milestone. SRC-MASTER section 15 (p. 14) requires quality claims to rest on evidence, and section 23 (p. 22) rejects unsupported claims. The M2 baseline has to be stable enough to build against. |
+| Alternatives | Approve both targets as written and treat them as baselined thresholds. Approve them with a note that they are provisional. Remove the numbers and leave the requirements qualitative. Defer approval of the numbers while keeping the requirement wording. |
+| Decision | Defer. NFR-004 and NFR-005 keep their wording and their numbers, and the numbers stand as proposed targets rather than as baselined acceptance thresholds until the verification environment, data volume and participant selection are defined. |
+| Rationale | A threshold that cannot be measured cannot be met or missed, so baselining it would put a number into the controlled baseline that no evidence could ever support or refute. Removing the numbers would be worse: the requirement would lose the only thing that makes it testable later. Deferring keeps the intent visible and the commitment honest. |
+| Trade-offs | The RTM carries two requirements whose verification reads Planned for longer than the others, which looks like an omission until the reason is read. In exchange, the team does not have to raise a change request in M3 against a threshold it never had evidence for. |
+| Risks | RSK-004, now rated 2 rather than 4, because the consequence of a wrong target is no longer a change against baselined content. |
+| Evidence | CR-002 in the [change control register](../change/README.md). The deferral is recorded against NFR-004 and NFR-005 in the RTM and in BL-002 as a decision held outside the baseline. |
+| Missing information | The verification environment and its data volume, which depend on DEP-002. How the five representative participants would be selected. How elapsed time would be measured. |
+| Later consequence | Recorded at M3, after the first measurement. |
+| Revisit trigger | The verification environment is defined, or a first measurement in M3 gives the team real numbers to approve against. |
+
+## DEC-011 Design as though the data protection obligation applies, without claiming compliance
+
+| Field | Entry |
+| --- | --- |
+| Context | Service requests will hold contact details and matters such as security concerns and lost property. RSK-006 and FEC-002 have recorded since M1 that no member has confirmed which data protection obligations bind a student project, and that the Protection of Personal Information Act 4 of 2013 is the one most likely to apply. The data model is being designed now, and it is the last cheap moment to answer this. |
+| Constraints | No legal advice is available to the team. No stakeholder can be consulted, which is ASM-001. NFR-002 forbids ordinary users from editing or deleting history events, and that requirement is baselined. SRC-MASTER section 16 (p. 14) requires residual security risks to be recorded rather than the system being described as secure. |
+| Alternatives | Confirm the obligation first and design afterwards. Assume it does not apply and build records that are permanent. Assume it applies and design a deletion route. Ask the lecturer and pause the data model. |
+| Decision | Design as though the obligation applies. The data model has to support removing or anonymising the personal data on a request and its history through a route restricted to a named role, and no artefact describes CivicConnect as compliant with any data protection law. |
+| Rationale | The two outcomes are not symmetric. If the obligation does not bind and we built the route anyway, the cost is one administrative path nobody uses. If it binds and we assumed otherwise, the schema has to change after the data model is baselined and after M3 has written code against it. Confirming first would stall the data model on an answer the team has no route to obtain. |
+| Trade-offs | The project carries a capability the minimum business capabilities do not list, and the route creates its own risk of erasing accountability, which is RSK-016. The team also accepts holding an unconfirmed position for the rest of the project rather than resolving it. |
+| Risks | RSK-006 and RSK-016. |
+| Evidence | CR-004 in the [change control register](../change/README.md). The constraint appears against NFR-002 and FR-011 in the RTM. The unconfirmed obligation is held as ASM-002. |
+| Missing information | Whether the Act binds this project. A retention period. Which role holds the redaction permission, which is part of DEP-001. |
+| Later consequence | Recorded at M3, when the route is built or deliberately not built. |
+| Revisit trigger | A confirmed answer on applicability, or a lecturer instruction on how student projects should treat personal data. |
+
+## ADR index
+
+SRC-MASTER section 13 (p. 13) asks for an Architecture Decision Record, or an equivalent structured record, on major architecture, technology, persistence, integration, authentication, deployment and infrastructure choices. The entries above use the same fields, so the distinction here is scope rather than format: a `DEC` entry is any recorded decision, and an `ADR` is one of the foundational choices that the M2 baseline is made of and that later decisions inherit from.
+
+Every ADR carries the fields in SRC-MASTER section 13 (p. 13) and Appendix A (p. 25): context, constraints, alternatives, decision, rationale, trade-offs, risks, evidence and a later consequence that is filled in when evidence emerges rather than left blank. Where a decision rests on Assignment 2 research, the ADR cites the finding it used. It does not reproduce the research, which SRC-M2 section 4.1 (p. 3) rules out.
+
+| ID | Decision | Owner | State on 29 September 2026 |
+| --- | --- | --- | --- |
+| ADR-001 | Architecture style selection for CivicConnect, with the alternatives considered and the enforcement point for authorisation stated explicitly | Dewald Allers | Not yet recorded |
+| ADR-002 | Persistence model and store selection, including the failure mode and the position on backup and recovery | Dewald Allers | Not yet recorded |
+| ADR-003 | Technology stack selection with versions, dependencies, licensing and the deployment direction | Liam de Villiers | Not yet recorded |
+| ADR-004 | First design problem and the pattern or approach chosen for it | Liam de Villiers | Not yet recorded |
+| ADR-005 | Second design problem and the pattern or approach chosen for it | Liam de Villiers | Not yet recorded |
+| ADR-006 | Initial interface or integration decision, once implementation reaches a boundary that needs one | Liam de Villiers | Not yet recorded, and not yet blocking |
+
+The identifiers are reserved so that the RTM, the risk register and the baseline can link to them before they exist. If the decision set turns out to be different, the numbers move with it rather than an empty record being written to fill a row.
 
 ## References
 
-Sources cited as SRC-MASTER, SRC-M1 and SRC-GH resolve in the [Part 3 index](../part-3-index.md#references).
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1. Cited as `SRC-MASTER`. Sections used: 6 and 6.1 (one evolving engineering record and the PED quality standard, pp. 8-9), 9 (GitHub governance, p. 11), 13 (engineering decision and ADR standard, p. 13), 15 (quality engineering, p. 14), 16 (security engineering, p. 14), 18.1 (technology selection, p. 15), 23 (assessment rules, p. 22), Appendix A (ADR quality checklist, p. 25), Appendix C (repository structure, p. 26).
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*. Cited as `SRC-M2`. Sections used: 4.1 (continued engineering documentation, p. 3), 5.3 (architecture decision and diagrams, p. 5), 5.6 (initial design decisions, pp. 5-6), 5.7 (initial API and integration decisions, p. 6).
+
+Republic of South Africa (2013) *Protection of Personal Information Act 4 of 2013*. Cited in DEC-011. Applicability is not confirmed and is held as ASM-002.
+
+Sources cited as SRC-GH resolve in the [Part 3 index](../part-3-index.md#references). Full source records are in the [source register](../sources.md).
