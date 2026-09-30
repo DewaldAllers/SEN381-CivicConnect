@@ -76,6 +76,40 @@ The quality driver column marks where a requirement looks likely to shape the ar
 | NFR-004 | Usability | Interaction design, cross cutting | None | Planned | Planned, DEC-007 open |
 | NFR-005 | Performance | Query and workload, cross cutting | The list, detail and management summary query shapes are the ones measured | Planned | Planned, DEC-007 open |
 
+## Current M2 engineering traceability
+
+The following entries record M2 evidence that now exists in the CivicConnect implementation. M1 traceability above is retained as the historical baseline. Where the implementation is only partial, the status reflects the actual evidence rather than claiming full completion.
+
+| Requirement ID | ASR / quality driver | Architecture / module | Data / persistence impact | Design / interface decision | Technology decision | Implementation evidence | Verification evidence | Status | ADR / change / risk reference |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FR-008 | Controlled lifecycle correctness; status changes must follow agreed transitions | Initial backend domain/application slice; final architecture allocation remains subject to the approved M2 architecture baseline | Request status is represented; history/persistence still requires the team's approved data implementation | ADR-004 - central request status policy / transition rules | ADR-003 - Node.js, Express, TypeScript and Vitest proposed baseline | `app/backend/src/domain/request-status.ts`; `app/backend/src/domain/request-status-policy.ts`; `app/backend/src/application/request-service.ts`; `app/backend/src/api/app.ts` | `test/request-status-policy.test.ts`; `test/request-service.test.ts`; `test/api.test.ts`; 23 automated tests currently pass | In Development | ADR-004; ADR-006 |
+| NFR-001 | Security / permission enforcement | Initial backend authorization boundary | Access decisions will eventually apply to persisted request data; current slice does not yet perform real authenticated data access | ADR-005 - central authorization policy with role/action/scope rules | ADR-003 - Node.js, Express and TypeScript | `app/backend/src/authorization/authorization-policy.ts`; `app/backend/test/authorization-policy.test.ts` | 7 authorization policy tests currently pass | In Development | ADR-005 |
+| NFR-002 | Accountability / history integrity | Backend application + persistence responsibility | Request history is required but is not yet persisted by the current vertical slice | ADR-004 - status changes must lead to attributable history | ADR-003 - technology baseline; final persistence follows the team's data decision | Status change currently occurs in `request-service.ts`, but history recording is not yet implemented | Initial status-transition tests verify business rules; attributable history verification remains planned | In Development | ADR-004 |
+
+### M2 API / integration evidence
+
+The initial frontend-facing HTTP boundary has been established through:
+
+`PATCH /api/v1/requests/:id/status`
+
+Current implementation:
+
+```text
+HTTP Request
+    ↓
+Express API
+    ↓
+RequestService
+    ↓
+AuthorizationPolicy
+    ↓
+RequestStatusPolicy
+    ↓
+Response
+
+
+
+## One trace to show
 ## Evidence and control
 
 No application code exists yet, so every implementation cell reads the same. The verification identifiers were reserved at M1 and are kept so that a later test result attaches to something already named.
@@ -104,6 +138,40 @@ No application code exists yet, so every implementation cell reads the same. The
 
 SRC-M2 section 9 (p. 9) asks for one meaningful path from requirement through to initial verification. FR-003 is the one carried forward from M1, because it is the requirement that most directly answers the visibility problem in the scenario, and because it cannot be satisfied without NFR-001 also being satisfied.
 
+## M2 end-to-end implementation trace
+
+**Requirement:** FR-008 - Controlled status transitions.
+
+**Requirement evidence:** FR-008 requires authorised staff to change request status only through the agreed transitions and with the required information.
+
+**Project decision:** P-02 defines the proposed lifecycle and transition conditions.
+
+**Design decision:** ADR-004 selects a central request status policy to keep lifecycle rules in one testable location.
+
+**Technology decision:** ADR-003 establishes the proposed backend technology baseline.
+
+**Application evidence:**
+- `app/backend/src/domain/request-status.ts`
+- `app/backend/src/domain/request-status-policy.ts`
+- `app/backend/src/application/request-service.ts`
+- `app/backend/src/api/app.ts`
+
+**Interface evidence:**
+
+`PATCH /api/v1/requests/:id/status`
+
+**Verification evidence:**
+- `test/request-status-policy.test.ts`
+- `test/request-service.test.ts`
+- `test/api.test.ts`
+- `npm test` - 23 tests passed
+- `npx tsc --noEmit` - passed
+
+**Current limitation:** The vertical slice does not yet persist request history or use a real authenticated user identity. Those responsibilities remain to be integrated with the team's approved architecture/data decisions.
+
+This trace demonstrates the M2 progression from requirement → design decision → technology → implementation → initial verification.
+
+## Dependencies of requirement
 Source. Requesters have limited visibility of whether a request was received, assigned, delayed, resolved or closed (SRC-MASTER, sections 2 to 3, pp. 6-7).
 
 Need. NEED-P2-01, a requester wants to submit a request and understand its progress and outcome.
