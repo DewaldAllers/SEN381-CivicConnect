@@ -34,15 +34,21 @@ React + Spring Boot + PostgreSQL
 
 ## Decision
 
-Use Alternative A as the proposed M2 technology baseline:
+Use Alternative A as the proposed M2 technology baseline, with the following
+verified versions for the backend implementation currently developed:
 
-- React 19.3.0
-- TypeScript 6.0.x
-- Vite 8.3.x
-- Node.js 24.21.0 LTS
+- Node.js 22.14.0
+- TypeScript 7.0.2
 - Express 5.2.1
-- PostgreSQL 18.6
-- Vitest 5.0.x
+- Vitest 5.0.2
+- Supertest 7.3.0
+
+The following technologies remain part of the proposed overall stack but are
+not yet implemented in the current backend vertical slice:
+
+- React — planned frontend technology
+- Vite — planned frontend build tooling
+- PostgreSQL — planned persistent data store
 
 ## Rationale
 
