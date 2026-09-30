@@ -1,6 +1,6 @@
 # Forward Engineering Considerations
 
-Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **reviewed at the M2 gate; 10 entries, 1 closed**
+Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **reviewed against the M2 evidence; 10 entries, 1 closed**
 
 These are later lifecycle concerns that already change something the team writes down now. A concern that only becomes real in M3 and changes nothing today was left out, and the last section says what was considered and not selected.
 
@@ -17,6 +17,18 @@ FEC-001 and FEC-002 both moved from open questions to conditions on work that is
 FEC-005, FEC-006 and FEC-007 are unchanged in wording and have each acquired a risk that did not exist at M1, because the decisions they were waiting for are being made in this milestone.
 
 FEC-008, FEC-009 and FEC-010 are new.
+
+## What the M2 decisions answered
+
+Three entries were answered in part when the architecture, data and technology decisions landed on 30 September.
+
+FEC-001 has its matrix. The [permission matrix](../data/permission-matrix.md) defines own-request, staff category and management category scope, and states that a missing grant denies access. What it has not got is enforcement: the backend supplies a fixed approved scope rather than evaluating a grant, so the boundary the entry has been arguing for since M1 is designed and not yet applied.
+
+FEC-005 has a named failure mode. ADR-002 records the single store as a single point of failure and declines to add replication without evidence. It still has no acceptable data loss position and no tested restore, which is what would close the entry.
+
+FEC-008 was answered by the technology choice rather than deferred past it, which is what the entry asked for. PostgreSQL carries transactional schema change, so a migration can be a versioned artefact rather than a manual edit in three environments. No migration exists yet.
+
+FEC-007 moved the other way. NFR-005 now has a stack to be measured on and still has no decision about which signals to record, and the first backend code was written without any. That is the cost the entry predicted, arriving on schedule.
 
 ## Register
 
