@@ -11,13 +11,13 @@ The selection is evaluated against the CivicConnect requirements, ASRs, team cap
 | Layer | Technology | Version |
 |---|---|---|
 | Frontend | React | 19.3.0 |
-| Frontend language | TypeScript | 6.0.x |
+| Frontend language | TypeScript | 7.0.2 |
 | Frontend tooling | Vite | 8.3.x |
-| Backend runtime | Node.js | 24.21.0 LTS |
+| Backend runtime | Node.js | 22.14.0 LTS |
 | Backend framework | Express | 5.2.1 |
-| Backend language | TypeScript | 6.0.x |
+| Backend language | TypeScript | 7.0.2 |
 | Database | PostgreSQL | 18.6 |
-| Testing | Vitest | 5.0.x |
+| Testing | Vitest | 5.0.2 |
 | API | REST-style HTTP | Versioned boundary |
 
 ## 3. Decision Drivers

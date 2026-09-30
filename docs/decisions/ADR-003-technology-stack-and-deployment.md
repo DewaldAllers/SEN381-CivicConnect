@@ -56,7 +56,7 @@ The selected stack provides a consistent TypeScript development environment acro
 
 It also provides a relatively small technology footprint for the current CivicConnect scope while supporting API development, automated testing and maintainable separation of responsibilities.
 
-Node.js 24.21.0 is selected from the LTS line rather than the newer Current line to reduce the risk of adopting a less established runtime baseline.
+Node.js 22.14.0 is selected from the LTS line rather than the newer Current line to reduce the risk of adopting a less established runtime baseline.
 
 ## Team Capability
 
