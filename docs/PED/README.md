@@ -4,8 +4,8 @@
 | --- | --- |
 | Document | CivicConnect Project Engineering Document (PED) |
 | Current version | v2.0 |
-| Version date | 29 September 2026 |
-| Status | In preparation for the Milestone 2 Architecture, Technology and Initial Design Baseline |
+| Version date | 30 September 2026 |
+| Status | Baselined as BL-002, accepted with conditions on 30 September 2026 |
 | Previous baseline | v1.0, baselined 9 September 2026 |
 | Document control owner | Tristan Els |
 | Contributors | Liam de Villiers, Dewald Allers, Tristan Els |
@@ -21,13 +21,15 @@ The PED is held as linked Markdown in this repository rather than as one file, s
 | --- | --- | --- | --- | --- |
 | v0.1 to v0.3 | 7 to 8 September 2026 | M1 drafting | Three members drafted in parallel on separate branches. Nothing was baselined. | Branch commits on `feature/m1-member1-foundation`, `m1-part2-requirements-foundation` and `m1-part3-risk-decisions-governance` |
 | v1.0 | 9 September 2026 | M1 baseline | Problem and business need, stakeholders, scope baseline, constraints, 12 functional and 5 non-functional requirements, acceptance criteria, initial RTM, initial Risk Register, initial Engineering Decision Log, Forward Engineering Considerations, GitHub governance evidence, AI Usage Register and the team working agreement. | PR #21, #22, #23, #24, #25 and #26 merged into `main`. Working agreement agreed by all three members on 9 September 2026 |
-| v2.0 | 29 September 2026 | M2 | Review of the v1.0 baseline and the controlled changes arising from it, change control register, baseline register, RTM rebuilt on the M2 columns, Risk Register reviewed and extended, assumptions and dependencies register, Forward Engineering Considerations reviewed, and the architecture, data, technology and initial design decisions that the M2 baseline is made of. | Recorded in this table as each part is approved |
+| v2.0 | 30 September 2026 | M2 | Review of the v1.0 baseline and the four changes arising from it. Change control register, baseline register, assumptions and dependencies register. RTM rebuilt on the M2 columns and populated. Risk Register reviewed and extended to 22 entries. Architecturally significant requirements, architecture selection and data model. Technology stack with pinned versions and deployment direction. Two design decisions and the initial interface decision. Backend vertical slice with automated checks. | PR #27, #28 and #29 merged into `main`, each approved by the two members who did not author it. Baseline record BL-002 |
 
 ## What changed between v1.0 and v2.0
 
 Version 1.0 answered what we are building and within what limits. Version 2.0 answers how we intend to build it, and commits enough of that answer to develop against.
 
 We reviewed the v1.0 requirements, scope and constraints before recording any M2 decision. Most of them survived unchanged. Four changes were raised against the baseline and are tracked in the [change control register](../change/README.md). The largest is CR-002, which closes the five requirement proposals that v1.0 left open. Those proposals had to close before the data model and the permission boundary could be designed, because they carry the status transitions, the meaning of overdue and the role scope that the design depends on.
+
+The architecture, data, technology and design decisions were then taken against that reviewed baseline and recorded as ADR-001 to ADR-006. BL-002 baselines the set. Construction has begun against it: a backend vertical slice covering the request status lifecycle, the authorisation policy and one REST endpoint, with 23 passing tests running on every push and pull request.
 
 Nothing baselined in v1.0 has been deleted. Where wording changed, the identifier stayed, the previous position is still readable in the artefact or in its change record, and the reason is in the register.
 
@@ -61,12 +63,12 @@ Ownership means the member drafts the part and answers for it first. All three o
 | GitHub governance evidence | [github-governance.md](../../evidence/github-governance.md) | v1.0 | Baselined, rechecked for v2.0 |
 | AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v2.0 | Extended with the M2 entries |
 | Source register | [sources.md](../sources.md) | v2.0 | Extended with SRC-M2 |
-| Architecturally significant requirements and quality drivers | Not yet in the repository | | Owner: Dewald Allers |
-| Architecture selection, diagrams and ADRs | Not yet in the repository | | Owner: Dewald Allers |
-| Data and persistence model | Not yet in the repository | | Owner: Dewald Allers |
-| Technology selection and deployment direction | Not yet in the repository | | Owner: Liam de Villiers |
-| Initial design and integration decisions | Not yet in the repository | | Owner: Liam de Villiers |
-| Application and technical documentation | [root README](../../README.md) | v2.0 | Covers the engineering record. Setup and run instructions follow the application |
+| Architecturally significant requirements and quality drivers | [architecture-and-data.md](architecture-and-data.md) | v2.0 | ASR-01 to ASR-05 |
+| Architecture selection, diagrams and ADR | [ADR-001](../decisions/ADR-001-civicconnect-architecture.md) | v2.0 | Modular application server |
+| Data and persistence model | [ADR-002](../decisions/ADR-002-request-history-persistence.md), [permission matrix](../data/permission-matrix.md), [history contract](../data/request-history-contract.md) | v2.0 | Proposed for BL-002 |
+| Technology selection and deployment direction | [ADR-003](../decisions/ADR-003-technology-stack-and-deployment.md), [technology selection](../technology/technology-selection.md) | v2.0 | Versions pinned |
+| Initial design and integration decisions | [ADR-004](../decisions/ADR-004-request-lifecycle.md), [ADR-005](../decisions/ADR-005-authorization-policy.md), [ADR-006](../decisions/ADR-006-api-integration.md), [API v1](../integration/api-v1.md) | v2.0 | ADR-004 and ADR-005 implemented |
+| Application and technical documentation | [root README](../../README.md), [backend README](../../app/backend/README.md) | v2.0 | Setup and run instructions for the backend |
 
 A row marked as not yet in the repository names a part of v2.0 that has an owner and no artefact.
 

@@ -1,6 +1,6 @@
 # GitHub governance evidence
 
-Version 1.0 | Observed 9 September 2026 | Owner: Tristan Els | Status: **baselined in PED v1.0; readback due again at the M2 gate**
+Version 2.0 | Observed 30 September 2026 | Owner: Tristan Els | Status: **rechecked at the M2 gate**
 
 Repository: `DewaldAllers/SEN381-CivicConnect`
 
@@ -110,3 +110,41 @@ The results are a dated observation, not a standing guarantee. Repository settin
 ## References
 
 Sources cited as SRC-MASTER, SRC-M1 and SRC-GH resolve in the [Part 3 index](../docs/part-3-index.md#references).
+
+## M2 gate recheck, 30 September 2026
+
+The 9 September readback is a dated observation rather than a standing guarantee, so the controls were rechecked when BL-002 was approved.
+
+| Control | State at the M2 gate | Evidence |
+| --- | --- | --- |
+| One controlled team repository | Met. One repository, default branch `main`. | Clone and remote listing |
+| `main` protected | Met. Two approvals from non-authors, no bypass, no force push, no branch deletion. | Rule screen and API readback |
+| No direct development on `main` | Met. Every M2 change entered through a pull request. | `git log --merges origin/main` |
+| Two approvals from non-authors | Met for every M2 pull request. PR #27, #28 and #29 each carry two approvals. | Pull request review history |
+| Meaningful review | Met. The review of PR #28 raised the leftover reference marker in ADR-003, the unfilled research citation in the technology selection, the tracked dependency tree, three version disagreements between the documents and the running stack, and two unclosed code fences. Each was corrected before the baseline. | PR #28 review thread and the commits that followed it |
+| Issues and tasks | Partly met. Work is represented by branches and pull request descriptions rather than issues. | Repository issue list |
+| Secrets not committed | Met. `.gitignore` covers `node_modules/`, `.env` and `.env.*`, and no tracked file holds a credential or connection string. | `git ls-files` and inspection of tracked content |
+| History progressive and authentic | Met. M2 work is committed in stages across three branches, each commit describing one change. | `git log` across the M2 branches |
+
+## M2 repository activity
+
+| Pull request | Branch | Author | Content |
+| --- | --- | --- | --- |
+| #27 | `m2-ped-continuity-and-change-control` | Tristan Els | PED v2.0 document control, change control register, baseline register, RTM rebuild, Risk Register review, assumptions and dependencies, Forward Engineering review, Decision Log review |
+| #28 | `liam/m2-technology-design` | Liam de Villiers | Technology selection, ADR-003 to ADR-006, backend vertical slice, tests, API contract, CI workflow |
+| #29 | `feature/dewald-m2-architecture-data` | Dewald Allers | Architecturally significant requirements, architecture selection, ADR-001 and ADR-002, data model, permission matrix, request and history contract |
+
+## Two controls adopted at M2
+
+Automated checks run on every push and pull request under DEC-012. The workflow installs from the lock file, runs the tests and runs the type check. It reports rather than gates, so a failing run does not block a merge. Making it a required check is an M3 decision.
+
+Installed dependencies were removed from version control under DEC-013. The `.gitignore` rule covering `node_modules/` was added after the commit that introduced 1965 package files, so the rule never applied to files already staged. The packages were untracked and the lock file kept. The original commit stays in the history, under the working agreement rule against rewriting pushed history.
+
+## Actions carried into M3
+
+| Action | Owner | State |
+| --- | --- | --- |
+| Follow-up review of the content PR #20 merged on 8 September | Liam raises, Dewald and Tristan review | Open |
+| Complete the verification and decision fields on the Part 1 AI Usage Register row | Liam | Open |
+| Add a dependency audit step to the workflow | Liam | Open, tracked as RSK-017 |
+| Make the workflow a required status check | All three | Deferred to M3 under DEC-012 |
