@@ -1,6 +1,6 @@
 # Risk Register
 
-Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **reviewed against the M2 evidence; 22 entries, 3 closed**
+Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **reviewed against the M2 evidence; 22 entries, 2 closed**
 
 Next review: Milestone 3. SRC-MASTER section 12 (p. 12) makes this a live artefact that has to be reviewed at every milestone, so a register that still reads the same at M2 has not been maintained.
 
@@ -32,7 +32,7 @@ Priority is probability multiplied by impact. 1 to 2 is Low, 3 to 4 is Medium, 6
 
 I reviewed all twelve M1 entries on 29 September 2026 and added nine.
 
-Three closed. RSK-001 closed because branch protection now enforces what it forecast, RSK-003 closed because the three parts merged and the contradiction it warned about was found and fixed, and RSK-005 mostly closed because CR-002 settles four of the five proposals.
+Two closed. RSK-001 closed because branch protection now enforces what it forecast, and RSK-003 closed because the three parts merged and the contradiction it warned about was found and fixed. RSK-005 dropped to 3 rather than closing, because CR-002 settles four of the five proposals and leaves P-03 as a residual.
 
 Three ratings moved. RSK-002 dropped to 6 because its cause is no longer true. RSK-004 dropped to 2 because CR-002 takes the quality targets out of the baseline, so changing one no longer means changing baselined content. RSK-005 dropped to 3 on its residual.
 
