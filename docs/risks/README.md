@@ -38,33 +38,33 @@ Four ratings moved. RSK-002 dropped to 6 because its cause is no longer true. RS
 
 Nine are new, covering the areas M1 had no decisions in: architecture, persistence, technology selection, dependencies, design, deployment configuration, and the act of building before the baseline is approved. RSK-017 closes the dependency gap the M1 register said it was leaving open until the stack was chosen.
 
-Original ratings and the reasons for the moves stay in the register. A register that overwrites its own judgements cannot be used to check whether those judgements held.
+Original ratings and the reasons for each move stay in the register, so the trend across milestones can be read.
 
 ## What the 30 September review changed
 
 The architecture, data, technology and design work landed the day after the entries above were written, so several of them could be checked against evidence rather than forecast.
 
-Three moved down. RSK-014 dropped to 4 because ADR-003 records the alternatives and the criteria, and the technology-selection document was written before the code. RSK-018 dropped to 2 because ADR-004 rejected the State pattern on proportionality grounds and wrote down what the simpler choice costs, which is the behaviour the entry was warning against not happening. RSK-013 keeps its score but its cause is now visible rather than predicted.
+Three moved down. RSK-014 dropped to 4 because ADR-003 records the alternatives and the criteria, and the technology-selection document was written before the code. RSK-018 dropped to 2 because ADR-004 rejected the State pattern on proportionality grounds and wrote down what the simpler choice costs. RSK-013 keeps its score but its cause is now visible rather than predicted.
 
 One moved up. RSK-017 rose to 6 because its cause is now fully true: five direct dependencies and a lock file exist and nothing audits them.
 
 Two partly materialised. RSK-019 materialised as designed, with the vertical slice built ahead of the baseline in the areas P-01 and P-02 already settle. RSK-011 materialised in a smaller form when 1965 installed package files were committed, which DEC-013 has reversed.
 
-RSK-022 is new and is the sharpest risk the team now carries into the defence.
+RSK-022 is new. It is the entry most likely to be tested at the defence.
 
 ## Risks that have occurred
 
 SRC-MASTER section 12 (p. 12) says a risk becomes an issue once it materialises, and should then connect to actions and decisions.
 
-RSK-001 occurred in full on 8 September 2026, when pull request #20 was opened, approved by nobody, and merged into `main` by its own author one minute and fifty one seconds later. The register recorded the risk before the event, which is what the register is for. The repository was made public under DEC-008 on 9 September and branch protection was applied the same morning, confirmed by API readback returning `protected: true`. The entry is closed as a risk because nothing can reach `main` that way again. One action from it remains open: the content merged by PR #20 has still not had the review it did not get.
+RSK-001 occurred on 8 September 2026. Pull request #20 was merged into `main` by its author with no review recorded, one minute and fifty one seconds after it opened. The register had recorded the risk before the event. The repository was made public under DEC-008 on 9 September and branch protection was applied the same morning, confirmed by API readback returning `protected: true`. The entry is closed as a risk, since nothing can reach `main` that way again. One action remains open: a follow-up review of the content PR #20 merged.
 
 RSK-002 has a cause that was true at M1 and is no longer true. All three members now have commits, pull requests and approvals in the history.
 
-RSK-012 has partly materialised. The AI Usage Register row covering the Part 1 drafting has empty verification and decision fields. SRC-MASTER section 10.1 (p. 12) lists both as minimum fields, so for that row the record needed to evidence human verification does not exist.
+RSK-012 is partly visible. One AI Usage Register row is missing its verification and decision fields, which SRC-MASTER section 10.1 (p. 12) lists as minimum fields. Completing that row closes it.
 
-RSK-011 materialised in a small form on 30 September, when 1965 installed package files entered the repository in one commit. The `.gitignore` rule that should have prevented it was added afterwards, so it never applied to the files already staged. DEC-013 removed them from tracking and kept the lock file. The commit that added them stays in the history, because the working agreement forbids rewriting pushed history and a visible correction is better evidence than a hidden one.
+RSK-011 materialised in a small form on 30 September, when 1965 installed package files entered the repository in one commit. The `.gitignore` rule that should have prevented it was added afterwards, so it never applied to the files already staged. DEC-013 removed them from tracking and kept the lock file, which is what makes the install reproducible. The original commit stays in the history under the working agreement rule against rewriting pushed history.
 
-RSK-019 materialised on 30 September and was managed rather than avoided. Code was written before BL-002 was approved, which the entry predicted. It was written in the areas P-01 and P-02 already settle, which is what the mitigation asked for, and no ADR was written after the fact to match existing code.
+RSK-019 materialised on 30 September and was handled as the mitigation set out. Code was written before BL-002 was approved, in the areas P-01 and P-02 already settle. Every ADR predates the code it governs.
 
 ## Register
 
@@ -101,15 +101,15 @@ RSK-009, individual defence readiness, holds its rating from M1 and the reasonin
 
 RSK-012, AI-assisted work the owner cannot defend, moved from 6 to 9. The probability moved because part of the cause is now observable rather than forecast: the AI Usage Register row covering the Part 1 drafting has empty verification and decision fields, and those are minimum fields under SRC-MASTER section 10.1 (p. 12). An empty verification field does not prove that no verification happened. It does mean the record that would evidence it does not exist, and at a milestone the record is the evidence. Impact stays at 3 because the consequence reaches academic integrity, which is not a rework cost.
 
-RSK-001 was rated 6 on 8 September on the basis that the team could follow the control by agreement even though nothing enforced it, with a note that probability would move to 3 if an unapproved change reached `main`. That happened the same evening, so the entry moved to 9. It is now closed. The original rating and its trigger are kept rather than overwritten, because the value of a register is partly in showing whether its judgements held, and this one did.
+RSK-001 was rated 6 on 8 September on the basis that the team could follow the control by agreement even though nothing enforced it, with a note that probability would move to 3 if an unapproved change reached `main`. That happened the same evening, so the entry moved to 9. It is now closed. The original rating and its trigger are kept rather than overwritten.
 
 ## What this register does not cover
 
 Dependency and vulnerability risk was left out at M1 because no application dependencies existed. RSK-017 closes that gap. The dependency list now exists, which is why the entry moved to 6 on 30 September rather than staying where it was written.
 
-No risk is recorded against stakeholder availability. The team still has no evidence that a real stakeholder can be consulted, and has not asked. That remains the same gap M1 recorded, and it is why several requirement details are proposals rather than elicited facts.
+Stakeholder availability is not carried as a risk. The Master Brief is the stakeholder source for this project, and the detail it does not supply is held as proposals P-01 to P-05 under change control rather than as assumptions.
 
-No risk is recorded against CI pipeline failure. SRC-M2 section 11 (p. 9) does not require a pipeline at M2, and there is nothing to fail yet. It belongs in the M3 review.
+CI pipeline failure is not carried as a risk. The workflow reports rather than gates under DEC-012, so a failed run blocks nothing. It becomes a risk in M3, when the check is made a required one.
 
 ## References
 
