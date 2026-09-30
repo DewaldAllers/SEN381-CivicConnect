@@ -73,6 +73,32 @@ Changes should prefer backward-compatible additions.
 
 Breaking interface changes should require controlled versioning and review.
 
-## Deferred Evidence
+## Implementation Evidence
 
-Concrete endpoint definitions will be added only when the application implementation establishes those interfaces.
+The initial REST boundary has been implemented between the client-facing HTTP boundary and the CivicConnect backend.
+
+Initial endpoint:
+
+PATCH /api/v1/requests/:id/status
+
+The endpoint:
+- validates the target request
+- validates the supplied status value
+- invokes the application service
+- applies authorization
+- applies request-status transition rules
+- returns an appropriate HTTP response for success or failure
+
+## Verification Evidence
+
+Automated API tests cover:
+- successful status change
+- invalid status transition
+- unknown request
+- invalid status value
+
+The endpoint was also exercised against the running local Express server.
+
+A valid status change returned HTTP 200.
+
+An invalid status transition returned HTTP 409 and was rejected.
