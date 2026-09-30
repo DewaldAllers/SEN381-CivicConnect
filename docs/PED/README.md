@@ -70,8 +70,6 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Initial design and integration decisions | [ADR-004](../decisions/ADR-004-request-lifecycle.md), [ADR-005](../decisions/ADR-005-authorization-policy.md), [ADR-006](../decisions/ADR-006-api-integration.md), [API v1](../integration/api-v1.md) | v2.0 | ADR-004 and ADR-005 implemented |
 | Application and technical documentation | [root README](../../README.md), [backend README](../../app/backend/README.md) | v2.0 | Setup and run instructions for the backend |
 
-A row marked as not yet in the repository names a part of v2.0 that has an owner and no artefact.
-
 ## How this document is controlled
 
 Identifiers are permanent. A requirement, risk, decision, concern, change or baseline keeps its identifier for the life of the project. The prefixes in use are `FR`, `NFR`, `AC`, `NEED-P2`, `P`, `RSK`, `FEC`, `DEC`, `ADR`, `CR`, `ASM`, `DEP` and `BL`.
