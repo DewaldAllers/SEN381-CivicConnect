@@ -6,7 +6,7 @@ Each heading represents an ID number for acceptance criteria and refers to one r
 
 ## AC-FR-001
 
-- Provided that there are valid required fields and approved category, upon making one submission, then one request will be saved with the values entered, a unique reference number, the time it was submitted, requester identity, and initial Status of “Submitted.”
+- Provided that there are valid required fields and approved category, upon making one submission, then one request will be saved with the values entered, a unique reference number, the time it was submitted, requester identity, and initial Status of "Submitted."
 - Provided that either of the required field is blank or does not fall within the agreed boundaries of the field, upon attempting to submit, then the field will be identified and a request will not be made. Test required field and length boundaries of P-01.
 
 ## AC-FR-002

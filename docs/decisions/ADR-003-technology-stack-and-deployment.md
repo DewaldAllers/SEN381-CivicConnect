@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for M2 baseline — pending team approval.
+Proposed for the M2 baseline. Approval is recorded on the merge of PR #30.
 
 ## Context
 
@@ -46,9 +46,9 @@ verified versions for the backend implementation currently developed:
 The following technologies remain part of the proposed overall stack but are
 not yet implemented in the current backend vertical slice:
 
-- React — planned frontend technology
-- Vite — planned frontend build tooling
-- PostgreSQL — planned persistent data store
+- React: planned frontend technology
+- Vite: planned frontend build tooling
+- PostgreSQL: planned persistent data store
 
 ## Rationale
 

@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for PED v2.0 / BL-002; pending team review and approval. This is a data-consistency decision, **not** Liam's database-technology decision or a completed physical schema.
+Proposed for PED v2.0 and BL-002. Approval is recorded on the merge of PR #30. This is a data-consistency decision, **not** Liam's database-technology decision or a completed physical schema.
 
 ## Context and problem
 

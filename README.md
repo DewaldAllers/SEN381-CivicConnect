@@ -8,7 +8,7 @@ CivicConnect replaces a service request process currently spread across email, t
 
 ## Current state
 
-The Architecture, Technology and Initial Design Baseline was approved on 30 September 2026 and is recorded as [BL-002](docs/baselines/README.md). The requirements baseline, PED v1.0, was approved on 9 September 2026.
+The requirements baseline, PED v1.0, was approved on 9 September 2026. The Architecture, Technology and Initial Design Baseline is recorded as [BL-002](docs/baselines/README.md) and is submitted for approval.
 
 Construction has begun. The backend carries a vertical slice covering the request status lifecycle, the authorisation policy and one REST endpoint, with 23 passing tests. Three of the seventeen requirements are in development and fourteen have not been started. The request store is in memory, the caller identity is supplied rather than authenticated, and no history event is recorded yet.
 

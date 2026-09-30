@@ -108,7 +108,7 @@ Member 3	Risk Register; Forward Engineering Considerations; Engineering Decision
 
 Joint responsibilities:
 -	Integration of final PED v1.0.
--	Evaluation of each other’s contribution.
+-	Evaluation of each other's contribution.
 -	References and citations check.
 -	Pull Request reviews and approvals.
 -	Baseline approval.

@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for M2 baseline — pending team approval and permission-matrix confirmation.
+Proposed for the M2 baseline. Approval is recorded on the merge of PR #30. The concrete permission matrix follows the approved P-03 and DEP-001 decision.
 
 ## Problem
 
@@ -14,22 +14,22 @@ Duplicating role checks across controllers would make permission behaviour harde
 
 ## Requirements
 
-- NFR-001 — Permission enforcement
-- P-03 — Role/action/data-scope permission model
-- AC-NFR-001 — Permission verification
-- NFR-002 — History integrity
+- NFR-001: Permission enforcement
+- P-03: Role/action/data-scope permission model
+- AC-NFR-001: Permission verification
+- NFR-002: History integrity
 
 ## Alternatives
 
-### Option 1 — Controller-Level Checks
+### Option 1: Controller-Level Checks
 
 Each controller contains its own role and permission conditions.
 
-### Option 2 — Central Authorization Policy
+### Option 2: Central Authorization Policy
 
 One central policy evaluates role, action and resource scope.
 
-### Option 3 — Specification-Based Policy
+### Option 3: Specification-Based Policy
 
 Permission rules are represented as small specifications that can be combined by an authorization policy.
 
