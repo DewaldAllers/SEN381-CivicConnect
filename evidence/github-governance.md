@@ -125,6 +125,8 @@ The 9 September readback is a dated observation rather than a standing guarantee
 | Issues and tasks | Partly met. Work is represented by branches and pull request descriptions rather than issues. | Repository issue list |
 | AI use recorded | Met. All four AI Usage Register rows carry the tool, the contribution, the verification applied and what changed as a result, as SRC-MASTER section 10.1 (p. 12) requires. | [AI Usage Register](../docs/ai-register/AI-Usage-Register.md) |
 | Secrets not committed | Met. `.gitignore` covers `node_modules/`, `.env` and `.env.*`, and no tracked file holds a credential or connection string. | `git ls-files` and inspection of tracked content |
+| Automated checks | Met. A clean install from the lock file followed by `npm test` gives 4 test files and 23 passing tests, and `npx tsc --noEmit` exits 0. Verified 30 September 2026. | `npm ci`, `npm test`, `npx tsc --noEmit` |
+| Dependency review | Partly met. `npm audit` reports 0 vulnerabilities across 144 packages, and the 8 direct dependencies are pinned in the lock file. The audit was run by hand and is not yet a step in the workflow. | `npm audit`, `npm ls --depth=0`, 30 September 2026 |
 | History progressive and authentic | Met. M2 work is committed in stages across three branches, each commit describing one change. | `git log` across the M2 branches |
 
 ## M2 repository activity
