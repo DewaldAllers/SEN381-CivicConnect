@@ -1,6 +1,6 @@
 # Team working agreement
 
-Version 0.1 draft for agreement | 9 September 2026 | Drafted by: Tristan Els | Status: **not yet agreed by the team**
+Version 1.0 | Agreed 9 September 2026 | Drafted by: Tristan Els | Status: **agreed by all three members**
 
 SRC-M1 section 10 (p. 8) lists an agreed and controlled team working agreement as a submission readiness item. This is a draft. It becomes the agreement when all three members have approved it in a pull request, and not before. Any member may propose changes to it in review.
 
@@ -90,7 +90,7 @@ This is deliberately not a checkbox that one person ticks for everybody. An agre
 | Dewald Allers | Agreed | 2026-09-09 | #26 |
 | Tristan Els | Agreed | 2026-09-09 | #24 |
 
-Until every row says Agreed, the honest statement at the baseline gate is that the working agreement is drafted and followed in practice but not yet formally agreed. Say that instead of presenting it as ratified.
+All three rows record agreement on 9 September 2026, each through a separate pull request, so the agreement is in force. The rule that got it there stays: one member ticking a box for everybody would not have been evidence that three people agreed.
 
 ## References
 

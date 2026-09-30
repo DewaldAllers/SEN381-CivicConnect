@@ -1,6 +1,6 @@
 # Part 2 draft validation
 
-Version 0.3 | Date: 9 September 2026 | Scope: documentation only | Reviewer: Codex automated/source checks
+Version 1.0 | Date: 9 September 2026 | Scope: documentation only | Reviewer: Codex automated/source checks
 
 This record is not human approval, stakeholder validation or product test evidence.
 

@@ -1,6 +1,6 @@
 # Non-functional requirements
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **requirements baseline proposal**
+Version 1.0 | Baselined 9 September 2026 | Owner: Dewald Allers | Status: **baselined in PED v1.0; CR-002 and CR-004 raised**
 
 The first three requirements represent suggested and verifiable measures for the sensitive and accountable service records of CivicConnect. The usability and performance metrics are clearly **suggested targets**, not figures that can be obtained from the brief or from the organisation.
 
