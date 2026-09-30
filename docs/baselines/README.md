@@ -51,7 +51,7 @@ Nothing in the v1.0 content was found to be wrong at this review. The conditions
 | Date | 30 September 2026 |
 | Scope reviewed | Yes. CR-002, CR-003 and CR-004 carry the scope and requirement effects of the M1 review. No new scope entered at M2 beyond the administrative redaction route CR-004 adds, which is recorded as a constraint on the data model rather than a new capability. |
 | Requirements and traceability checked | Yes. All 17 requirements carry an acceptance criterion, a quality driver, an architecture responsibility, a data rule and a technology decision. Three carry implementation and verification evidence. Fourteen read Not yet implemented. No criterion is orphaned. |
-| Risk review completed | Yes. 22 entries reviewed on 29 and 30 September. Three closed, seven ratings moved, and RSK-011, RSK-012 and RSK-019 are recorded as materialised rather than forecast. |
+| Risk review completed | Yes. 22 entries reviewed on 29 and 30 September. Three closed, six ratings moved, and RSK-011 and RSK-019 are recorded as materialised rather than forecast. |
 | Repository and governance controls checked | Yes, with one open action. Branch protection on `main` requires two approvals from non-authors and blocks bypass, force push and deletion. A follow-up review of the content PR #20 merged on 8 September is still outstanding. |
 | Outcome | ACCEPTED WITH CONDITIONS |
 

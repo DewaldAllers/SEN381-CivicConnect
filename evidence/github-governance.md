@@ -123,6 +123,7 @@ The 9 September readback is a dated observation rather than a standing guarantee
 | Two approvals from non-authors | Met for every M2 pull request. PR #27, #28 and #29 each carry two approvals. | Pull request review history |
 | Meaningful review | Met. The review of PR #28 raised the leftover reference marker in ADR-003, the unfilled research citation in the technology selection, the tracked dependency tree, three version disagreements between the documents and the running stack, and two unclosed code fences. Each was corrected before the baseline. | PR #28 review thread and the commits that followed it |
 | Issues and tasks | Partly met. Work is represented by branches and pull request descriptions rather than issues. | Repository issue list |
+| AI use recorded | Met. All four AI Usage Register rows carry the tool, the contribution, the verification applied and what changed as a result, as SRC-MASTER section 10.1 (p. 12) requires. | [AI Usage Register](../docs/ai-register/AI-Usage-Register.md) |
 | Secrets not committed | Met. `.gitignore` covers `node_modules/`, `.env` and `.env.*`, and no tracked file holds a credential or connection string. | `git ls-files` and inspection of tracked content |
 | History progressive and authentic | Met. M2 work is committed in stages across three branches, each commit describing one change. | `git log` across the M2 branches |
 
@@ -145,6 +146,5 @@ Installed dependencies were removed from version control under DEC-013. The `.gi
 | Action | Owner | State |
 | --- | --- | --- |
 | Follow-up review of the content PR #20 merged on 8 September | Liam raises, Dewald and Tristan review | Open |
-| Complete the verification and decision fields on the Part 1 AI Usage Register row | Liam | Open |
 | Add a dependency audit step to the workflow | Liam | Open, tracked as RSK-017 |
 | Make the workflow a required status check | All three | Deferred to M3 under DEC-012 |
