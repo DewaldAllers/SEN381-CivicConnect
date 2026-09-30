@@ -1,6 +1,6 @@
 # Proposed requirement details
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **documented proposals**
+Version 1.0 | Baselined 9 September 2026 | Owner: Dewald Allers | Status: **baselined in PED v1.0; CR-002 raised to close P-01 to P-05**
 
 The Master Brief offers general competencies. The below-mentioned details have made the requirements testable. They do not refer to the facts provided by the lecturer (SRC-MASTER, Section 3, p. 7).
 

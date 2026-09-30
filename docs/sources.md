@@ -1,6 +1,6 @@
-# Part 2 source register and evidence boundary
+# Project source register and evidence boundary
 
-Version 0.3 | Updated: 9 September 2026 | Owner: Dewald Allers | Status: **source register**
+Version 2.0 | Updated: 29 September 2026 | Owner: Dewald Allers | Status: **project source register**
 
 The three supplied PDFs were read completely before project artefact authoring. Text was read page by page; the M1 output table, Assignment 1 Decision Horizon Map and assignment evidence-control page were also rendered and inspected. These are **AI-assisted source checks**, not independent human verification.
 
@@ -12,6 +12,7 @@ The Master Brief was subsequently located on the course portal and saved by the 
 | SRC-A1 | de Villiers, L., Els, T. and Allers, D. (n.d.), *SEN381 Assignment 1 - HONNE*, 19 pages; team submission | Previous research, team names and writing context only; not product requirements or an approved technology decision |
 | SRC-A1-BRIEF | Belgium Campus ITversity (2026), *SEN381 Assignment1 Research_Foundations*, 9 pages; supplied assignment brief | Assignment boundary and research/AI expectations; not a CivicConnect scenario |
 | SRC-MASTER | Belgium Campus ITversity (2026), *SEN381 CivicConnect Master Project Brief*, version 1.1, 29 pages | Governing project source; scenario/capabilities pp. 6-7, constraints p. 8, governance p. 11, AI/requirements p. 12, security p. 14 |
+| SRC-M2 | Belgium Campus ITversity (2026), *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*, 12 pages; supplied course brief | Authority for M2 outputs, evidence set and assessment, subject to its governing Master Brief |
 | SRC-USER | Dewald's pasted CivicConnect setup request and subsequent responses in this Codex task, 2026-09-07 | Authorisation for repository name, private visibility, Liam invitation, Part 2 ownership and output formats; not evidence of product behaviour |
 | SRC-GH | GitHub Docs, *Managing protected branches* and *About protected branches*, accessed 2026-09-07 | Product capability guidance; actual configuration is proved by repository evidence |
 
@@ -23,6 +24,7 @@ The course PDFs remain in the supplied local course folders and have not been up
 | SRC-A1 | `2E403739B888A23AF515B14D2F61B3EF9D6ED5ADAF01D56BF39FC477C85FC27E` |
 | SRC-A1-BRIEF | `77889140291C3197C5ABCB0D8DE1FB3EEA9BDA7E7CFCAF44615069B236B90B0C` |
 | SRC-MASTER | `3962569C4FC372DA0D2B9AA3419996AC324929152DE66867387A9E5C69D68D72` |
+| SRC-M2 | `D6B9B195F909B494A899E778644B9E4703441174128DA7AB068C5EBD07A625B2` |
 
 Master Brief course location: [Project - 01. Project Requirements Specification](https://connect.belgiumcampus.ac.za/mod/resource/view.php?id=22372) (course login required). The local filename is `SEN381 Master Project Brief.pdf` in the SEN381 Project course folder.
 
@@ -53,6 +55,8 @@ Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, vers
 
 Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundation and Requirements Baseline*. Cited as `SRC-M1`.
 
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*. Cited as `SRC-M2`. Read in full on 29 September 2026. The local filename is `SEN381_CivicConnect_Milestone_2.pdf` in the SEN381 Project course folder.
+
 de Villiers, L., Els, T. and Allers, D. (n.d.) *SEN381 Assignment 1 - HONNE*. Cited as `SRC-A1`.
 
 Belgium Campus ITversity (2026) *SEN381 Assignment1 Research_Foundations*. Cited as `SRC-A1-BRIEF`.
@@ -61,4 +65,4 @@ GitHub (n.d.) *Managing protected branches*. Available at: https://docs.github.c
 
 GitHub (n.d.) *About protected branches*. Available at: https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches (Accessed: 7 September 2026).
 
-The source identifiers provide the in-text citations used throughout Part 2. These are working references, not a claim that the institution's full prescribed referencing format has been verified. Reconcile that format during PED integration.
+The source identifiers provide the in-text citations used across the PED. These are working references, not a claim that the institution's full prescribed referencing format has been verified.

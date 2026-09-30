@@ -1,6 +1,6 @@
 # Part 3 - risks, forward engineering, decisions and GitHub governance
 
-Version 0.1 working draft | 8 September 2026 | Owner: Tristan Els | Status: **draft for team review, not an approved baseline**
+Version 1.0 | Baselined 9 September 2026 | Owner: Tristan Els | Status: **baselined in PED v1.0; the [PED index](PED/README.md) is now the entry point**
 
 This is the Part 3 share of the Milestone 1 (M1) required outputs (SRC-M1, section 3, p. 3). It covers four of the artefacts that go into the Project Engineering Document (PED) v1.0.
 

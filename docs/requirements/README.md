@@ -1,6 +1,6 @@
 # Part 2 - Requirements, acceptance criteria and traceability
 
-**Version:** 0.3 | **Date:** 9 September 2026 | **Owner:** Dewald Allers | **Status:** **requirements baseline proposal**
+**Version:** 1.0 | **Baselined:** 9 September 2026 | **Owner:** Dewald Allers | **Status:** **baselined in PED v1.0; CR-002 raised**
 
 This is my contribution to the PED v1.0 of requirements. It includes information regarding the behavior of the product. This does not include any implementation or testing results.
 

@@ -1,6 +1,6 @@
 # Acceptance criteria
 
-Version 0.3 | 9 September 2026 | Owner: Dewald Allers | Status: **planned acceptance criteria; no tests executed**
+Version 1.0 | Baselined 9 September 2026 | Owner: Dewald Allers | Status: **baselined in PED v1.0; no tests executed**
 
 Each heading represents an ID number for acceptance criteria and refers to one requirement. The bullets represent the criteria of that particular requirement and all need to pass. Criteria operationalize the backed by sources requirements in the [functional](functional-requirements.md) and [non-functional](non-functional-requirements.md) requirement tables (SRC-M1, section 3, page 3). Proposed rules will be used until validation by the team. Use synthetic test data and users. Expected results should not be mixed with actual results.
 
