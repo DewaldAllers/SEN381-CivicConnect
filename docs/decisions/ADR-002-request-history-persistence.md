@@ -33,7 +33,7 @@ The cost is transaction and conflict handling, and the request/event store may b
 
 ## Dependencies and revisit triggers
 
-- The P-03 named permission matrix and scope representation must be agreed before final model/authorisation sign-off; category values and field limits from P-01 also remain open on `main`.
+- The [proposed P-03 permission matrix](../data/permission-matrix.md) defines category-based staff/management scopes for review; those scope grants, category values and field limits must be approved before final model/authorisation sign-off.
 - Liam's selected database and interface design determine the physical transaction API, indexes, migrations, timestamps and deployment behaviour. They do not change the logical exactly-one-event obligation.
 - Tristan owns BL-002, RTM and shared Risk Register integration; this ADR supplies B/C evidence but no final approval.
 - Revisit if the approved requirements change event semantics, retention/privacy handling, reporting access patterns, or if the selected store cannot atomically persist the chosen request/event representation.

@@ -30,7 +30,7 @@ The server modules form one deployable unit; the client may be deployed separate
 
 ## Assumptions, risks and deferred decisions
 
-- P-01–P-04 details in `main` are still proposals; Tristan's separate CR-002/003/004 work has not entered this branch. The named P-03 permission matrix and any controlled privacy route need approval before a final data baseline.
+- P-01–P-04 details in `main` are still proposals; Tristan's separate CR-002/003/004 work has not entered this branch. The [proposed P-03 permission matrix](../data/permission-matrix.md) and any controlled privacy route need team review before a final data baseline.
 - No credible workload volume or uptime target supports service separation; the NFR-005 numbers are provisional test targets.
 - Liam owns technology, deployment and initial interface/design decisions. No database, runtime, framework or production topology is selected here.
 - A single persistent store is an availability and recovery risk, not a proven acceptable service level.

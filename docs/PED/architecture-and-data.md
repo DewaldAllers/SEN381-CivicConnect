@@ -47,7 +47,7 @@ The choice supports ASR-01 to ASR-04 with the fewest extra failure boundaries an
 
 | Ready to put forward for team review | Still outside an approved baseline |
 | --- | --- |
-| Logical module responsibilities; server-side access boundary; request/history as one audited operation; persistent storage requirement; proposed data ownership and conceptual model below. | Named permission scopes; final status/category/detail approval; Liam's technology and deployment choice; physical schema, indexes and migrations; backup/restore target and procedure; transaction implementation and verification; team sign-off. |
+| Logical module responsibilities; server-side access boundary; request/history as one audited operation; persistent storage requirement; proposed data ownership, conceptual model and linked permission matrix. | Team approval of the proposed category-scope rules; final status/category/detail approval; Liam's technology and deployment choice; physical schema, indexes and migrations; backup/restore target and procedure; transaction implementation and verification; team sign-off. |
 
 Tristan controls BL-002 and the M2 RTM. This section supplies B/C evidence for incorporation; it does not mark BL-002 approved or alter his records. Relevant current risks are unauthorised disclosure (NFR-001), missing/mismatched history (NFR-002), and storage loss or outage (NFR-003). The unresolved single-store risk should be integrated into the shared Risk Register by its owner, not silently marked resolved here.
 
@@ -88,19 +88,9 @@ erDiagram
 
 `PRINCIPAL_REFERENCE` represents a relationship to an identity source, **not** a selected table. Optional responsible staff and due date are conditional; the diagram cannot express those conditions. Free-text fields and change details are described in the table rather than crowded into the diagram. Submission creates the first event under NFR-002. Tristan's unmerged CR-003 proposes UTC storage and Africa/Johannesburg display for due dates and event times; CR-004 proposes a controlled route that can redact actor/free-text data while retaining the event. Both effects must be reviewed before physical schema sign-off. We make no legal-compliance claim.
 
-### Working permission boundary for data design
+### Proposed permission boundary for data design
 
-P-03 names requester, staff and management but does not supply a complete approved role/action/data-scope matrix. The following **working cases** show the minimum constraints needed by the model; unspecified operations are not implicitly allowed. `Approved work/management scope` is still a missing, named scope definition, not a placeholder to be implemented as unrestricted access.
-
-| Action/data | Requester | Staff | Management | Source |
-| --- | --- | --- | --- | --- |
-| Submit a valid request | Own submission | Not specified | Not specified | FR-001/002 |
-| Read request list/detail/history | Own requests/visible feedback | Only approved work scope | History within approved management scope; detailed access to confirm | FR-003–005/011, P-03/04 |
-| Accept/assign/change status or record action | Not allowed by current requirement | Only authorised action on request in approved work scope; assignee must be eligible | Not specified | FR-007–009, P-02/03 |
-| Read counts and matching management lists | Not specified | Not specified | Only approved management scope | FR-010, P-03 |
-| Modify/delete an event | Not allowed for ordinary users | Not allowed for ordinary users | Not specified; any CR-004 route requires separate approval | NFR-002, proposed CR-004 |
-
-To close this matrix, the team must name how scope membership is represented, distinguish any multiple staff/management roles if needed, and assign the controlled reference-data/privacy administration roles. Liam's authorisation policy must then enforce those decisions at data-access boundaries. Until then we cannot claim NFR-001 verified or the data model final.
+The [role/action/data-scope matrix](../data/permission-matrix.md) proposes exact core access rules for P-03: a requester sees their own requests and requester-facing feedback; staff read and change requests only in explicitly granted categories; management reads scoped reports, matching lists, detail and history but does not change requests. Missing grants deny access. This category-based interpretation of “approved scope” is **our design proposal**, not a source fact; it can be accepted or changed during pull-request review. Category-grant administration and the conditional CR-004 privacy route remain separate decisions. Liam's authorisation policy must enforce the approved rules at data-access boundaries before NFR-001 can be verified.
 
 ## C. Persistence and integrity direction
 
@@ -120,7 +110,7 @@ Tristan's open PR #27 carries the PED v2 index, RTM, change requests and baselin
 
 | Requirement chain | Proposed responsibility/decision | Artefact now | Initial verification state |
 | --- | --- | --- | --- |
-| FR-003/005/010 + NFR-001 → ASR-01 | Server-side authorisation before scoped read/write; role/action/scope matrix above | This PED section; ADR-001; Liam's proposed ADR-005 is on a separate branch | Cases identified; matrix approval and tests pending |
+| FR-003/005/010 + NFR-001 → ASR-01 | Server-side authorisation before scoped read/write; [proposed role/action/scope matrix](../data/permission-matrix.md) | This PED section; ADR-001; Liam's proposed ADR-005 is on a separate branch | Matrix cases specified for PR review; implementation and tests pending |
 | FR-008/009/011 + NFR-002 → ASR-02/04 | Request Management validates, History/Audit records, one persistence commit | This PED section; ADR-001/002; [request/history contract](../data/request-history-contract.md); Liam's status slice in open PR #28 | Status-rule tests exist on Liam's branch; history/transaction checks remain pending |
 | FR-001/003/011 + NFR-003 → ASR-03 | Persistent request/event data | This PED section; ADR-002 | Restart and restore evidence pending |
 | FR-005/006/010/012 + NFR-005 → ASR-05 | Scoped filtered/ordered queries and computed overdue | This PED section; ADR-002 | Index and performance measurement pending; NFR-005 target remains proposed |

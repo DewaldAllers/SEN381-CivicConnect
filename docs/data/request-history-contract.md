@@ -4,7 +4,7 @@ Status: proposed technical contract for CivicConnect's M2 architecture/data cont
 
 ## Boundary and ownership
 
-Request Management owns current request state and the workflow decision. History/Audit defines an attributable event and the chronological history view. One application operation coordinates both through persistence. The server-side authorisation check gates the operation and any read of request/event data. It must use the approved role/action/data-scope matrix when available; P-03's scope names are not yet settled. Liam owns the concrete interface and technology implementation, including any API path, database client and status-policy integration.
+Request Management owns current request state and the workflow decision. History/Audit defines an attributable event and the chronological history view. One application operation coordinates both through persistence. The server-side authorisation check gates the operation and any read of request/event data. The [proposed P-03 role/action/data-scope matrix](permission-matrix.md) supplies concrete rules for team review; they must be approved before enforcement can be considered verified. Liam owns the concrete interface and technology implementation, including any API path, database client and status-policy integration.
 
 At the 30 September 2026 branch review, Liam's open PR #28 implements a status policy, an authorisation policy, a status-change application service and an initial API endpoint with tests. Its API uses a hard-coded Staff context and an in-memory request map; it has no real identity, database transaction or history write. The code verifies some workflow rules, **not** this persistence contract or the full NFR-001/002/003 outcomes. The approved scope matrix and integrated data boundary remain necessary before those claims can be tested.
 
@@ -47,7 +47,7 @@ These are **planned checks**, not executed tests or a claim of passing results. 
 | Invalid input or unapproved category | Field/category error; no request or success event. | FR-001/002 |
 | Allowed status transition with required detail | New status and exactly one matching event with actor/time/old/new values. | FR-008/011, NFR-002 |
 | Invalid transition or missing reason/owner | Status unchanged; no success event. | FR-008, NFR-002 |
-| Denied requester/staff scope | No protected request/history returned and no record altered. Matrix cases must be filled after P-03 closure. | NFR-001 |
+| Denied requester/staff scope | No protected request/history returned and no record altered. Run the cases in the proposed matrix after team approval and implementation. | NFR-001 |
 | Failure during event persistence | Whole business operation rolls back; no changed request without event. Injected failure method depends on database. | NFR-002 |
 | Two competing updates from the same observed state | At most one commits; the other reports conflict and does not produce a misleading success event. | FR-008, NFR-002 |
 | Scoped management summary/overdue | Counts and matching lists agree for the same scope; overdue is computed from the approved rule, including due-date boundary cases. | FR-010 |
