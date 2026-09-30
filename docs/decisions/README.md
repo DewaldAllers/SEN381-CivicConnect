@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **reviewed at the M2 gate; 11 decisions, 6 ADRs expected**
+Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **13 decisions recorded, 6 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -10,7 +10,7 @@ A deferred decision is a real engineering decision. It commits the team to a pos
 
 The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-The three M2 entries are raised on this branch and carry the same rule: they become approved when the pull request carrying them is approved and merged.
+The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and DEC-013 are raised on this branch and carry the same rule: they become approved when the pull request carrying them is approved and merged.
 
 | ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -22,9 +22,11 @@ The three M2 entries are raised on this branch and carry the same rule: they bec
 | [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner | Closed 2026-09-09, superseded by DEC-008 |
 | [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Team, ratified on merge of PR #22 | Revisit trigger fired 2026-09-29, closing under the M2 selection |
 | [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | In force, held as ASM-007 |
-| [DEC-009](#dec-009-hold-the-ped-as-linked-markdown-in-the-repository) | 2026-09-29 | Hold the PED as linked Markdown under version control rather than as one document | Taken | Raised on this branch | Raised |
-| [DEC-010](#dec-010-defer-the-p-05-quality-targets-rather-than-approving-them) | 2026-09-29 | Defer the NFR-004 and NFR-005 targets rather than baselining them | Deferred | Raised on this branch | Raised |
-| [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Raised on this branch | Raised |
+| [DEC-009](#dec-009-hold-the-ped-as-linked-markdown-in-the-repository) | 2026-09-29 | Hold the PED as linked Markdown under version control rather than as one document | Taken | Team, ratified on merge of PR #27 | In force |
+| [DEC-010](#dec-010-defer-the-p-05-quality-targets-rather-than-approving-them) | 2026-09-29 | Defer the NFR-004 and NFR-005 targets rather than baselining them | Deferred | Team, ratified on merge of PR #27 | In force |
+| [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Team, ratified on merge of PR #27 | In force |
+| [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Raised on this branch | Raised |
+| [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -198,22 +200,54 @@ The three M2 entries are raised on this branch and carry the same rule: they bec
 | Later consequence | Recorded at M3, when the route is built or deliberately not built. |
 | Revisit trigger | A confirmed answer on applicability, or a lecturer instruction on how student projects should treat personal data. |
 
+## DEC-012 Adopt automated checks now rather than deferring them to M3
+
+| Field | Entry |
+| --- | --- |
+| Context | DEC-007 deferred CI along with the stack at M1. SRC-M2 section 11 (p. 9) states that a mature CI/CD pipeline is not an M2 requirement, and section 10 (p. 9) says that where Assignment 2 collaboration research has already produced an appropriate improvement, the team should begin adopting it and record the decision. The first backend code and tests arrived on 30 September. |
+| Constraints | No budget, so the runner has to be within the GitHub free allowance for a public repository. Three members, none of whom has maintained a pipeline before. The M2 schedule leaves no room for a pipeline that needs tending. |
+| Alternatives | Defer all automation to M3 as DEC-007 originally allowed. Run the tests locally and record the result in the PED. Run the tests and the type check on every push and pull request. Build a full pipeline with linting, coverage gates, dependency scanning and deployment. |
+| Decision | Run `npm ci`, `npm test` and `npx tsc --noEmit` on every push to `main` or a member branch and on every pull request into `main`, through `.github/workflows/ci.yml`. Nothing else is automated yet. |
+| Rationale | The tests and the type check already existed, so automating them cost one file. Running them on the pull request is what turns a test result from a claim in a document into evidence a reviewer can see before approving. The fuller pipeline was rejected because a coverage gate or a dependency scan with nothing behind it would be configuration rather than verification. |
+| Trade-offs | The workflow is not a quality gate yet. It reports, and branch protection does not require it to pass before a merge, so a red run can still be merged. Making it a required check is an M3 decision once the team trusts it not to fail for unrelated reasons. |
+| Risks | A green run says the 23 tests passed and the types compile. It says nothing about the requirements the tests do not cover, which is most of them. Presenting it as broader assurance than that is the risk, and it is the same shape as RSK-022. |
+| Evidence | `.github/workflows/ci.yml`. The workflow pins Node 22.14.0, which is the version ADR-003 records and the one the lock file was resolved against. |
+| Later consequence | Recorded at M3. |
+| Revisit trigger | The workflow becomes a required status check, or a second check is added that the team wants to gate on. |
+
+## DEC-013 Keep installed dependencies out of version control
+
+| Field | Entry |
+| --- | --- |
+| Context | 1965 files under `app/backend/node_modules` were tracked. The `.gitignore` rule covering them was added in a later commit than the one that introduced them, so the rule never applied to files already staged. SRC-MASTER section 9 (p. 11) treats the repository as an engineering control environment and requires progressive, authentic history. |
+| Constraints | The history is not rewritten, under the team working agreement. Whatever is removed has to leave the install reproducible, because the CI workflow runs `npm ci`. |
+| Alternatives | Leave the packages tracked. Remove them from tracking and keep the manifest and lock file. Rewrite the history so the commit that added them disappears. |
+| Decision | Remove `app/backend/node_modules` from tracking with `git rm -r --cached` and keep `package.json` and `package-lock.json`. The commit that added the packages stays in the history. |
+| Rationale | The lock file is what makes an install reproducible, and `npm ci` rebuilds the tree from it exactly. Tracking the packages adds thousands of files nobody wrote, buries the project's own work in any diff, and makes a pull request unreadable for the reviewer who has to approve it. Rewriting the history was rejected because the agreement forbids it and because a correction that is visible is better evidence than one that is hidden. |
+| Trade-offs | The repository no longer contains everything needed to run offline. A developer has to run `npm install` first, which the backend README states. |
+| Risks | An install now depends on the registry being reachable and on the lock file staying committed. Related to RSK-017, because reviewing dependencies only matters if the lock file is the thing under review. |
+| Evidence | Commit `21ef085`. `git ls-files` returns no path under `node_modules`. |
+| Later consequence | Recorded at M3. |
+| Revisit trigger | A dependency that cannot be installed from the registry, or a reproducibility failure that the lock file does not prevent. |
+
 ## ADR index
 
 SRC-MASTER section 13 (p. 13) asks for an Architecture Decision Record, or an equivalent structured record, on major architecture, technology, persistence, integration, authentication, deployment and infrastructure choices. The entries above use the same fields, so the distinction here is scope rather than format: a `DEC` entry is any recorded decision, and an `ADR` is one of the foundational choices that the M2 baseline is made of and that later decisions inherit from.
 
 Every ADR carries the fields in SRC-MASTER section 13 (p. 13) and Appendix A (p. 25): context, constraints, alternatives, decision, rationale, trade-offs, risks, evidence and a later consequence that is filled in when evidence emerges rather than left blank. Where a decision rests on Assignment 2 research, the ADR cites the finding it used. It does not reproduce the research, which SRC-M2 section 4.1 (p. 3) rules out.
 
-| ID | Decision | Owner | State on 29 September 2026 |
+| ID | Decision | Owner | State on 30 September 2026 |
 | --- | --- | --- | --- |
-| ADR-001 | Architecture style selection for CivicConnect, with the alternatives considered and the enforcement point for authorisation stated explicitly | Dewald Allers | Not yet recorded |
-| ADR-002 | Persistence model and store selection, including the failure mode and the position on backup and recovery | Dewald Allers | Not yet recorded |
-| ADR-003 | Technology stack selection with versions, dependencies, licensing and the deployment direction | Liam de Villiers | Not yet recorded |
-| ADR-004 | First design problem and the pattern or approach chosen for it | Liam de Villiers | Not yet recorded |
-| ADR-005 | Second design problem and the pattern or approach chosen for it | Liam de Villiers | Not yet recorded |
-| ADR-006 | Initial interface or integration decision, once implementation reaches a boundary that needs one | Liam de Villiers | Not yet recorded, and not yet blocking |
+| [ADR-001](ADR-001-civicconnect-architecture.md) | Modular application server with a distinct presentation boundary, chosen over an undifferentiated layered application and over separate request and audit services | Dewald Allers | Recorded, proposed for BL-002 |
+| [ADR-002](ADR-002-request-history-persistence.md) | Request and history persistence boundary, committing a request change and exactly one matching event together | Dewald Allers | Recorded, proposed for BL-002 |
+| [ADR-003](ADR-003-technology-stack-and-deployment.md) | Technology stack and deployment direction with pinned versions | Liam de Villiers | Recorded, proposed for BL-002 |
+| [ADR-004](ADR-004-request-lifecycle.md) | Central RequestStatusPolicy holding the transition table, chosen over controller checks and over the State pattern | Liam de Villiers | Recorded, implemented and verified |
+| [ADR-005](ADR-005-authorization-policy.md) | Central AuthorizationPolicy built from small permission specifications | Liam de Villiers | Recorded, implemented against the proposed matrix |
+| [ADR-006](ADR-006-api-integration.md) | REST-style HTTP boundary at `/api/v1`, with internal backend collaboration staying in process | Liam de Villiers | Recorded, first endpoint implemented |
 
-The identifiers are reserved so that the RTM, the risk register and the baseline can link to them before they exist. If the decision set turns out to be different, the numbers move with it rather than an empty record being written to fill a row.
+ADR-001 and ADR-002 are logical decisions and do not select a technology. ADR-003 selects the technology and does not change the module boundaries. The two sets were written on separate branches and agree, which is the check that mattered when they merged.
+
+Where a decision rests on Assignment 2 research, the ADR cites the section it used. ADR-001 cites Part 3 section 3 on in-process against HTTP and asynchronous interaction. ADR-002 cites Part 2 section 2.1 on the atomic write boundary for a change and its audit event, and takes the boundary from it rather than the MongoDB example it was demonstrated with.
 
 ## References
 
