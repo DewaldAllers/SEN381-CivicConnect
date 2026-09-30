@@ -27,7 +27,7 @@ Client validation may guide users, but the server owns authorisation and busines
 
 ## Rationale and consequences
 
-This decision follows NFR-002's exactly-one event outcome. The team *SEN381 Assignment 2* (2026), Part 2 §2.1 compared separate writes and a multi-document transaction using MongoDB as an example. The useful result is the **atomic business boundary**, not a MongoDB selection. A relational transaction, document transaction or single atomic aggregate write could satisfy it if proven against the actual model; Liam's proposed PostgreSQL stack remains unapproved and unmerged here.
+This decision follows NFR-002's exactly-one event outcome. The team *SEN381 Assignment 2* (2026), Part 2 §2.1 compared separate writes and a multi-document transaction using MongoDB as an example. The useful result is the **atomic business boundary**, not a MongoDB selection. A relational transaction, document transaction or single atomic aggregate write could satisfy it if proven against the actual model. Liam's open PR #28 proposes PostgreSQL and has two peer approvals, but it is not merged or part of an approved BL-002 baseline. Its current status slice stores requests in an in-memory map and does not yet persist history; that is a prototype limitation, not evidence of NFR-002/003 compliance.
 
 The cost is transaction and conflict handling, and the request/event store may be a single point of failure. NFR-003 is a controlled-restart check, not protection from disk loss or corruption. We need a backup/restore position, a tested restore when a target is agreed, schema/migration control, and index/query checks against representative data before claiming recovery or NFR-005 performance. No traffic estimate or uptime promise is invented.
 

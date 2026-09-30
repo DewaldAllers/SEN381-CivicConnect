@@ -6,6 +6,8 @@ Status: proposed technical contract for CivicConnect's M2 architecture/data cont
 
 Request Management owns current request state and the workflow decision. History/Audit defines an attributable event and the chronological history view. One application operation coordinates both through persistence. The server-side authorisation check gates the operation and any read of request/event data. It must use the approved role/action/data-scope matrix when available; P-03's scope names are not yet settled. Liam owns the concrete interface and technology implementation, including any API path, database client and status-policy integration.
 
+At the 30 September 2026 branch review, Liam's open PR #28 implements a status policy, an authorisation policy, a status-change application service and an initial API endpoint with tests. Its API uses a hard-coded Staff context and an in-memory request map; it has no real identity, database transaction or history write. The code verifies some workflow rules, **not** this persistence contract or the full NFR-001/002/003 outcomes. The approved scope matrix and integrated data boundary remain necessary before those claims can be tested.
+
 ## Operation outcomes
 
 | Operation | Required preconditions | One successful outcome | Failure outcome |

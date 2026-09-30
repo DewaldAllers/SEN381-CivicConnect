@@ -86,7 +86,7 @@ erDiagram
     }
 ```
 
-`PRINCIPAL_REFERENCE` represents a relationship to an identity source, **not** a selected table. Optional responsible staff and due date are conditional; the diagram cannot express those conditions. Free-text fields and change details are described in the table rather than crowded into the diagram. Submission creates the first event under NFR-002. A controlled privacy/redaction route is proposed by Tristan's unmerged CR-004; its approval, permissions and effect on actor/text fields must be settled before physical schema sign-off. We make no legal-compliance claim.
+`PRINCIPAL_REFERENCE` represents a relationship to an identity source, **not** a selected table. Optional responsible staff and due date are conditional; the diagram cannot express those conditions. Free-text fields and change details are described in the table rather than crowded into the diagram. Submission creates the first event under NFR-002. Tristan's unmerged CR-003 proposes UTC storage and Africa/Johannesburg display for due dates and event times; CR-004 proposes a controlled route that can redact actor/free-text data while retaining the event. Both effects must be reviewed before physical schema sign-off. We make no legal-compliance claim.
 
 ### Working permission boundary for data design
 
@@ -110,12 +110,18 @@ For submission, ownership/status changes and recorded actions, the application c
 
 One data store and one application instance may be proportionate for the initial educational deployment, but this is an **assumption**, not an availability guarantee. The store is a single point of failure and may become a query bottleneck; history/free-text growth increases storage and query cost. We need a stated recovery/data-loss tolerance, backup and restore procedure with a tested restore before making a recovery claim. NFR-003 proves only controlled restart persistence. Migration/version control and index/load checks follow the chosen technology. We will not add replication or a queue without evidence that these risks warrant their cost.
 
+### Alignment with parallel M2 work (30 September 2026)
+
+Liam's open PR #28 proposes PostgreSQL and a REST browser-to-server boundary. Its backend currently has an in-memory status-change slice, a status policy, an authorisation policy and passing initial checks; it does **not** yet store requests or events in PostgreSQL, use a real authenticated identity, or record history. This confirms the logical workflow boundary but does not satisfy ASR-01–ASR-03 by itself. If PostgreSQL is accepted at BL-002, the proposed Request, Request Event and Category relationships can be mapped to linked records with a unique request reference, enforced request–event link and one database transaction for an audited change. The precise schema, scope representation, indexes, migration and rollback tests must follow the approved stack and permission matrix; we are not claiming they exist.
+
+Tristan's open PR #27 carries the PED v2 index, RTM, change requests and baseline register. It reserves ADR-001/002 and records the permission matrix as DEP-001; its section map still lists our artefacts as missing because it predates this branch. The section map can name these paths as **proposed** now, with working relative links once the branches are combined. BL-002 remains open until the team's review. His CR-003/004 consequences are reflected above conditionally, not silently treated as approved changes.
+
 ## B/C traceability and verification hand-off
 
 | Requirement chain | Proposed responsibility/decision | Artefact now | Initial verification state |
 | --- | --- | --- | --- |
 | FR-003/005/010 + NFR-001 → ASR-01 | Server-side authorisation before scoped read/write; role/action/scope matrix above | This PED section; ADR-001; Liam's proposed ADR-005 is on a separate branch | Cases identified; matrix approval and tests pending |
-| FR-008/009/011 + NFR-002 → ASR-02/04 | Request Management validates, History/Audit records, one persistence commit | This PED section; ADR-001/002; [request/history contract](../data/request-history-contract.md) | Contract cases specified; no application or database tests on this branch |
+| FR-008/009/011 + NFR-002 → ASR-02/04 | Request Management validates, History/Audit records, one persistence commit | This PED section; ADR-001/002; [request/history contract](../data/request-history-contract.md); Liam's status slice in open PR #28 | Status-rule tests exist on Liam's branch; history/transaction checks remain pending |
 | FR-001/003/011 + NFR-003 → ASR-03 | Persistent request/event data | This PED section; ADR-002 | Restart and restore evidence pending |
 | FR-005/006/010/012 + NFR-005 → ASR-05 | Scoped filtered/ordered queries and computed overdue | This PED section; ADR-002 | Index and performance measurement pending; NFR-005 target remains proposed |
 
