@@ -11,13 +11,13 @@ The selection is evaluated against the CivicConnect requirements, ASRs, team cap
 | Layer | Technology | Version |
 |---|---|---|
 | Frontend | React | 19.3.0 |
-| Frontend language | TypeScript | 6.0.x |
+| Frontend language | TypeScript | 7.0.2 |
 | Frontend tooling | Vite | 8.3.x |
-| Backend runtime | Node.js | 24.21.0 LTS |
+| Backend runtime | Node.js | 22.14.0 LTS |
 | Backend framework | Express | 5.2.1 |
-| Backend language | TypeScript | 6.0.x |
+| Backend language | TypeScript | 7.0.2 |
 | Database | PostgreSQL | 18.6 |
-| Testing | Vitest | 5.0.x |
+| Testing | Vitest | 5.0.2 |
 | API | REST-style HTTP | Versioned boundary |
 
 ## 3. Decision Drivers
@@ -145,6 +145,15 @@ Before final baseline approval, the selected frontend, backend and database tool
 
 ## 13. A2 Evidence
 
-[REPLACE WITH THE TEAM'S ACTUAL A2 TECHNOLOGY RESEARCH CITATION.]
+The technology comparison builds from the Week 2 architecture and technology teaching and from the CivicConnect requirements, which is the basis SRC-M2 section 3 (pp. 2-3) sets for a technology decision taken at this point. The team *SEN381 Assignment 2* (2026), Part 2 section 2.1, informed the persistence integrity constraint that bounds the database choice: the store has to commit a request change and its matching history event as one atomic operation. That finding is cited in ADR-002 and is the reason PostgreSQL is proposed rather than a store without multi-record transactions.
 
 The A2 research informs the comparison, while the final M2 decision is project-specific engineering judgement.
+## 14. References
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*. Cited as `SRC-M2`. Sections used: 3 (progressive evidence, pp. 2-3), 5.5 (technology-stack decision, p. 5).
+
+de Villiers, L., Els, T. and Allers, D. (2026) *SEN381 Assignment 2*. Cited as `SRC-A2`. Part 2 section 2.1 used as comparative research support for the persistence integrity constraint.
+
+Render (n.d.) *Free instance types*. Available at: https://render.com/docs/free (Accessed: 30 September 2026).
+
+Full source records are in the [source register](../sources.md).

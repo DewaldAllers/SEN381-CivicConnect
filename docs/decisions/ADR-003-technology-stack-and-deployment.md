@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for M2 baseline — pending team approval.
+Proposed for the M2 baseline. Approval is recorded on the merge of PR #30.
 
 ## Context
 
@@ -46,9 +46,9 @@ verified versions for the backend implementation currently developed:
 The following technologies remain part of the proposed overall stack but are
 not yet implemented in the current backend vertical slice:
 
-- React — planned frontend technology
-- Vite — planned frontend build tooling
-- PostgreSQL — planned persistent data store
+- React: planned frontend technology
+- Vite: planned frontend build tooling
+- PostgreSQL: planned persistent data store
 
 ## Rationale
 
@@ -56,7 +56,7 @@ The selected stack provides a consistent TypeScript development environment acro
 
 It also provides a relatively small technology footprint for the current CivicConnect scope while supporting API development, automated testing and maintainable separation of responsibilities.
 
-Node.js 24.21.0 is selected from the LTS line rather than the newer Current line to reduce the risk of adopting a less established runtime baseline.
+Node.js 22.14.0 is selected from the LTS line rather than the newer Current line to reduce the risk of adopting a less established runtime baseline.
 
 ## Team Capability
 
@@ -102,7 +102,7 @@ The frontend and backend may be deployed as separate services while PostgreSQL i
 
 A specific production platform is intentionally not fixed at M2.
 
-Render is a candidate staging platform because it supports static sites and web services on its free offering, but its free-tier operational limitations mean that the exact production platform should remain a controlled future decision. :contentReference[oaicite:10]{index=10}
+Render is a candidate staging platform because its free offering covers both static sites and web services, which suits a separately deployed frontend and API. Its free tier stops idle services and gives no availability commitment, so the production platform stays a controlled later decision (Render, n.d.).
 
 ## Configuration and Secrets
 
@@ -144,3 +144,13 @@ The trade-off is that the team remains responsible for dependency management, se
 - M2 requirements and ASR evidence
 - Proof-of-concept results
 - Relevant A2 research
+
+## References
+
+Render (n.d.) *Free instance types*. Available at: https://render.com/docs/free (Accessed: 30 September 2026).
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, version 1.1. Cited as `SRC-MASTER`. Sections used: 4 (project constraints, p. 8), 17 (environments, deployment and operations, pp. 14-15), 18 and 18.1 (cost, schedule and technology selection, pp. 15-16), 25 (student disclaimer, p. 23).
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2*. Cited as `SRC-M2`. Sections used: 5.5 (technology-stack decision, p. 5), 5.8 (deployment compatibility, p. 6).
+
+Full source records are in the [source register](../sources.md).

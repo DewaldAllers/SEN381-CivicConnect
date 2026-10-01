@@ -2,11 +2,11 @@
 
 ## Status
 
-Proposed for PED v2.0 / BL-002; pending team review and approval. This ADR does not supersede M1 DEC-007 by itself and does not select a technology stack or deployment platform.
+Proposed for PED v2.0 and BL-002. Approval is recorded on the merge of PR #30. This ADR does not supersede M1 DEC-007 by itself and does not select a technology stack or deployment platform.
 
 ## Context and problem
 
-CivicConnect must accept and track requests, let authorised staff progress work, retain attributable history and provide scoped management views. FR-003/005/010 and NFR-001 require a permission boundary; FR-008/009/011 and NFR-002 require consistent workflow and history; NFR-003 requires durable records. No independent scale or third-party integration demand is documented. The team has three members. See the [PED architecture/data section](../PED/architecture-and-data.md#b-architecturally-significant-requirements) for ASR-01–ASR-05 and source links.
+CivicConnect must accept and track requests, let authorised staff progress work, retain attributable history and provide scoped management views. FR-003/005/010 and NFR-001 require a permission boundary; FR-008/009/011 and NFR-002 require consistent workflow and history; NFR-003 requires durable records. No independent scale or third-party integration demand is documented. The team has three members. See the [PED architecture/data section](../PED/architecture-and-data.md#b-architecturally-significant-requirements) for ASR-01 to ASR-05 and source links.
 
 ## Alternatives considered
 
@@ -24,13 +24,13 @@ These are logical modules and responsibilities, not a claim that each box is a s
 
 ## Rationale and consequences
 
-This choice directly addresses ASR-01–ASR-04 without creating a distributed consistency problem for the history required by NFR-002. Assignment 2 Part 3 §3 compared in-process, HTTP and asynchronous interaction for Request Management → History/Audit; its local-interface recommendation supports this internal boundary, but the M2 decision is based on the current CivicConnect requirements. The architecture also allows scoped queries for ASR-05 without assuming a separate reporting store.
+This choice directly addresses ASR-01 to ASR-04 without creating a distributed consistency problem for the history required by NFR-002. Assignment 2 Part 3 §3 compared in-process, HTTP and asynchronous interaction for Request Management → History/Audit; its local-interface recommendation supports this internal boundary, but the M2 decision is based on the current CivicConnect requirements. The architecture also allows scoped queries for ASR-05 without assuming a separate reporting store.
 
 The server modules form one deployable unit; the client may be deployed separately under Liam's technology/deployment decision. The server likely shares one data availability boundary. Failure of that boundary may stop request handling and reporting; backup/recovery and database choice are not solved by modularity. A module must not bypass the central authorisation check or directly write another module's data. Cross-module interface and transaction details must be implemented and verified, not inferred from the diagram.
 
 ## Assumptions, risks and deferred decisions
 
-- P-01–P-04 details in `main` are still proposals; Tristan's separate CR-002/003/004 work has not entered this branch. The [proposed P-03 permission matrix](../data/permission-matrix.md) and any controlled privacy route need team review before a final data baseline.
+- P-01 to P-04 details in `main` are still proposals; Tristan's separate CR-002/003/004 work has not entered this branch. The [proposed P-03 permission matrix](../data/permission-matrix.md) and any controlled privacy route need team review before a final data baseline.
 - No credible workload volume or uptime target supports service separation; the NFR-005 numbers are provisional test targets.
 - Liam owns technology, deployment and initial interface/design decisions. No database, runtime, framework or production topology is selected here.
 - A single persistent store is an availability and recovery risk, not a proven acceptable service level.

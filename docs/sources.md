@@ -13,6 +13,7 @@ The Master Brief was subsequently located on the course portal and saved by the 
 | SRC-A1-BRIEF | Belgium Campus ITversity (2026), *SEN381 Assignment1 Research_Foundations*, 9 pages; supplied assignment brief | Assignment boundary and research/AI expectations; not a CivicConnect scenario |
 | SRC-MASTER | Belgium Campus ITversity (2026), *SEN381 CivicConnect Master Project Brief*, version 1.1, 29 pages | Governing project source; scenario/capabilities pp. 6-7, constraints p. 8, governance p. 11, AI/requirements p. 12, security p. 14 |
 | SRC-M2 | Belgium Campus ITversity (2026), *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*, 12 pages; supplied course brief | Authority for M2 outputs, evidence set and assessment, subject to its governing Master Brief |
+| SRC-A2 | de Villiers, L., Els, T. and Allers, D. (2026), *SEN381 Assignment 2*; team submission | Comparative research support for persistence integrity and internal interaction decisions; not a CivicConnect requirement or an approved technology decision |
 | SRC-USER | Dewald's pasted CivicConnect setup request and subsequent responses in this Codex task, 2026-09-07 | Authorisation for repository name, private visibility, Liam invitation, Part 2 ownership and output formats; not evidence of product behaviour |
 | SRC-GH | GitHub Docs, *Managing protected branches* and *About protected branches*, accessed 2026-09-07 | Product capability guidance; actual configuration is proved by repository evidence |
 
@@ -58,6 +59,8 @@ Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundat
 Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*. Cited as `SRC-M2`. Read in full on 29 September 2026. The local filename is `SEN381_CivicConnect_Milestone_2.pdf` in the SEN381 Project course folder.
 
 de Villiers, L., Els, T. and Allers, D. (n.d.) *SEN381 Assignment 1 - HONNE*. Cited as `SRC-A1`.
+
+de Villiers, L., Els, T. and Allers, D. (2026) *SEN381 Assignment 2*. Cited as `SRC-A2`. Sections used: Part 2 section 2.1 (atomic write boundary for a change and its audit event), Part 3 section 3 (in-process, HTTP and asynchronous interaction compared). Cited in ADR-001, ADR-002 and the technology selection. The document is a team submission and is not held in this repository, so no fingerprint is recorded for it.
 
 Belgium Campus ITversity (2026) *SEN381 Assignment1 Research_Foundations*. Cited as `SRC-A1-BRIEF`.
 

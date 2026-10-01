@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for M2 baseline — initial interface decision.
+Proposed for the M2 baseline as the initial interface decision. Approval is recorded on the merge of PR #30.
 
 ## Problem
 
@@ -12,15 +12,15 @@ An explicit boundary is required so that the responsibilities and error behaviou
 
 ## Alternatives
 
-### Option 1 — In-process frontend/backend integration
+### Option 1: In-process frontend/backend integration
 
 The frontend and backend would not use a network API boundary.
 
-### Option 2 — HTTP/REST API
+### Option 2: HTTP/REST API
 
 The frontend communicates with the backend through versioned HTTP endpoints.
 
-### Option 3 — Asynchronous messaging
+### Option 3: Asynchronous messaging
 
 Frontend and backend interactions use messages/events.
 

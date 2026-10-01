@@ -2,7 +2,7 @@
 
 ## Status
 
-Proposed for M2 baseline — pending team approval.
+Proposed for the M2 baseline. Approval is recorded on the merge of PR #30.
 
 ## Problem
 
@@ -12,10 +12,10 @@ The status lifecycle must follow the agreed P-02 rules and successful changes mu
 
 ## Requirements
 
-- FR-008 — Controlled status transitions
-- P-02 — Proposed status rules
-- AC-FR-008 — Status transition acceptance criteria
-- NFR-002 — Attributable history
+- FR-008: Controlled status transitions
+- P-02: Proposed status rules
+- AC-FR-008: Status transition acceptance criteria
+- NFR-002: Attributable history
 
 ## Agreed Workflow
 
@@ -36,15 +36,15 @@ Additional P-02 branches must be represented exactly according to the approved p
 
 ## Alternatives
 
-### Option 1 — Controller validation
+### Option 1: Controller validation
 
 Transition rules are written inside HTTP controllers.
 
-### Option 2 — Central RequestStatusPolicy
+### Option 2: Central RequestStatusPolicy
 
 A dedicated policy contains the legal transitions and required conditions.
 
-### Option 3 — State Pattern
+### Option 3: State Pattern
 
 Each status receives a separate state object.
 

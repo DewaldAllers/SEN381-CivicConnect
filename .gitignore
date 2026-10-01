@@ -8,3 +8,9 @@ node_modules/
 .env.*
 !.env.example
 *.log
+
+# API scratch output
+*.json.tmp
+rr.json
+resp.json
+pr.json
