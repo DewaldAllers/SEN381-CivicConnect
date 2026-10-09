@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **13 decisions recorded, 6 ADRs recorded**
+Version 3.0 | 9 October 2026 | Owner: Tristan Els | Status: **14 decisions recorded, 6 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -10,7 +10,7 @@ A deferred decision is a real engineering decision. It commits the team to a pos
 
 The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and DEC-013 are raised on this branch and carry the same rule: they become approved when the pull request carrying them is approved and merged.
+The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014 is raised on this branch and carries the same rule: it becomes approved when the pull request carrying it is approved and merged.
 
 | ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -25,8 +25,9 @@ The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and 
 | [DEC-009](#dec-009-hold-the-ped-as-linked-markdown-in-the-repository) | 2026-09-29 | Hold the PED as linked Markdown under version control rather than as one document | Taken | Team, ratified on merge of PR #27 | In force |
 | [DEC-010](#dec-010-defer-the-p-05-quality-targets-rather-than-approving-them) | 2026-09-29 | Defer the NFR-004 and NFR-005 targets rather than baselining them | Deferred | Team, ratified on merge of PR #27 | In force |
 | [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Team, ratified on merge of PR #27 | In force |
-| [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Raised on this branch | Raised |
-| [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Raised on this branch | Raised |
+| [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Team, ratified on merge of PR #30 | In force |
+| [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Team, ratified on merge of PR #30 | In force |
+| [DEC-014](#dec-014-freeze-the-m3-core-scope) | 2026-10-09 | Freeze eleven requirements as the M3 release candidate and defer six | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -229,6 +230,46 @@ The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and 
 | Evidence | Commit `21ef085`. `git ls-files` returns no path under `node_modules`. |
 | Later consequence | Recorded at M3. |
 | Revisit trigger | A dependency that cannot be installed from the registry, or a reproducibility failure that the lock file does not prevent. |
+
+## DEC-014 Freeze the M3 core scope
+
+| Field | Entry |
+| --- | --- |
+| Context | SRC-M3 section 22 (p. 10) asks the team to agree which implemented requirements form the release candidate and to stop adding features. The RTM records three of the seventeen requirements as In Development and fourteen as not started. SRC-M3 section 3 (p. 2) wants one integrated release candidate, at least fifteen meaningful test cases across unit, black-box, API and system levels, and at least two end to end journeys. None of those categories can be reached until a user can complete a journey. |
+| Constraints | Three members and one milestone. The backend holds requests in memory, takes the caller identity from the endpoint and writes no history event, recorded as TD-001, TD-003 and TD-004. No frontend exists, recorded as TD-007. The assessed version is one identified commit or tag, so the scope has to be settled before the candidate is cut. |
+| Alternatives | Carry all seventeen requirements into the release candidate. Freeze a core scope around one complete journey and defer the rest. Keep the M2 slice as it stands and add tests to it. |
+| Decision | Eleven requirements form the M3 release candidate: FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-011, NFR-001, NFR-002 and NFR-003. Six are deferred from the candidate: FR-004, FR-009, FR-010, FR-012, NFR-004 and NFR-005. The six stay inside the approved product scope and are not removed from the RTM or the requirements documents. |
+| Rationale | The eleven are the smallest set that produces one journey a user can finish: a requester submits against an approved category, a staff member sees it in a scoped queue, takes ownership, moves it through the agreed transitions, and the requester reads the status and the history. That journey also makes every M3 test category reachable, which none of the alternatives does. Carrying all seventeen would leave most of them half built, and the rubric marks integration, traceability and interpretation rather than feature count. Keeping the M2 slice and testing it harder would produce no end to end case at all, because there is nothing to go end to end through. |
+| Trade-offs | Six requirements carry no implementation at M3, and four of them are Must Have. The RTM will show that, and an assessor will see it. We accept a narrower surface with a complete journey behind it over a wider one with no journey. FR-007 is the most expensive of the eleven, because it adds an endpoint and an assignee eligibility rule. It is in the set because P-02 requires a responsible member before a request can move to In Progress, so leaving it out stops the lifecycle after Accepted and thins out the state transition evidence. |
+| Risks | The set widens under schedule pressure, which is the ordinary failure of a frozen scope. RSK-019 already covers building ahead of an approved decision, and this entry is what it is measured against. |
+| Evidence | The scope split below. TD-001, TD-003, TD-004 and TD-007 in the [technical debt register](../technical-debt/README.md), which are the four items this scope has to pay off. The [release evidence summary](../release/README.md), which classifies the candidate once it is cut. |
+| Missing information | Whether the assignee eligibility rule in the [permission matrix](../data/permission-matrix.md) can be implemented inside the milestone. If it cannot, FR-007 ships with a simpler rule and the limitation is recorded rather than left unstated. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | A requirement entering or leaving the frozen set goes through the [change control register](../change/README.md) with an impact analysis, not through a conversation. |
+
+### The frozen set
+
+| Requirement | In the M3 candidate | Why |
+| --- | --- | --- |
+| FR-001 Submit a valid request | Yes | The journey starts here, and it is where the validation and category rules are exercised |
+| FR-002 Controlled category choice | Yes | Supplies the equivalence partitioning and boundary cases on the submission fields |
+| FR-003 Own request list and status | Yes | The confidentiality requirement, and the source of the unauthorised access case |
+| FR-005 Staff queue and details | Yes | The staff half of the journey, scoped by category grant |
+| FR-006 Category and status filtering | Yes | Nearly free once the queue exists, and adds a second black-box technique |
+| FR-007 Request ownership | Yes | P-02 needs a responsible member before In Progress, so the lifecycle stops without it |
+| FR-008 Controlled status transitions | Yes | Already implemented and tested. The state transition evidence rests on it |
+| FR-011 Attributable lifecycle history | Yes | Carries NFR-002, which is the integrity rule the data design is built on |
+| NFR-001 Permission enforcement | Yes | Enforced at the data boundary once a real identity exists |
+| NFR-002 History completeness and integrity | Yes | The exactly one event rule, verified once the history write exists |
+| NFR-003 Persistence across restart | Yes | Unblocks every other requirement in the set |
+| FR-004 Request feedback | Deferred | Reads from the history FR-011 writes, so it becomes cheap afterwards rather than now |
+| FR-009 Record work and due date | Deferred | Needed only by the reporting FR-010 carries, which is also deferred |
+| FR-010 Management summary and lists | Deferred | A third role and a reporting view. The largest single item outside the set |
+| FR-012 Oldest first ordering | Deferred | A query convenience with no behaviour behind it that the journey needs |
+| NFR-004 First use usability | Deferred | DEC-010 already defers the target, and no verification environment exists |
+| NFR-005 Responsiveness | Deferred | DEC-010 defers the target. The M3 performance exercise measures an operation rather than this threshold |
+
+The first candidates if the schedule allows more are FR-004, because FR-011 does most of its work, and then FR-010 with FR-009, because together they carry the management capability and the overdue rule CR-003 settled.
 
 ## ADR index
 
