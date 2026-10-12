@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "db:migrate": "tsx scripts/migrate.ts",
+    "db:verify": "tsx scripts/verify-postgres.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

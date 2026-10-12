@@ -43,6 +43,8 @@ npm test
 
 The migration runner records version `001_requests_and_events` and skips it on subsequent runs. It does not insert demo requests. Until identity and category grants are wired, do not expose `RequestStore.history` as an unauthorised HTTP read or treat a caller-supplied `withinApprovedScope` value as a trusted permission check.
 
+For a **disposable development/test PostgreSQL database**, set `TEST_DATABASE_URL` and run `npm run db:verify`. This optional check creates one randomly named schema, runs the migration SQL, checks atomic writes and rollback, reconnects to read committed data, and drops only that temporary schema. It needs permission to create and drop a schema. Do not point it at a production database. Passing this check verifies a real server connection and reconnect read, but not an actual server restart, backup/restore, API integration, or trusted authentication.
+
 ## Technology
 
 ### Runtime
