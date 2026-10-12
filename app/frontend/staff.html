@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CivicConnect - Staff queue</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>CivicConnect</h1>
+    <div id="topbar"></div>
+  </header>
+  <main>
+    <section>
+      <h2>Request queue</h2>
+      <form id="filter-form" class="filters">
+        <div>
+          <label for="f-category">Category</label>
+          <select id="f-category" name="categoryId"></select>
+        </div>
+        <div>
+          <label for="f-status">Status</label>
+          <select id="f-status" name="status"></select>
+        </div>
+        <div>
+          <label for="f-oldest"><input id="f-oldest" name="oldest" type="checkbox">Oldest first</label>
+        </div>
+      </form>
+      <div id="queue-message" class="message error" hidden></div>
+      <table>
+        <thead>
+          <tr><th>Reference</th><th>Title</th><th>Category</th><th>Sent</th><th>Status</th><th>Owner</th></tr>
+        </thead>
+        <tbody id="queue-rows"></tbody>
+      </table>
+      <p id="empty-note" class="muted" hidden>No requests match these filters.</p>
+    </section>
+
+    <section id="detail" hidden></section>
+  </main>
+  <script type="module" src="/js/staff.js"></script>
+</body>
+</html>
