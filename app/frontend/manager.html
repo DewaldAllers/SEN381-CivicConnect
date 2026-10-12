@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CivicConnect - Management summary</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>CivicConnect</h1>
+    <div id="topbar"></div>
+  </header>
+  <main>
+    <section>
+      <h2>Service summary</h2>
+      <form id="filter-form" class="filters">
+        <div>
+          <label for="f-category">Category</label>
+          <select id="f-category" name="categoryId"></select>
+        </div>
+        <div>
+          <label for="f-status">Status</label>
+          <select id="f-status" name="status"></select>
+        </div>
+      </form>
+      <div id="summary-message" class="message error" hidden></div>
+      <div id="cards" class="cards"></div>
+      <p class="muted">Overdue requests are also counted as open, so the numbers do not add up to a total. Open means Submitted, Accepted or In Progress.</p>
+    </section>
+
+    <section>
+      <h2 id="list-title">Requests</h2>
+      <table>
+        <thead>
+          <tr><th>Reference</th><th>Title</th><th>Category</th><th>Status</th><th>Due date</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p id="empty-note" class="muted" hidden>No requests in this list.</p>
+    </section>
+  </main>
+  <script type="module" src="/js/manager.js"></script>
+</body>
+</html>
