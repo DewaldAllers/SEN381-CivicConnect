@@ -62,9 +62,9 @@ function drawCards(counts) {
       )
     );
   }
-  if (counts.openWithoutDueDate > 0) {
-    cards.append(el("p", { class: "muted" }, counts.openWithoutDueDate + " open request(s) have no due date set."));
-  }
+  const note = document.getElementById("no-due-note");
+  note.hidden = counts.openWithoutDueDate === 0;
+  note.textContent = counts.openWithoutDueDate + " open request(s) have no due date set.";
 }
 
 function drawList(list) {

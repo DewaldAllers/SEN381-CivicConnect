@@ -60,7 +60,7 @@ th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #e4e9ee; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: #eef3f8; }
 
-.filters { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
+.filters { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 1rem; }
 .filters > div { flex: 1; min-width: 160px; }
 .filters label { margin-top: 0; }
 

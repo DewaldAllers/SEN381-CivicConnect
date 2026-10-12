@@ -64,7 +64,6 @@ A request outside the caller's scope gets the same 404 as a request that does no
 - The pages never decide who may do what. The server does, and the pages show its answer. The status list shows every status and the server refuses the ones the rules do not allow.
 - Times are shown in South African time and stored as UTC (CR-003).
 
-## Current limits
+## Backend
 
-- Express does not serve this folder yet. That is a small change in the backend, and Liam owns the backend.
-- The pages have not been run against the real backend, because the backend does not have these endpoints. The end-to-end tests will run them against it once it does.
+The pages run against the stand-in server today. The real backend takes over when Liam serves this folder from Express and builds the endpoints in the table above. The `/api/v1` paths and the reply shapes stay the same, so no page changes. The end-to-end tests then run these pages against the real backend.
