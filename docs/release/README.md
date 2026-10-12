@@ -13,7 +13,7 @@ The classification earns little on its own. The evidence and the reasoning behin
 | Release candidate tag | Not yet cut |
 | Commit | Not yet identified |
 | PED version | v3.0, in progress |
-| Scope included | The frozen M3 core scope, agreed by the team |
+| Scope included | All seventeen baselined requirements under DEC-015. Any requirement that leaves the candidate is recorded as a controlled change here. |
 | Date classified | Not yet classified |
 
 The assessed version is the tag named here. The demonstration has to run against that tag and not against whatever is on `main` at the time.
@@ -29,7 +29,7 @@ The assessed version is the tag named here. The demonstration has to run against
 | Static and security | Partial | `npx tsc --noEmit` exits 0. `npm audit` reported 0 vulnerabilities across 144 packages on 30 September, run by hand. | TD-006. No static analysis tool beyond the type check, and the audit is not in the workflow |
 | Performance | None | No performance exercise has been designed or run. | M3 requires one justified workload on a performance-sensitive operation. NFR-005 has no verification environment, which is TD-008 |
 | Known defects | 5 raised, 5 closed | All five were build or documentation defects found through peer review during M2. None is open. | No product defect has been recorded, because the M3 construction has not started |
-| Acceptance | 3 of 17 requirements in development | FR-008, NFR-001 and NFR-002 carry implementation and verification evidence. Fourteen requirements are not started. | The frozen M3 scope decides which of those fourteen enter the release candidate |
+| Acceptance | 3 of 17 requirements in development | FR-008, NFR-001 and NFR-002 carry implementation and verification evidence. Fourteen requirements are not started. | DEC-015 puts all fourteen into the release candidate, so each needs execution evidence before it counts as met |
 
 ## Current classification
 
@@ -53,7 +53,7 @@ These are the uncertainties that remain after verification, not the work still o
 | --- | --- | --- | --- |
 | Production scale load is untested | A three person student environment cannot represent a municipal workload, and no demand figure exists for CivicConnect. ASM-003 records that no volume was ever supplied. | The planned small performance exercise plus the ADR-001 architecture review | Re-test against a representative environment and a real volume figure before any production use. Dewald |
 | The single store is a single point of failure | ADR-002 records it and declines replication without evidence to justify the cost. ASM-008 carries the assumption that one instance is acceptable for an educational deployment. | Recorded rather than designed around. NFR-003 covers a controlled restart only | State an acceptable data loss position and demonstrate a restore. Dewald |
-| The institutional environment is unproven | ASM-005 assumes the selected stack runs on the team machines and on the Belgium Campus environment. The backend half is proven. React, Vite and PostgreSQL have not been run by anyone. | The backend, its tests and the type check run on the team machines and on the GitHub runner | Install and run the remaining stack on an institutional machine. Liam |
+| The institutional environment is unproven | ASM-005 assumes the selected stack runs on the team machines and on the Belgium Campus environment. The backend half is proven. PostgreSQL has not been run by anyone, and CR-006 removed React and Vite from the stack. | The backend, its tests and the type check run on the team machines and on the GitHub runner | Install and run PostgreSQL on an institutional machine. Liam |
 | Overdue is measured on calendar time | ASM-004 and CR-003. No stakeholder confirmed whether the organisation measures overdue in working hours. | CR-003 records the rule, the time zone and the reasoning, so the position is explicit rather than implied | Confirm with a stakeholder if one becomes reachable. Tristan |
 | The data protection position is unconfirmed | ASM-002 and DEC-011. Nobody has established whether the Protection of Personal Information Act binds a student project. | The data model is designed as though it applies, under CR-004, and no artefact claims compliance | Obtain a confirmed answer on applicability. Tristan |
 
