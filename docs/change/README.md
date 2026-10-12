@@ -31,6 +31,7 @@ Planned milestone progression is also not a change. M1 recorded architecture, te
 | [CR-003](#cr-003-define-overdue-on-calendar-time-in-one-recorded-time-zone) | 2026-09-29 | Define overdue on calendar time in one recorded time zone | FR-009, FR-010, FR-011 and their criteria | Accept | Raised |
 | [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Raised |
 | [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Raised |
+| [CR-006](#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite) | 2026-10-12 | Build the client in HTML, CSS and JavaScript instead of React and Vite | ADR-003 frontend selection, ADR-006 wording, ASM-005, TD-007 | Accept | Raised |
 
 ---
 
@@ -138,6 +139,27 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Schedule and resource impact | The largest cost of the change. The construction is divided across all three members and the integration order is persistence first, then the endpoints, then the client and the end to end cases. If the schedule cannot hold the full set, the reduction order is NFR-004, then NFR-005, then FR-012, then FR-009 and FR-010 together. Each reduction is recorded as its own change request with an impact analysis and is not absorbed silently. SRC-MASTER section 18 (p. 15) asks for the trade-off to be recorded when schedule pressure appears. |
 | Cost impact | None. |
 | Risk impact | Reintroduces the risk DEC-014 named, which is that an overextended scope leaves requirements half built at the candidate. The reduction order above is the control. An untested requirement is reported as such in the release evidence summary, and no requirement is counted as met without execution evidence. |
+| Recommendation | ACCEPT |
+| Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
+
+## CR-006 Build the client in HTML, CSS and JavaScript instead of React and Vite
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-006 |
+| Requested by | Tristan Els |
+| Date | 2026-10-12 |
+| Requested change | Build the client as static HTML, CSS and JavaScript pages served by the existing Express application, in place of React 19.3.0 and Vite 8.3.x. The backend language, the runtime and the database in ADR-003 stay as they are: TypeScript on Node.js with Express, and PostgreSQL. |
+| Reason and expected value | No client code exists, and neither React nor Vite has been installed or run by anyone, which TD-007 and ASM-005 record. The team's established working experience is with HTML, CSS, JavaScript and Node.js. SRC-MASTER section 18.1 (p. 15) lists team capability and a realistic learning curve among the criteria for a technology choice. The client is the last layer to be built and the one an end to end journey cannot run without, so a framework the team has to learn first sits on the critical path. |
+| Requirements affected | None in wording. NFR-004 keeps its usability target, and the client has to meet it as written. |
+| Architecture and design affected | The presentation boundary in ADR-001 is unchanged. The client is still a separate presentation component that reaches the application only through the versioned `/api/v1` interface in ADR-006. Serving the pages from the Express application gives staging one deployable unit. The versioned interface lets the client be separated and deployed on its own later without a change to the API. |
+| UI, API and data affected | The API is unchanged. ADR-006 describes the consumer as the React frontend, and it now reads as the browser client. The data model is unaffected. |
+| Security and privacy impact | A framework escapes rendered values by default and plain pages do not. Every value that comes from a request, such as a title, a description or a comment, has to be written to the page as text and never as markup. The authorisation checks stay on the server, as ADR-003 requires. |
+| Quality and testing impact | End to end cases run against plain pages with a browser automation tool, as they would against a React build. Component level tests for the client are not available in the way a React testing library would offer them, so the client keeps its logic thin and the rules stay in the tested backend. |
+| Scope impact | None. |
+| Schedule and resource impact | Removes the installation and learning of a second toolchain from the critical path. Hand written page code is more repetitive than component code, and that cost is accepted. |
+| Cost impact | None. |
+| Risk impact | Closes the React and Vite half of ASM-005 by removing it from the stack. Loses the component reuse and the larger ecosystem that motivated ADR-003. Adds the risk that unescaped values reach the page, which the security entry above controls and the end to end cases check with one hostile input. |
 | Recommendation | ACCEPT |
 | Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
 

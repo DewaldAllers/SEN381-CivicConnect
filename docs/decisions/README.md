@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **15 decisions recorded, 6 ADRs recorded**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **16 decisions recorded, 6 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -10,7 +10,7 @@ A deferred decision is a real engineering decision. It commits the team to a pos
 
 The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014 and DEC-015 are raised on this branch and carry the same rule: each becomes approved when the pull request carrying it is approved and merged.
+The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014, DEC-015 and DEC-016 are raised on this branch and carry the same rule: each becomes approved when the pull request carrying it is approved and merged.
 
 | ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -29,6 +29,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Team, ratified on merge of PR #30 | In force |
 | [DEC-014](#dec-014-freeze-the-m3-core-scope) | 2026-10-09 | Freeze eleven requirements as the M3 release candidate and defer six | Taken | Raised on this branch | Raised, superseded by DEC-015 |
 | [DEC-015](#dec-015-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate | Taken | Raised on this branch | Raised |
+| [DEC-016](#dec-016-build-the-client-in-html-css-and-javascript) | 2026-10-12 | Build the client in HTML, CSS and JavaScript, and keep TypeScript, Node.js, Express and PostgreSQL | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -287,6 +288,22 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Missing information | Whether the full set fits the schedule. The release evidence summary reports the answer from execution evidence and not from intent. |
 | Later consequence | Recorded at the M3 release review. |
 | Revisit trigger | Any requirement leaving the candidate, which goes through the [change control register](../change/README.md). |
+
+## DEC-016 Build the client in HTML, CSS and JavaScript
+
+| Field | Entry |
+| --- | --- |
+| Context | [ADR-003](ADR-003-technology-stack-and-deployment.md) selects React and Vite for the client. No client code exists, and neither tool has been installed or run by anyone (TD-007, ASM-005). The backend half of the stack is built and verified: TypeScript, Node.js, Express and Vitest. PostgreSQL is selected and not yet run. |
+| Constraints | Three members and one milestone. The team's established experience is with HTML, CSS, JavaScript and Node.js. SRC-MASTER section 18.1 (p. 15) names team capability and learning curve as criteria for a technology choice, and section 25 (p. 23) puts the compatibility risk of a selected technology on the team. |
+| Alternatives | Keep React and Vite as ADR-003 selects them. Release an API-only candidate and record the missing client as a limitation. Build the client as HTML, CSS and JavaScript served by the Express application. |
+| Decision | Build the client as static HTML, CSS and JavaScript pages served by the Express application. TypeScript on Node.js with Express, and PostgreSQL, stay as selected in ADR-003. |
+| Rationale | The client is the last layer to be built, and an end to end journey cannot run without it. Learning a framework and its build tool first would put an unproven toolchain on the critical path. An API-only candidate would leave NFR-004 with nothing to measure and would reduce the end to end evidence to API calls. The backend and the database keep their selections because the backend exists with 23 passing tests and PostgreSQL provides the transaction ADR-002 needs for the atomic request and event commit. |
+| Trade-offs | Hand written page code repeats more than component code does, and the larger React ecosystem is not available. Client logic stays thin so that the rules remain in the tested backend. Plain pages do not escape values by default, so request content is written to the page as text only. |
+| Risks | Unescaped request content reaches the page, which the end to end cases check with a hostile input. The Express application serves two kinds of content, and the versioned API boundary keeps the client separable later. |
+| Evidence | [CR-006](../change/README.md#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite). TD-007 in the [technical debt register](../technical-debt/README.md). The amendment note at the end of ADR-003. |
+| Missing information | Whether the plain client meets the NFR-004 target in the five participant check. The result is recorded when it exists. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | A client requirement that the plain pages cannot meet without growing into a framework of their own, or a stakeholder need for a separately deployed client. Either goes through the [change control register](../change/README.md). |
 
 ## ADR index
 
