@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CivicConnect - My requests</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>CivicConnect</h1>
+    <div id="topbar"></div>
+  </header>
+  <main>
+    <section>
+      <h2>Send a new request</h2>
+      <form id="request-form" novalidate>
+        <label for="title">Title</label>
+        <input id="title" name="title" maxlength="100">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" maxlength="1000"></textarea>
+        <label for="categoryId">Category</label>
+        <select id="categoryId" name="categoryId"></select>
+        <div id="form-message" class="message" hidden></div>
+        <button type="submit">Send request</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>My requests</h2>
+      <div id="list-message" class="message error" hidden></div>
+      <table>
+        <thead>
+          <tr><th>Reference</th><th>Title</th><th>Sent</th><th>Status</th></tr>
+        </thead>
+        <tbody id="request-rows"></tbody>
+      </table>
+      <p id="empty-note" class="muted" hidden>You have not sent any requests yet.</p>
+    </section>
+
+    <section id="detail" hidden></section>
+  </main>
+  <script type="module" src="/js/requester.js"></script>
+</body>
+</html>
