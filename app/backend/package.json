@@ -7,6 +7,8 @@
     "dev": "tsx src/server.ts",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:verify": "tsx scripts/verify-postgres.ts",
+    "db:seed:perf": "tsx scripts/seed-performance.ts",
+    "lint": "eslint src test scripts --max-warnings=0",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
@@ -21,11 +23,17 @@
     "supertest": "^7.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/eslint-parser": "^7.29.9",
+    "@babel/plugin-syntax-typescript": "^7.29.7",
     "@electric-sql/pglite": "^0.5.8",
+    "@eslint/js": "^9.39.5",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.3",
     "@types/pg": "^8.23.1",
     "@types/supertest": "^7.2.1",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.2"
