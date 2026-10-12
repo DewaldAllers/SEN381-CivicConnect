@@ -1,6 +1,6 @@
 # Change control register
 
-Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **four changes raised against the PED v1.0 baseline**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **six changes raised, four against the PED v1.0 baseline and two during M3 construction**
 
 PED v1.0 was baselined on 9 September 2026. From that point a material change to a requirement, scope item, constraint or approved decision is controlled rather than absorbed into an edit. SRC-MASTER section 14 (p. 13) sets the path, and SRC-MASTER section 11 (p. 12) says baselined requirements may not be silently edited after sign-off.
 
@@ -30,6 +30,7 @@ Planned milestone progression is also not a change. M1 recorded architecture, te
 | [CR-002](#cr-002-close-the-five-requirement-proposals-p-01-to-p-05) | 2026-09-29 | Close the five requirement proposals P-01 to P-05 | FR-001 to FR-011, NFR-001 to NFR-005, acceptance criteria, RTM | Modify | Raised |
 | [CR-003](#cr-003-define-overdue-on-calendar-time-in-one-recorded-time-zone) | 2026-09-29 | Define overdue on calendar time in one recorded time zone | FR-009, FR-010, FR-011 and their criteria | Accept | Raised |
 | [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Raised |
+| [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Raised |
 
 ---
 
@@ -118,6 +119,27 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Risk impact | Reduces RSK-006. Introduces the risk that an anonymisation route becomes a way to erase accountability, which is why the route is restricted to a named role and the event survives the redaction. That residual is recorded in the Risk Register as RSK-016. |
 | Recommendation | ACCEPT as a constraint on the data model, not as a new functional requirement for M2. |
 | Authorisation | Recorded by the approvals on the pull request that carries this register into `main`. |
+
+## CR-005 Build all seventeen requirements for the M3 release candidate
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-005 |
+| Requested by | Tristan Els |
+| Date | 2026-10-12 |
+| Requested change | Replace the eleven requirement freeze in DEC-014 with the full baseline of seventeen requirements as the scope of the M3 release candidate. FR-004, FR-009, FR-010, FR-012, NFR-004 and NFR-005 return to the candidate. No requirement wording changes. |
+| Reason and expected value | DEC-014 deferred six requirements because three members could not realistically build seventeen against an unbuilt persistence layer. The construction can now be divided so that the data layer, the identity and endpoint layer and the client are built in parallel against shared contracts. Three of the deferred requirements are Must Have, and FR-009 and FR-010 carry the whole management capability that SRC-MASTER section 3 (p. 7) lists among the minimum business capabilities. A release candidate without them would deliver two of the three user groups. SRC-MASTER section 21 (p. 21) judges delivered scope against the approved baseline, so every requirement left out of the candidate has to be accounted for at the end. |
+| Requirements affected | FR-004 feedback, FR-009 work records and due date, FR-010 management summary, FR-012 oldest first ordering, NFR-004 first use usability, NFR-005 responsiveness. The other eleven are unchanged from DEC-014. |
+| Architecture and design affected | None. The modules selected in ADR-001 already hold these responsibilities. FR-004 reads from the history that FR-011 writes, and FR-010 reads through the same query boundary as the staff queue. |
+| UI, API and data affected | New read endpoints for feedback and the management summary, and a write endpoint for actions, comments and due dates. The data model gains the work record and the due date. A management role joins the roles in the permission matrix. |
+| Security and privacy impact | FR-010 adds a third role with its own data scope, so the permission test matrix behind NFR-001 gains rows for management. Feedback shows requester facing events only and never internal staff notes, as P-04 and the permission matrix require. |
+| Quality and testing impact | Test case designs are needed for the six restored requirements. NFR-005 is measured in the M3 performance exercise, which needs the verification environment and data volume that TD-008 records as undefined. NFR-004 needs a five participant check. Both numbers stay proposals under DEC-010 until a measurement exists. |
+| Scope impact | Reverses DEC-014. The approved product scope does not change, because DEC-014 never removed the six from the baseline. |
+| Schedule and resource impact | The largest cost of the change. The construction is divided across all three members and the integration order is persistence first, then the endpoints, then the client and the end to end cases. If the schedule cannot hold the full set, the reduction order is NFR-004, then NFR-005, then FR-012, then FR-009 and FR-010 together. Each reduction is recorded as its own change request with an impact analysis and is not absorbed silently. SRC-MASTER section 18 (p. 15) asks for the trade-off to be recorded when schedule pressure appears. |
+| Cost impact | None. |
+| Risk impact | Reintroduces the risk DEC-014 named, which is that an overextended scope leaves requirements half built at the candidate. The reduction order above is the control. An untested requirement is reported as such in the release evidence summary, and no requirement is counted as met without execution evidence. |
+| Recommendation | ACCEPT |
+| Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
 
 ---
 

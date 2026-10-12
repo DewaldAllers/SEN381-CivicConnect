@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 3.0 | 9 October 2026 | Owner: Tristan Els | Status: **14 decisions recorded, 6 ADRs recorded**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **15 decisions recorded, 6 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -10,7 +10,7 @@ A deferred decision is a real engineering decision. It commits the team to a pos
 
 The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014 is raised on this branch and carries the same rule: it becomes approved when the pull request carrying it is approved and merged.
+The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014 and DEC-015 are raised on this branch and carry the same rule: each becomes approved when the pull request carrying it is approved and merged.
 
 | ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -27,7 +27,8 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Team, ratified on merge of PR #27 | In force |
 | [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Team, ratified on merge of PR #30 | In force |
 | [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Team, ratified on merge of PR #30 | In force |
-| [DEC-014](#dec-014-freeze-the-m3-core-scope) | 2026-10-09 | Freeze eleven requirements as the M3 release candidate and defer six | Taken | Raised on this branch | Raised |
+| [DEC-014](#dec-014-freeze-the-m3-core-scope) | 2026-10-09 | Freeze eleven requirements as the M3 release candidate and defer six | Taken | Raised on this branch | Raised, superseded by DEC-015 |
+| [DEC-015](#dec-015-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -244,7 +245,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Risks | The set widens under schedule pressure, which is the ordinary failure of a frozen scope. RSK-019 already covers building ahead of an approved decision, and this entry is what it is measured against. |
 | Evidence | The scope split below. TD-001, TD-003, TD-004 and TD-007 in the [technical debt register](../technical-debt/README.md), which are the four items this scope has to pay off. The [release evidence summary](../release/README.md), which classifies the candidate once it is cut. |
 | Missing information | Whether the assignee eligibility rule in the [permission matrix](../data/permission-matrix.md) can be implemented inside the milestone. If it cannot, FR-007 ships with a simpler rule and the limitation is recorded rather than left unstated. |
-| Later consequence | Recorded at the M3 release review. |
+| Later consequence | Superseded on 12 October 2026 by [DEC-015](#dec-015-build-all-seventeen-requirements-for-the-m3-release-candidate), raised through [CR-005](../change/README.md#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate). The freeze was raised on 9 October and superseded before it merged. The reason was a division of the construction across all three members, which made the full baseline reachable. The trade-offs entry above says four of the six deferred requirements are Must Have. The [functional](../requirements/functional-requirements.md) and [non-functional](../requirements/non-functional-requirements.md) requirements give three: FR-004, FR-009 and FR-010. The scope split below stays as the record of the position taken on 9 October. |
 | Revisit trigger | A requirement entering or leaving the frozen set goes through the [change control register](../change/README.md) with an impact analysis, not through a conversation. |
 
 ### The frozen set
@@ -270,6 +271,22 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | NFR-005 Responsiveness | Deferred | DEC-010 defers the target. The M3 performance exercise measures an operation rather than this threshold |
 
 The first candidates if the schedule allows more are FR-004, because FR-011 does most of its work, and then FR-010 with FR-009, because together they carry the management capability and the overdue rule CR-003 settled.
+
+## DEC-015 Build all seventeen requirements for the M3 release candidate
+
+| Field | Entry |
+| --- | --- |
+| Context | DEC-014 froze eleven requirements on 9 October because persistence, identity and the client were all unbuilt and three members were working one after another. The construction can now run in parallel. The data layer sits behind the ADR-002 repository interface, the endpoints are built against an in-memory implementation of it, and the client is built against the API contract in [api-v1](../integration/api-v1.md). SRC-M3 section 22 (p. 10) asks the team to agree the core scope and stop adding features. The six deferred requirements are baselined, so restoring them adds nothing new to the product. |
+| Constraints | Three members and one milestone. The backend holds requests in memory and writes no history, recorded as TD-001 and TD-003. Identity and the client are unbuilt, recorded as TD-004 and TD-007. The verification environment for NFR-005 is undefined, recorded as TD-008. SRC-MASTER section 3 (p. 7) lists the management capability as a minimum business capability. |
+| Alternatives | Keep the DEC-014 freeze at eleven. Build all seventeen. Build the eleven and add FR-004 only, the cheapest of the six. |
+| Decision | All seventeen baselined requirements form the scope of the M3 release candidate. DEC-014 is superseded. If the schedule cannot hold the full set, requirements leave the candidate in this order: NFR-004, NFR-005, FR-012, then FR-009 and FR-010 together. Each departure is a separate change request with an impact analysis. |
+| Rationale | Eleven requirements leave the management capability undelivered and three Must Have requirements without an implementation. The Master Brief marks delivered scope against the approved baseline, so a narrower candidate moves the gap to the end of the project instead of removing it. The reduction order puts the Should Have requirements first, and the two with targets that DEC-010 already treats as proposals come before the others. |
+| Trade-offs | The candidate carries more half finished risk than the frozen set. A requirement counts as met only with execution evidence, so an unfinished one shows in the release evidence summary as unfinished. We accept that over a narrower surface that would need explaining at the end. |
+| Risks | The scope outgrows the schedule, which is the ordinary failure DEC-014 named. The reduction order and the rule that each reduction is a recorded change are the controls. |
+| Evidence | [CR-005](../change/README.md#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate). The [technical debt register](../technical-debt/README.md), where TD-001, TD-003, TD-004 and TD-007 are the items the construction repays. The [release evidence summary](../release/README.md). |
+| Missing information | Whether the full set fits the schedule. The release evidence summary reports the answer from execution evidence and not from intent. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | Any requirement leaving the candidate, which goes through the [change control register](../change/README.md). |
 
 ## ADR index
 
