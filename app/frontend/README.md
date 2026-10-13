@@ -45,16 +45,18 @@ Only the status change exists in the real backend today. The rest are what the c
 | `GET /categories` | Signed in | The approved category list |
 | `POST /requests` | Requester | Send a request with `title`, `description`, `categoryId`. A 400 reply carries `fields` with one message per field |
 | `GET /requests/mine` | Requester | Their own requests |
-| `GET /requests` | Staff | The queue. Optional `categoryId`, `status`, `sort=oldest` |
-| `GET /requests/:id` | Owner, staff or management in scope | One request |
+| `GET /requests` | Staff | The queue. Optional `categoryId`, `status`. `sort` is `oldest` or `newest`, and the page always sends one of them |
+| `GET /requests/:id` | Owner, staff or management in scope | One request, including its `version` |
 | `GET /requests/:id/history` | Same | The history. Requesters get only the events marked for them |
 | `GET /staff?categoryId=` | Staff | Staff who may take requests in that category |
-| `POST /requests/:id/assign` | Staff | `assigneeId`. A person without the category grant gets 409 |
-| `PATCH /requests/:id/status` | Staff | Already in the contract |
-| `POST /requests/:id/notes` | Staff | `text` and `visibleToRequester` |
-| `PATCH /requests/:id/due-date` | Staff | `dueDate` |
+| `POST /requests/:id/assign` | Staff | `assigneeId` and `expectedVersion`. A person without the category grant gets 409 |
+| `PATCH /requests/:id/status` | Staff | Already in the contract, plus `expectedVersion` |
+| `POST /requests/:id/notes` | Staff | `text`, `visibleToRequester` and `expectedVersion` |
+| `PATCH /requests/:id/due-date` | Staff | `dueDate` and `expectedVersion` |
 | `GET /management/summary` | Management | `open`, `overdue`, `resolved`, `closed`, `openWithoutDueDate`. Optional `categoryId`, `status` |
 | `GET /management/requests` | Management | The list behind a count. `bucket` is `open`, `overdue`, `resolved` or `closed`, with the same filters |
+
+Every change sends the `version` the page was showing, as `expectedVersion`. If the request changed in the meantime, the server answers 409 with `"code": "stale"` and the page shows the latest version instead of overwriting it. The other 409 replies (a refused status move, an ineligible assignee) carry no code.
 
 A request outside the caller's scope gets the same 404 as a request that does not exist, so a reference alone tells nobody anything (NFR-001).
 

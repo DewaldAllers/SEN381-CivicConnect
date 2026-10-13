@@ -41,6 +41,7 @@ async function call(method, path, body) {
     const error = new Error((json && json.error) || "Something went wrong. Please try again.");
     error.status = response.status;
     error.fields = (json && json.fields) || null;
+    error.code = (json && json.code) || null;
     throw error;
   }
   return json ? json.data : null;
@@ -67,10 +68,12 @@ export const api = {
   // Staff
   queue: (filters) => call("GET", "/requests" + query(filters)),
   staffFor: (categoryId) => call("GET", "/staff" + query({ categoryId })),
-  assign: (id, assigneeId) => call("POST", `/requests/${id}/assign`, { assigneeId }),
-  changeStatus: (id, body) => call("PATCH", `/requests/${id}/status`, body),
-  addNote: (id, text, visibleToRequester) => call("POST", `/requests/${id}/notes`, { text, visibleToRequester }),
-  setDueDate: (id, dueDate) => call("PATCH", `/requests/${id}/due-date`, { dueDate }),
+  // Every change sends the version the page was showing. If someone else changed the
+  // request in the meantime, the server refuses with code "stale".
+  assign: (id, version, assigneeId) => call("POST", `/requests/${id}/assign`, { expectedVersion: version, assigneeId }),
+  changeStatus: (id, version, body) => call("PATCH", `/requests/${id}/status`, { ...body, expectedVersion: version }),
+  addNote: (id, version, text, visibleToRequester) => call("POST", `/requests/${id}/notes`, { expectedVersion: version, text, visibleToRequester }),
+  setDueDate: (id, version, dueDate) => call("PATCH", `/requests/${id}/due-date`, { expectedVersion: version, dueDate }),
 
   // Shared
   request: (id) => call("GET", `/requests/${id}`),

@@ -41,9 +41,9 @@ function daysAgo(n) {
 
 let counter = 4;
 const requests = [
-  { id: "REQ-001", title: "Broken tap in the kitchen", description: "The cold tap in the staff kitchen will not turn off.", categoryId: "c-facilities", requesterId: "u-thandi", status: "Submitted", ownerId: null, dueDate: null, submittedAt: daysAgo(2) },
-  { id: "REQ-002", title: "Projector not working in room 4", description: "The projector shows a blue screen and nothing else.", categoryId: "c-it", requesterId: "u-thandi", status: "In Progress", ownerId: "u-sipho", dueDate: daysAgo(1), submittedAt: daysAgo(6) },
-  { id: "REQ-003", title: "Gate lock is loose", description: "The side gate lock does not close properly at night.", categoryId: "c-security", requesterId: "u-bongani", status: "Accepted", ownerId: "u-lerato", dueDate: null, submittedAt: daysAgo(4) },
+  { id: "REQ-001", title: "Broken tap in the kitchen", description: "The cold tap in the staff kitchen will not turn off.", categoryId: "c-facilities", requesterId: "u-thandi", status: "Submitted", ownerId: null, dueDate: null, submittedAt: daysAgo(2), version: 0 },
+  { id: "REQ-002", title: "Projector not working in room 4", description: "The projector shows a blue screen and nothing else.", categoryId: "c-it", requesterId: "u-thandi", status: "In Progress", ownerId: "u-sipho", dueDate: daysAgo(1), submittedAt: daysAgo(6), version: 0 },
+  { id: "REQ-003", title: "Gate lock is loose", description: "The side gate lock does not close properly at night.", categoryId: "c-security", requesterId: "u-bongani", status: "Accepted", ownerId: "u-lerato", dueDate: null, submittedAt: daysAgo(4), version: 0 },
 ];
 const events = [
   { requestId: "REQ-001", at: daysAgo(2), actorId: "u-thandi", type: "Submitted", text: "Request submitted.", visibleToRequester: true },
@@ -86,12 +86,22 @@ function view(r) {
     dueDate: r.dueDate,
     overdue: isOverdue(r),
     submittedAt: r.submittedAt,
+    version: r.version,
   };
 }
 
 function canSee(user, r) {
   if (user.role === "Requester") return r.requesterId === user.id;
   return user.categories.includes(r.categoryId);
+}
+
+// Every change must send the version the caller saw. A stale version is refused,
+// the same way the real store refuses it, so a browser cannot overwrite a newer change.
+function isStale(r, body) {
+  return body.expectedVersion !== r.version;
+}
+function stale(res) {
+  return send(res, 409, { error: "This request was changed by someone else after you opened it", code: "stale" });
 }
 
 function addEvent(requestId, actorId, type, text, visibleToRequester) {
@@ -151,7 +161,7 @@ async function handleApi(req, res, url) {
     if (!categories.some((c) => c.id === body.categoryId)) fields.categoryId = "Choose a category from the list.";
     if (Object.keys(fields).length) return fail(res, 400, "Some fields need correcting", fields);
     counter += 1;
-    const r = { id: "REQ-" + String(counter).padStart(3, "0"), title, description, categoryId: body.categoryId, requesterId: user.id, status: "Submitted", ownerId: null, dueDate: null, submittedAt: new Date().toISOString() };
+    const r = { id: "REQ-" + String(counter).padStart(3, "0"), title, description, categoryId: body.categoryId, requesterId: user.id, status: "Submitted", ownerId: null, dueDate: null, submittedAt: new Date().toISOString(), version: 0 };
     requests.push(r);
     addEvent(r.id, user.id, "Submitted", "Request submitted.", true);
     return ok(res, view(r), 201);
@@ -170,7 +180,9 @@ async function handleApi(req, res, url) {
     const status = url.searchParams.get("status");
     if (category) list = list.filter((r) => r.categoryId === category);
     if (status) list = list.filter((r) => r.status === status);
-    if (url.searchParams.get("sort") === "oldest") list = [...list].sort((a, b) => a.submittedAt.localeCompare(b.submittedAt));
+    const sort = url.searchParams.get("sort");
+    if (sort === "oldest") list = [...list].sort((a, b) => a.submittedAt.localeCompare(b.submittedAt));
+    if (sort === "newest") list = [...list].sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
     return ok(res, list.map(view));
   }
 
@@ -228,34 +240,42 @@ async function handleApi(req, res, url) {
     if (user.role !== "Staff") return fail(res, 403, "Forbidden");
 
     if (method === "POST" && sub === "/assign") {
+      if (isStale(r, body)) return stale(res);
       const assignee = byId(body.assigneeId);
       if (!assignee || assignee.role !== "Staff" || !assignee.categories.includes(r.categoryId)) return fail(res, 409, "That person cannot take this request");
       r.ownerId = assignee.id;
+      r.version += 1;
       addEvent(r.id, user.id, "Owner", `${assignee.name} is now responsible for this request.`, true);
       return ok(res, view(r));
     }
 
     if (method === "PATCH" && sub === "/status") {
       if (!STATUSES.includes(body.status)) return fail(res, 400, "Invalid status value");
+      if (isStale(r, body)) return stale(res);
       if (!transitionOk(r.status, body.status, body, r)) return fail(res, 409, "Invalid request status transition");
       let text = `Status changed from ${r.status} to ${body.status}.`;
       if (body.status === "Rejected") text += ` Reason: ${body.rejectionReason.trim()}`;
       if (body.status === "Resolved") text += ` Resolution: ${body.resolutionInformation.trim()}`;
       r.status = body.status;
+      r.version += 1;
       addEvent(r.id, user.id, "Status", text, true);
-      return ok(res, { id: r.id, status: r.status });
+      return ok(res, { id: r.id, status: r.status, version: r.version });
     }
 
     if (method === "POST" && sub === "/notes") {
       const text = (body.text || "").trim();
       if (!text) return fail(res, 400, "Write something first", { text: "A note cannot be empty." });
+      if (isStale(r, body)) return stale(res);
+      r.version += 1;
       addEvent(r.id, user.id, "Note", text, body.visibleToRequester === true);
-      return ok(res, { saved: true }, 201);
+      return ok(res, view(r), 201);
     }
 
     if (method === "PATCH" && sub === "/due-date") {
       const when = new Date(body.dueDate);
       if (Number.isNaN(when.getTime())) return fail(res, 400, "Choose a valid date", { dueDate: "Choose a valid date." });
+      if (isStale(r, body)) return stale(res);
+      r.version += 1;
       r.dueDate = when.toISOString();
       addEvent(r.id, user.id, "DueDate", `Due date set to ${r.dueDate.slice(0, 10)}.`, true);
       return ok(res, view(r));

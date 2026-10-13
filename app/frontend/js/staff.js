@@ -28,7 +28,7 @@ async function loadQueue() {
     const list = await api.queue({
       categoryId: form.elements.categoryId.value,
       status: form.elements.status.value,
-      sort: form.elements.oldest.checked ? "oldest" : "",
+      sort: form.elements.oldest.checked ? "oldest" : "newest",
     });
     clear(rows);
     empty.hidden = list.length > 0;
@@ -88,6 +88,17 @@ async function showDetail(id) {
   }
 }
 
+// A change refused because someone else got there first: say so and show the latest version.
+async function refused(error) {
+  if (error.code === "stale") {
+    await loadQueue();
+    await showDetail(openId);
+    say("detail-message", "Someone else changed this request after you opened it. You are now looking at the latest version, so check it and try again.");
+    return;
+  }
+  say("detail-message", error.message);
+}
+
 // After any change: tell the person, reload the queue and the open request.
 async function afterChange(message) {
   await loadQueue();
@@ -105,10 +116,10 @@ function ownerBox(request, eligible) {
         type: "button",
         onclick: async () => {
           try {
-            await api.assign(request.id, getId());
+            await api.assign(request.id, request.version, getId());
             await afterChange("Responsibility saved.");
           } catch (error) {
-            say("detail-message", error.message);
+            await refused(error);
           }
         },
       },
@@ -155,7 +166,7 @@ function statusBox(request) {
         type: "button",
         onclick: async () => {
           try {
-            await api.changeStatus(request.id, {
+            await api.changeStatus(request.id, request.version, {
               status: select.value,
               hasOwner: !!request.ownerId,
               rejectionReason: select.value === "Rejected" ? reason.value : undefined,
@@ -163,7 +174,7 @@ function statusBox(request) {
             });
             await afterChange("Status changed to " + select.value + ".");
           } catch (error) {
-            say("detail-message", error.message);
+            await refused(error);
           }
         },
       },
@@ -188,10 +199,10 @@ function noteBox(request) {
         type: "button",
         onclick: async () => {
           try {
-            await api.addNote(request.id, text.value, visible.checked);
+            await api.addNote(request.id, request.version, text.value, visible.checked);
             await afterChange("Note saved.");
           } catch (error) {
-            say("detail-message", error.message);
+            await refused(error);
           }
         },
       },
@@ -214,10 +225,10 @@ function dueBox(request) {
         type: "button",
         onclick: async () => {
           try {
-            await api.setDueDate(request.id, input.value);
+            await api.setDueDate(request.id, request.version, input.value);
             await afterChange("Due date saved.");
           } catch (error) {
-            say("detail-message", error.message);
+            await refused(error);
           }
         },
       },
