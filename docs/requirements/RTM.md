@@ -1,6 +1,6 @@
 # Requirements Traceability Matrix
 
-Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **M2 columns populated from the approved architecture, data, technology and design evidence**
+Version 3.0 | 13 October 2026 | Owner: Tristan Els | Status: **M3 verification plan added, approved when its pull request merges**
 
 Dewald Allers owns the requirement wording this matrix traces. I own the matrix, which means the columns, the statuses and the evidence links.
 
@@ -16,7 +16,9 @@ Version 2.0 replaced the reserved table with the columns M2 needs and filled the
 
 Version 2.1 fills the rest. The quality driver column now carries ASR-01 to ASR-05 from the architecture work rather than candidates. The architecture column names the modules ADR-001 selected. The data column carries the ownership, integrity and access rules from ADR-002 and the permission matrix. The technology column carries the stack from ADR-003. Three requirements now carry real implementation and verification evidence, and their status moved from Approved to In Development.
 
-Fourteen requirements still read Not yet implemented. That is the accurate state of a project three weeks into construction, and the matrix says so rather than describing intent as progress.
+Version 3.0 adds the verification plan. It lists the test cases designed for each requirement, with a status for each case and a place for the evidence. Evidence is added as each case runs and its work merges, so the matrix grows with the build.
+
+Fourteen requirements still read Not yet implemented in the tables below, which describe the state at version 2.1. That is the accurate state of a project three weeks into construction, and the matrix says so rather than describing intent as progress.
 
 ## Status vocabulary
 
@@ -91,6 +93,31 @@ The quality driver column carries the architecturally significant requirements r
 | NFR-003 | Not yet implemented. The request store is an in-memory map in `src/api/app.ts`. | T-NFR-003 planned, not run | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
 | NFR-004 | Not yet implemented | T-NFR-004 planned, not run | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
 | NFR-005 | Not yet implemented | T-NFR-005 planned, not run | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
+
+## Verification plan
+
+Each requirement lists the [test cases](../testing/test-cases.md) designed for it. A case reads Designed until it has run. The evidence column stays empty until a run exists, and a case moves to Passed or Failed only with a link to that run.
+
+| ID | Test cases | Level mix | Case status | Evidence |
+| --- | --- | --- | --- | --- |
+| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | None yet |
+| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | None yet |
+| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | None yet |
+| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | None yet |
+| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | None yet |
+| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | None yet |
+| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | None yet |
+| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | The 9 policy cases and 3 service cases already pass (see the evidence table above) |
+| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed | None yet |
+| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | None yet |
+| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed | None yet |
+| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | None yet |
+| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | The 7 policy cases already pass (see the evidence table above) |
+| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed | None yet |
+| NFR-003 | T-NFR-003-01 | API | Designed | None yet |
+| NFR-004 | T-NFR-004-01 | Manual | Designed | None yet |
+| NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
+| Journeys | T-E2E-01, T-E2E-02 | E2E | Designed | None yet |
 
 ## The end to end trace
 
