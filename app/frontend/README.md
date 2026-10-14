@@ -32,6 +32,8 @@ The sample categories and the title and description length limits are made up fo
 | `manager.html`, `js/manager.js` | Counts of open, overdue, resolved and closed requests and the matching lists (FR-010) |
 | `js/api.js` | Every call to the server. If an endpoint changes, this is the only file to edit |
 | `js/dom.js` | Helpers for building the page safely |
+| `css/style.css` | All the styling. The five team colours sit as variables at the top |
+| `images/team-at-work.avif` | The photo on the sign in page, from Unsplash (`premium_photo-1661329859712-76d8a4500fdb`) |
 | `mock-server.mjs` | The stand-in server |
 
 ## Endpoints the client uses

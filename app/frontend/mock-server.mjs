@@ -294,7 +294,7 @@ function managementList(user, url) {
   return list;
 }
 
-const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".mjs": "text/javascript" };
+const types = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".mjs": "text/javascript", ".avif": "image/avif" };
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
