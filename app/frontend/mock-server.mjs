@@ -69,7 +69,9 @@ function transitionOk(from, to, body, request) {
 const isOverdue = (r) =>
   !!r.dueDate && ["Accepted", "In Progress"].includes(r.status) && new Date(r.dueDate) < new Date();
 
-function view(r) {
+// A requester never sees who in staff is looking after a request, only that someone is.
+// The stand-in server hides the name the way the real server does.
+function view(r, user) {
   const cat = categories.find((c) => c.id === r.categoryId);
   const owner = r.ownerId ? byId(r.ownerId) : null;
   const requester = byId(r.requesterId);
@@ -81,8 +83,8 @@ function view(r) {
     categoryName: cat ? cat.name : "",
     requesterName: requester ? requester.name : "",
     status: r.status,
-    ownerId: r.ownerId,
-    ownerName: owner ? owner.name : null,
+    ownerId: user.role === "Requester" ? null : r.ownerId,
+    ownerName: owner ? (user.role === "Requester" ? "Assigned staff" : owner.name) : null,
     dueDate: r.dueDate,
     overdue: isOverdue(r),
     submittedAt: r.submittedAt,
@@ -164,12 +166,12 @@ async function handleApi(req, res, url) {
     const r = { id: "REQ-" + String(counter).padStart(3, "0"), title, description, categoryId: body.categoryId, requesterId: user.id, status: "Submitted", ownerId: null, dueDate: null, submittedAt: new Date().toISOString(), version: 0 };
     requests.push(r);
     addEvent(r.id, user.id, "Submitted", "Request submitted.", true);
-    return ok(res, view(r), 201);
+    return ok(res, view(r, user), 201);
   }
 
   if (method === "GET" && route === "/requests/mine") {
     if (user.role !== "Requester") return fail(res, 403, "Forbidden");
-    return ok(res, requests.filter((r) => r.requesterId === user.id).map(view));
+    return ok(res, requests.filter((r) => r.requesterId === user.id).map((r) => view(r, user)));
   }
 
   // Staff: the queue
@@ -183,7 +185,7 @@ async function handleApi(req, res, url) {
     const sort = url.searchParams.get("sort");
     if (sort === "oldest") list = [...list].sort((a, b) => a.submittedAt.localeCompare(b.submittedAt));
     if (sort === "newest") list = [...list].sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
-    return ok(res, list.map(view));
+    return ok(res, list.map((r) => view(r, user)));
   }
 
   if (method === "GET" && route === "/staff") {
@@ -216,7 +218,7 @@ async function handleApi(req, res, url) {
       if (bucket === "closed") return r.status === "Closed";
       return true;
     });
-    return ok(res, picked.map(view));
+    return ok(res, picked.map((r) => view(r, user)));
   }
 
   // One request
@@ -228,13 +230,20 @@ async function handleApi(req, res, url) {
     if (!canSee(user, r)) return fail(res, 404, "Request not found");
     const sub = match[2] || "";
 
-    if (method === "GET" && sub === "") return ok(res, view(r));
+    if (method === "GET" && sub === "") return ok(res, view(r, user));
 
     if (method === "GET" && sub === "/history") {
       let list = events.filter((e) => e.requestId === r.id);
       if (user.role === "Requester") list = list.filter((e) => e.visibleToRequester);
       list = [...list].sort((a, b) => a.at.localeCompare(b.at));
-      return ok(res, list.map((e) => ({ at: e.at, actorName: (byId(e.actorId) || {}).name || "", type: e.type, text: e.text, visibleToRequester: e.visibleToRequester })));
+      const hide = (e) => user.role === "Requester" && e.actorId !== user.id;
+      return ok(res, list.map((e) => ({
+        at: e.at,
+        actorName: hide(e) ? "Staff" : (byId(e.actorId) || {}).name || "",
+        type: e.type,
+        text: hide(e) && e.type === "Owner" ? "A member of staff took responsibility for this request." : e.text,
+        visibleToRequester: e.visibleToRequester,
+      })));
     }
 
     if (user.role !== "Staff") return fail(res, 403, "Forbidden");
@@ -246,7 +255,7 @@ async function handleApi(req, res, url) {
       r.ownerId = assignee.id;
       r.version += 1;
       addEvent(r.id, user.id, "Owner", `${assignee.name} is now responsible for this request.`, true);
-      return ok(res, view(r));
+      return ok(res, view(r, user));
     }
 
     if (method === "PATCH" && sub === "/status") {
@@ -268,7 +277,7 @@ async function handleApi(req, res, url) {
       if (isStale(r, body)) return stale(res);
       r.version += 1;
       addEvent(r.id, user.id, "Note", text, body.visibleToRequester === true);
-      return ok(res, view(r), 201);
+      return ok(res, view(r, user), 201);
     }
 
     if (method === "PATCH" && sub === "/due-date") {
@@ -278,7 +287,7 @@ async function handleApi(req, res, url) {
       r.version += 1;
       r.dueDate = when.toISOString();
       addEvent(r.id, user.id, "DueDate", `Due date set to ${r.dueDate.slice(0, 10)}.`, true);
-      return ok(res, view(r));
+      return ok(res, view(r, user));
     }
   }
 
