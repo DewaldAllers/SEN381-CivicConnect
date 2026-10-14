@@ -74,4 +74,16 @@ describe("AuthorizationPolicy", () => {
 
     expect(AuthorizationPolicy.isAllowed(context)).toBe(false);
   });
+
+  it("[TC-UNIT-10][permission matrix] only a requester may submit a request", () => {
+    expect(AuthorizationPolicy.isAllowed({ role: "Requester", action: "SUBMIT" })).toBe(true);
+    expect(AuthorizationPolicy.isAllowed({ role: "Staff", action: "SUBMIT", withinApprovedScope: true })).toBe(false);
+    expect(AuthorizationPolicy.isAllowed({ role: "Management", action: "SUBMIT", withinApprovedScope: true })).toBe(false);
+  });
+
+  it("[TC-UNIT-11][permission matrix] an empty or missing grant gives staff and managers no access", () => {
+    expect(AuthorizationPolicy.isAllowed({ role: "Staff", action: "READ", withinApprovedScope: false })).toBe(false);
+    expect(AuthorizationPolicy.isAllowed({ role: "Staff", action: "READ" })).toBe(false);
+    expect(AuthorizationPolicy.isAllowed({ role: "Management", action: "VIEW_REPORT" })).toBe(false);
+  });
 });
