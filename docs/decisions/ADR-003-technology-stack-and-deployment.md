@@ -145,6 +145,14 @@ The trade-off is that the team remains responsible for dependency management, se
 - Proof-of-concept results
 - Relevant A2 research
 
+## Amendment during M3 construction
+
+Raised on 12 October 2026. Approved when the pull request carrying it is merged.
+
+DEC-016 and CR-006 change the frontend choice above. The decision is in [DEC-016](README.md#dec-016-build-the-client-in-html-css-and-javascript) and the change record is [CR-006](../change/README.md#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite). We build the client as HTML, CSS and JavaScript pages served by the Express server. React and Vite are no longer part of the stack. Node.js, TypeScript, Express, Vitest, Supertest and PostgreSQL stay as selected, with the same versions. The text above stays as approved at M2, so the record shows what was chosen and what changed.
+
+The deployment direction above names a React frontend. It now means the browser client, which Express serves, so the client and the API can run as one service. The security requirements and the deployment risks do not change.
+
 ## References
 
 Render (n.d.) *Free instance types*. Available at: https://render.com/docs/free (Accessed: 30 September 2026).

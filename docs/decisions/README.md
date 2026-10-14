@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **13 decisions recorded, 6 ADRs recorded**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **16 decisions recorded, 6 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -10,7 +10,7 @@ A deferred decision is a real engineering decision. It commits the team to a pos
 
 The eight M1 entries were approved on 9 September, when the branches carrying them merged into `main` through pull requests #21 to #26 with the two approvals SRC-MASTER section 9 (p. 11) requires. They are no longer proposals. Approval is recorded by the merge, not by editing a status line, which is why each entry names the pull request or the readback that evidences it.
 
-The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and DEC-013 are raised on this branch and carry the same rule: they become approved when the pull request carrying them is approved and merged.
+The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #30. DEC-014, DEC-015 and DEC-016 are raised on this branch and carry the same rule: each becomes approved when the pull request carrying it is approved and merged.
 
 | ID | Date | Decision | Type | Authority | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -25,8 +25,11 @@ The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and 
 | [DEC-009](#dec-009-hold-the-ped-as-linked-markdown-in-the-repository) | 2026-09-29 | Hold the PED as linked Markdown under version control rather than as one document | Taken | Team, ratified on merge of PR #27 | In force |
 | [DEC-010](#dec-010-defer-the-p-05-quality-targets-rather-than-approving-them) | 2026-09-29 | Defer the NFR-004 and NFR-005 targets rather than baselining them | Deferred | Team, ratified on merge of PR #27 | In force |
 | [DEC-011](#dec-011-design-as-though-the-data-protection-obligation-applies-without-claiming-compliance) | 2026-09-29 | Design as though the data protection obligation applies, without claiming compliance | Taken | Team, ratified on merge of PR #27 | In force |
-| [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Raised on this branch | Raised |
-| [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Raised on this branch | Raised |
+| [DEC-012](#dec-012-adopt-automated-checks-now-rather-than-deferring-them-to-m3) | 2026-09-30 | Run the tests and the type check on every push and pull request from M2 | Taken | Team, ratified on merge of PR #30 | In force |
+| [DEC-013](#dec-013-keep-installed-dependencies-out-of-version-control) | 2026-09-30 | Track the manifest and lock file, not the installed packages | Taken | Team, ratified on merge of PR #30 | In force |
+| [DEC-014](#dec-014-freeze-the-m3-core-scope) | 2026-10-09 | Freeze eleven requirements as the M3 release candidate and defer six | Taken | Raised on this branch | Raised, superseded by DEC-015 |
+| [DEC-015](#dec-015-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate | Taken | Raised on this branch | Raised |
+| [DEC-016](#dec-016-build-the-client-in-html-css-and-javascript) | 2026-10-12 | Build the client in HTML, CSS and JavaScript, and keep TypeScript, Node.js, Express and PostgreSQL | Taken | Raised on this branch | Raised |
 
 ---
 
@@ -229,6 +232,78 @@ The M2 entries DEC-009 to DEC-011 were approved on merge of PR #27. DEC-012 and 
 | Evidence | Commit `21ef085`. `git ls-files` returns no path under `node_modules`. |
 | Later consequence | Recorded at M3. |
 | Revisit trigger | A dependency that cannot be installed from the registry, or a reproducibility failure that the lock file does not prevent. |
+
+## DEC-014 Freeze the M3 core scope
+
+| Field | Entry |
+| --- | --- |
+| Context | SRC-M3 section 22 (p. 10) asks the team to agree which implemented requirements form the release candidate and to stop adding features. The RTM records three of the seventeen requirements as In Development and fourteen as not started. SRC-M3 section 3 (p. 2) wants one integrated release candidate, at least fifteen meaningful test cases across unit, black-box, API and system levels, and at least two end to end journeys. None of those categories can be reached until a user can complete a journey. |
+| Constraints | Three members and one milestone. The backend holds requests in memory, takes the caller identity from the endpoint and writes no history event, recorded as TD-001, TD-003 and TD-004. No frontend exists, recorded as TD-007. The assessed version is one identified commit or tag, so the scope has to be settled before the candidate is cut. |
+| Alternatives | Carry all seventeen requirements into the release candidate. Freeze a core scope around one complete journey and defer the rest. Keep the M2 slice as it stands and add tests to it. |
+| Decision | Eleven requirements form the M3 release candidate: FR-001, FR-002, FR-003, FR-005, FR-006, FR-007, FR-008, FR-011, NFR-001, NFR-002 and NFR-003. Six are deferred from the candidate: FR-004, FR-009, FR-010, FR-012, NFR-004 and NFR-005. The six stay inside the approved product scope and are not removed from the RTM or the requirements documents. |
+| Rationale | The eleven are the smallest set that produces one journey a user can finish: a requester submits against an approved category, a staff member sees it in a scoped queue, takes ownership, moves it through the agreed transitions, and the requester reads the status and the history. That journey also makes every M3 test category reachable, which none of the alternatives does. Carrying all seventeen would leave most of them half built, and the rubric marks integration, traceability and interpretation rather than feature count. Keeping the M2 slice and testing it harder would produce no end to end case at all, because there is nothing to go end to end through. |
+| Trade-offs | Six requirements carry no implementation at M3, and four of them are Must Have. The RTM will show that, and an assessor will see it. We accept a narrower surface with a complete journey behind it over a wider one with no journey. FR-007 is the most expensive of the eleven, because it adds an endpoint and an assignee eligibility rule. It is in the set because P-02 requires a responsible member before a request can move to In Progress, so leaving it out stops the lifecycle after Accepted and thins out the state transition evidence. |
+| Risks | The set widens under schedule pressure, which is the ordinary failure of a frozen scope. RSK-019 already covers building ahead of an approved decision, and this entry is what it is measured against. |
+| Evidence | The scope split below. TD-001, TD-003, TD-004 and TD-007 in the [technical debt register](../technical-debt/README.md), which are the four items this scope has to pay off. The [release evidence summary](../release/README.md), which classifies the candidate once it is cut. |
+| Missing information | Whether the assignee eligibility rule in the [permission matrix](../data/permission-matrix.md) can be implemented inside the milestone. If it cannot, FR-007 ships with a simpler rule and the limitation is recorded rather than left unstated. |
+| Later consequence | Replaced on 12 October 2026 by [DEC-015](#dec-015-build-all-seventeen-requirements-for-the-m3-release-candidate), through [CR-005](../change/README.md#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate). We raised this limit on 9 October and replaced it before it was merged, because splitting the work across all three of us made the full set possible. The trade-offs entry above says four of the six left-out requirements are Must Have. The [functional](../requirements/functional-requirements.md) and [non-functional](../requirements/non-functional-requirements.md) requirements list three: FR-004, FR-009 and FR-010. The scope split below stays as a record of the 9 October position. |
+| Revisit trigger | A requirement entering or leaving the frozen set goes through the [change control register](../change/README.md) with an impact analysis, not through a conversation. |
+
+### The frozen set
+
+| Requirement | In the M3 candidate | Why |
+| --- | --- | --- |
+| FR-001 Submit a valid request | Yes | The journey starts here, and it is where the validation and category rules are exercised |
+| FR-002 Controlled category choice | Yes | Supplies the equivalence partitioning and boundary cases on the submission fields |
+| FR-003 Own request list and status | Yes | The confidentiality requirement, and the source of the unauthorised access case |
+| FR-005 Staff queue and details | Yes | The staff half of the journey, scoped by category grant |
+| FR-006 Category and status filtering | Yes | Nearly free once the queue exists, and adds a second black-box technique |
+| FR-007 Request ownership | Yes | P-02 needs a responsible member before In Progress, so the lifecycle stops without it |
+| FR-008 Controlled status transitions | Yes | Already implemented and tested. The state transition evidence rests on it |
+| FR-011 Attributable lifecycle history | Yes | Carries NFR-002, which is the integrity rule the data design is built on |
+| NFR-001 Permission enforcement | Yes | Enforced at the data boundary once a real identity exists |
+| NFR-002 History completeness and integrity | Yes | The exactly one event rule, verified once the history write exists |
+| NFR-003 Persistence across restart | Yes | Unblocks every other requirement in the set |
+| FR-004 Request feedback | Deferred | Reads from the history FR-011 writes, so it becomes cheap afterwards rather than now |
+| FR-009 Record work and due date | Deferred | Needed only by the reporting FR-010 carries, which is also deferred |
+| FR-010 Management summary and lists | Deferred | A third role and a reporting view. The largest single item outside the set |
+| FR-012 Oldest first ordering | Deferred | A query convenience with no behaviour behind it that the journey needs |
+| NFR-004 First use usability | Deferred | DEC-010 already defers the target, and no verification environment exists |
+| NFR-005 Responsiveness | Deferred | DEC-010 defers the target. The M3 performance exercise measures an operation rather than this threshold |
+
+The first candidates if the schedule allows more are FR-004, because FR-011 does most of its work, and then FR-010 with FR-009, because together they carry the management capability and the overdue rule CR-003 settled.
+
+## DEC-015 Build all seventeen requirements for the M3 release candidate
+
+| Field | Entry |
+| --- | --- |
+| Context | DEC-014 limited M3 to eleven requirements on 9 October, because the database, login and client were all unbuilt and we were working one after another. We can now work at the same time. The database code sits behind the ADR-002 repository interface, the endpoints are built against an in-memory version of it, and the client is built against the API contract in [api-v1](../integration/api-v1.md). SRC-M3 section 22 (p. 10) asks us to agree a core scope and stop adding features. The six left out are already baselined, so bringing them back adds nothing new. |
+| Constraints | Three people and one milestone. The backend keeps requests in memory and writes no history (TD-001, TD-003). Login and the client do not exist (TD-004, TD-007). The test setup for NFR-005 is not defined (TD-008). SRC-MASTER section 3 (p. 7) lists the management capability as a minimum. |
+| Alternatives | Keep DEC-014 at eleven requirements. Build all seventeen. Build the eleven plus FR-004, the cheapest of the six. |
+| Decision | All seventeen baselined requirements are in the M3 release candidate. This replaces DEC-014. If we run out of time, requirements leave in this order: NFR-004, NFR-005, FR-012, then FR-009 and FR-010 together. Each one is a separate change request with an impact analysis. |
+| Rationale | With eleven requirements, the management part is missing and three Must Have requirements have no code. The Master Brief marks us on delivered scope against the agreed baseline, so a smaller candidate only moves the gap to the end. The cut order drops Should Have requirements first. NFR-004 and NFR-005 go first because DEC-010 already treats their targets as proposals. |
+| Trade-offs | More work could end up half finished. A requirement counts as met only with test results, so an unfinished one shows as unfinished in the release evidence summary. We accept that over a smaller system that we would have to explain at the end. |
+| Risks | The scope grows past the schedule, which is the same risk DEC-014 named. The cut order, and the rule that every cut is a recorded change, are the controls. |
+| Evidence | [CR-005](../change/README.md#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate). The [technical debt register](../technical-debt/README.md): TD-001, TD-003, TD-004 and TD-007 are the items the build pays off. The [release evidence summary](../release/README.md). |
+| Missing information | Whether all seventeen fit in the time. The release evidence summary reports this from test results, not from plans. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | Any requirement leaving the candidate. That goes through the [change control register](../change/README.md). |
+
+## DEC-016 Build the client in HTML, CSS and JavaScript
+
+| Field | Entry |
+| --- | --- |
+| Context | [ADR-003](ADR-003-technology-stack-and-deployment.md) picks React and Vite for the client. No client code exists and nobody has installed or run either one (TD-007, ASM-005). The backend is built and tested with TypeScript, Node.js, Express and Vitest. PostgreSQL is chosen but not yet run. |
+| Constraints | Three people and one milestone. We work in HTML, CSS, JavaScript and Node.js. SRC-MASTER section 18.1 (p. 15) says to consider team skill and learning time. Section 25 (p. 23) says the team carries the risk of a technology not working in the school environment. |
+| Alternatives | Keep React and Vite. Release with an API only and record the missing client as a limitation. Build the client in HTML, CSS and JavaScript served by Express. |
+| Decision | Build plain HTML, CSS and JavaScript pages served by Express. Keep TypeScript, Node.js, Express and PostgreSQL from ADR-003. |
+| Rationale | The client is built last, and the end-to-end tests need it. Learning a new framework first would hold everything up. An API-only release gives NFR-004 nothing to measure and cuts the end-to-end tests down to API calls. The backend and PostgreSQL stay. The backend already exists with 23 passing tests, and PostgreSQL gives us the transactions that ADR-002 needs to save a request and its history event together. |
+| Trade-offs | Plain page code repeats more than components do, and we lose React's larger ecosystem. We keep the client code small so the rules stay in the tested backend. Plain pages do not clean user text automatically, so we show request content as plain text only. |
+| Risks | User text shown as HTML. An end-to-end test that types a script tag into a field checks this. Express now serves the pages and the API. Keeping the `/api/v1` interface separate means we can split them later. |
+| Evidence | [CR-006](../change/README.md#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite). TD-007 in the [technical debt register](../technical-debt/README.md). The amendment note at the end of ADR-003. |
+| Missing information | Whether the plain client meets the NFR-004 target in the five-person check. We record the result when we have it. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | The client needs something the plain pages cannot do without turning into a framework of their own, or the client must be deployed separately. Either one goes through the [change control register](../change/README.md). |
 
 ## ADR index
 

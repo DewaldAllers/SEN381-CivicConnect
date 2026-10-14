@@ -22,6 +22,7 @@ The PED is held as linked Markdown in this repository rather than as one file, s
 | v0.1 to v0.3 | 7 to 8 September 2026 | M1 drafting | Three members drafted in parallel on separate branches. Nothing was baselined. | Branch commits on `feature/m1-member1-foundation`, `m1-part2-requirements-foundation` and `m1-part3-risk-decisions-governance` |
 | v1.0 | 9 September 2026 | M1 baseline | Problem and business need, stakeholders, scope baseline, constraints, 12 functional and 5 non-functional requirements, acceptance criteria, initial RTM, initial Risk Register, initial Engineering Decision Log, Forward Engineering Considerations, GitHub governance evidence, AI Usage Register and the team working agreement. | PR #21, #22, #23, #24, #25 and #26 merged into `main`. Working agreement agreed by all three members on 9 September 2026 |
 | v2.0 | 30 September 2026 | M2 | Review of the v1.0 baseline and the four changes arising from it. Change control register, baseline register, assumptions and dependencies register. RTM rebuilt on the M2 columns and populated. Risk Register reviewed and extended to 22 entries. Architecturally significant requirements, architecture selection and data model. Technology stack with pinned versions and deployment direction. Two design decisions and the initial interface decision. Backend vertical slice with automated checks. | PR #27 and #29 merged into `main`, each approved by the two members who did not author it. PR #28 and the integration request PR #30 carry the remainder. Baseline record BL-002 |
+| v3.0 | In progress from 9 October 2026 | M3 | Defect Register, Technical Debt Register and release evidence summary opened. Implementation and verification evidence added to the RTM as construction proceeds. The release candidate tag is named in the release summary once cut. | Recorded here as each part is approved |
 
 ## What changed between v1.0 and v2.0
 
@@ -60,6 +61,9 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Assumptions and dependencies | [assumptions/README.md](../assumptions/README.md) | v2.0 | New in v2.0 |
 | Forward Engineering Considerations | [forward-engineering/README.md](../forward-engineering/README.md) | v2.0 | Reviewed |
 | Engineering Decision Log and ADR index | [decisions/README.md](../decisions/README.md) | v2.0 | Reviewed and extended |
+| Defect Register | [defects/README.md](../defects/README.md) | v3.0 | New in v3.0, 5 entries all closed |
+| Technical Debt Register | [technical-debt/README.md](../technical-debt/README.md) | v3.0 | New in v3.0, 8 entries |
+| Release evidence summary | [release/README.md](../release/README.md) | v3.0 | New in v3.0, classified NOT READY |
 | GitHub governance evidence | [github-governance.md](../../evidence/github-governance.md) | v1.0 | Baselined, rechecked for v2.0 |
 | AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v2.0 | Extended with the M2 entries |
 | Source register | [sources.md](../sources.md) | v2.0 | Extended with SRC-M2 |
@@ -72,7 +76,7 @@ Ownership means the member drafts the part and answers for it first. All three o
 
 ## How this document is controlled
 
-Identifiers are permanent. A requirement, risk, decision, concern, change or baseline keeps its identifier for the life of the project. The prefixes in use are `FR`, `NFR`, `AC`, `NEED-P2`, `P`, `RSK`, `FEC`, `DEC`, `ADR`, `CR`, `ASM`, `DEP` and `BL`.
+Identifiers are permanent. A requirement, risk, decision, concern, change or baseline keeps its identifier for the life of the project. The prefixes in use are `FR`, `NFR`, `AC`, `NEED-P2`, `P`, `RSK`, `FEC`, `DEC`, `ADR`, `CR`, `ASM`, `DEP`, `BL`, `ASR`, `DEF` and `TD`.
 
 Baselined content is not silently edited. Once a baseline is approved, a material change to a requirement, scope item, constraint or approved decision goes through the [change control process](../change/README.md) before it is applied, and the superseded position stays readable.
 

@@ -13,6 +13,7 @@ The Master Brief was subsequently located on the course portal and saved by the 
 | SRC-A1-BRIEF | Belgium Campus ITversity (2026), *SEN381 Assignment1 Research_Foundations*, 9 pages; supplied assignment brief | Assignment boundary and research/AI expectations; not a CivicConnect scenario |
 | SRC-MASTER | Belgium Campus ITversity (2026), *SEN381 CivicConnect Master Project Brief*, version 1.1, 29 pages | Governing project source; scenario/capabilities pp. 6-7, constraints p. 8, governance p. 11, AI/requirements p. 12, security p. 14 |
 | SRC-M2 | Belgium Campus ITversity (2026), *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*, 12 pages; supplied course brief | Authority for M2 outputs, evidence set and assessment, subject to its governing Master Brief |
+| SRC-M3 | Belgium Campus ITversity (2026), *SEN381 CivicConnect Project Milestone 3: Controlled Construction, Integration, Quality and Release Readiness*, 13 pages; supplied course brief | Authority for M3 outputs, verification baseline, release evidence and assessment, subject to its governing Master Brief |
 | SRC-A2 | de Villiers, L., Els, T. and Allers, D. (2026), *SEN381 Assignment 2*; team submission | Comparative research support for persistence integrity and internal interaction decisions; not a CivicConnect requirement or an approved technology decision |
 | SRC-USER | Dewald's pasted CivicConnect setup request and subsequent responses in this Codex task, 2026-09-07 | Authorisation for repository name, private visibility, Liam invitation, Part 2 ownership and output formats; not evidence of product behaviour |
 | SRC-GH | GitHub Docs, *Managing protected branches* and *About protected branches*, accessed 2026-09-07 | Product capability guidance; actual configuration is proved by repository evidence |
@@ -25,6 +26,7 @@ The course PDFs remain in the supplied local course folders and have not been up
 | SRC-A1 | `2E403739B888A23AF515B14D2F61B3EF9D6ED5ADAF01D56BF39FC477C85FC27E` |
 | SRC-A1-BRIEF | `77889140291C3197C5ABCB0D8DE1FB3EEA9BDA7E7CFCAF44615069B236B90B0C` |
 | SRC-MASTER | `3962569C4FC372DA0D2B9AA3419996AC324929152DE66867387A9E5C69D68D72` |
+| SRC-M3 | `DC629D2B7DB11EB7D368035D1E0B90CCA91BC8B1B1DEB6A51463B78ADF31F9CA` |
 | SRC-M2 | `D6B9B195F909B494A899E778644B9E4703441174128DA7AB068C5EBD07A625B2` |
 
 Master Brief course location: [Project - 01. Project Requirements Specification](https://connect.belgiumcampus.ac.za/mod/resource/view.php?id=22372) (course login required). The local filename is `SEN381 Master Project Brief.pdf` in the SEN381 Project course folder.
@@ -57,6 +59,8 @@ Belgium Campus ITversity (2026) *SEN381 CivicConnect Master Project Brief*, vers
 Belgium Campus ITversity (n.d.) *SEN381 Project Milestone 1: Engineering Foundation and Requirements Baseline*. Cited as `SRC-M1`.
 
 Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 2: Architecture, Technology and Initial Design Baseline*. Cited as `SRC-M2`. Read in full on 29 September 2026. The local filename is `SEN381_CivicConnect_Milestone_2.pdf` in the SEN381 Project course folder.
+
+Belgium Campus ITversity (2026) *SEN381 CivicConnect Project Milestone 3: Controlled Construction, Integration, Quality and Release Readiness*. Cited as `SRC-M3`. Read in full on 9 October 2026. The local filename is `SEN381_M3.pdf` in the SEN381 Project course folder.
 
 de Villiers, L., Els, T. and Allers, D. (n.d.) *SEN381 Assignment 1 - HONNE*. Cited as `SRC-A1`.
 

@@ -1,6 +1,6 @@
 # Change control register
 
-Version 2.0 | 29 September 2026 | Owner: Tristan Els | Status: **four changes raised against the PED v1.0 baseline**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **six changes raised, four against the PED v1.0 baseline and two during M3 construction**
 
 PED v1.0 was baselined on 9 September 2026. From that point a material change to a requirement, scope item, constraint or approved decision is controlled rather than absorbed into an edit. SRC-MASTER section 14 (p. 13) sets the path, and SRC-MASTER section 11 (p. 12) says baselined requirements may not be silently edited after sign-off.
 
@@ -30,6 +30,8 @@ Planned milestone progression is also not a change. M1 recorded architecture, te
 | [CR-002](#cr-002-close-the-five-requirement-proposals-p-01-to-p-05) | 2026-09-29 | Close the five requirement proposals P-01 to P-05 | FR-001 to FR-011, NFR-001 to NFR-005, acceptance criteria, RTM | Modify | Raised |
 | [CR-003](#cr-003-define-overdue-on-calendar-time-in-one-recorded-time-zone) | 2026-09-29 | Define overdue on calendar time in one recorded time zone | FR-009, FR-010, FR-011 and their criteria | Accept | Raised |
 | [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Raised |
+| [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Raised |
+| [CR-006](#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite) | 2026-10-12 | Build the client in HTML, CSS and JavaScript instead of React and Vite | ADR-003 frontend selection, ADR-006 wording, ASM-005, TD-007 | Accept | Raised |
 
 ---
 
@@ -118,6 +120,48 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Risk impact | Reduces RSK-006. Introduces the risk that an anonymisation route becomes a way to erase accountability, which is why the route is restricted to a named role and the event survives the redaction. That residual is recorded in the Risk Register as RSK-016. |
 | Recommendation | ACCEPT as a constraint on the data model, not as a new functional requirement for M2. |
 | Authorisation | Recorded by the approvals on the pull request that carries this register into `main`. |
+
+## CR-005 Build all seventeen requirements for the M3 release candidate
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-005 |
+| Requested by | Tristan Els |
+| Date | 2026-10-12 |
+| Requested change | Build all seventeen requirements for the M3 release candidate. This replaces the eleven-requirement limit in DEC-014. The wording of the requirements does not change. |
+| Reason and expected value | DEC-014 left six requirements out because we thought three people could not build everything in time. We can now split the work so the database, the endpoints and the client are built at the same time. Three of the six are Must Have. FR-009 and FR-010 are also the whole management part of the system, which the Master Brief lists as a minimum capability (SRC-MASTER section 3, p. 7). Without them the system serves two of the three user groups. The Master Brief marks us on how much of the agreed scope we deliver (SRC-MASTER section 21, p. 21), so anything left out has to be explained later. |
+| Requirements affected | FR-004, FR-009, FR-010, FR-012, NFR-004 and NFR-005 come back in. The other eleven stay as they were. |
+| Architecture and design affected | None. The modules in ADR-001 already cover these. FR-004 reads the history that FR-011 writes. FR-010 reads data the same way the staff queue does. |
+| UI, API and data affected | New endpoints to read feedback and the management summary, and one to record actions, comments and due dates. The database gets a table for work records and a due date. Management is added as a role in the permission matrix. |
+| Security and privacy impact | Management is a new role with its own limits on what it can see, so the permission tests for NFR-001 need extra rows. Feedback shows only what the requester may see, never internal staff notes. |
+| Quality and testing impact | We need test cases for the six requirements. NFR-005 is measured in the M3 performance test, which needs the test setup and data size that TD-008 says are not defined yet. NFR-004 needs a check with five people. Both targets stay as proposals under DEC-010 until we have a measurement. |
+| Scope impact | Reverses DEC-014. The product scope does not change, because DEC-014 never removed these six from the baseline. |
+| Schedule and resource impact | This is the main cost. The work is split across all three of us: database first, then endpoints, then the client and the end-to-end tests. If we run out of time, requirements leave in this order: NFR-004, NFR-005, FR-012, then FR-009 and FR-010 together. Each one is its own change request with an impact analysis. SRC-MASTER section 18 (p. 15) asks us to record the trade-off when time is short. |
+| Cost impact | None. |
+| Risk impact | The risk is the one DEC-014 named: too much scope, with requirements left half built. The order above is the control. A requirement counts as met only when we have test results for it. |
+| Recommendation | ACCEPT |
+| Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
+
+## CR-006 Build the client in HTML, CSS and JavaScript instead of React and Vite
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-006 |
+| Requested by | Tristan Els |
+| Date | 2026-10-12 |
+| Requested change | Build the client as plain HTML, CSS and JavaScript pages, served by the Express server. This replaces React 19.3.0 and Vite 8.3.x. TypeScript, Node.js, Express and PostgreSQL stay as ADR-003 says. |
+| Reason and expected value | No client code exists, and nobody on the team has installed or run React or Vite (TD-007, ASM-005). We already work in HTML, CSS, JavaScript and Node.js. SRC-MASTER section 18.1 (p. 15) says to consider team skill and learning time when choosing technology. The client is the last part we build, and the end-to-end tests cannot run without it. We should not spend that time learning a new framework first. |
+| Requirements affected | None. NFR-004 keeps its usability target. |
+| Architecture and design affected | No change to ADR-001. The client stays separate from the server and only talks to it through the `/api/v1` interface in ADR-006. The Express server will also serve the pages, so staging is one service. We can split the client out later without changing the API. |
+| UI, API and data affected | The API and the data do not change. ADR-006 says "React frontend". Read that as "browser client". |
+| Security and privacy impact | React cleans up text before it shows it, and plain pages do not. Anything a user types, such as a title or a comment, must be shown as plain text and never as HTML. The permission checks stay on the server, as ADR-003 says. |
+| Quality and testing impact | End-to-end tests use a browser tool and work the same on plain pages. We cannot use React's component test tools, so we keep the client simple and keep the rules in the backend, which is tested. |
+| Scope impact | None. |
+| Schedule and resource impact | Takes a new set of tools out of the work. Plain page code repeats more than React components do, and we accept that. |
+| Cost impact | None. |
+| Risk impact | React and Vite no longer count against the assumption in ASM-005. We lose reusable components and React's larger ecosystem. A new risk is user text shown as HTML. An end-to-end test that types a script tag into a field checks it. |
+| Recommendation | ACCEPT |
+| Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
 
 ---
 

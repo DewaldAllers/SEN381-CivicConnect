@@ -43,6 +43,9 @@ Everything in this repository is one evolving Project Engineering Document. Star
 | Change control register | [docs/change](docs/change/README.md) |
 | Baseline register and sign-off | [docs/baselines](docs/baselines/README.md) |
 | Risk Register | [docs/risks](docs/risks/README.md) |
+| Defect Register | [docs/defects](docs/defects/README.md) |
+| Technical Debt Register | [docs/technical-debt](docs/technical-debt/README.md) |
+| Release evidence summary | [docs/release](docs/release/README.md) |
 | Assumptions and dependencies | [docs/assumptions](docs/assumptions/README.md) |
 | Forward Engineering Considerations | [docs/forward-engineering](docs/forward-engineering/README.md) |
 | AI Usage Register | [docs/ai-register](docs/ai-register/AI-Usage-Register.md) |
