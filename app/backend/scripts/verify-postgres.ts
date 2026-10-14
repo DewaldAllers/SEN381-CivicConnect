@@ -60,6 +60,11 @@ async function verify(): Promise<void> {
     await store.setDueDate(staff, { requestId: "REQ-VERIFY", expectedVersion: 3, dueAt });
     assert.equal((await store.history(staff, "REQ-VERIFY")).length, 5);
     assert.equal((await store.feedback(requester, "REQ-VERIFY")).length, 4);
+    const feedback = await store.feedback(requester, "REQ-VERIFY");
+    assert.equal(feedback.find((event) => event.eventKind === "OWNERSHIP_CHANGED")?.actorRef, null);
+    assert.equal(JSON.stringify(feedback).includes(staff.id), false);
+    assert.equal((await store.get(requester, "REQ-VERIFY"))?.responsibleRef, null);
+    assert.equal((await store.history(staff, "REQ-VERIFY"))[2].details.newOwner, staff.id);
     assert.equal(await store.get({ ...requester, id: "another-user" }, "REQ-VERIFY"), null);
     assert.deepEqual(await store.staffQueue({ ...staff, categoryRefs: [] }), []);
 

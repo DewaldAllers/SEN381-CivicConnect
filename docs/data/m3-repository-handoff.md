@@ -29,9 +29,9 @@ All mutations need the version the caller observed. Include `version` in detail 
 
 ## Mapping to Tristan's proposed client
 
-Map `categoryId` to `categoryRef`, `rejectionReason` to `reason`, `resolutionInformation` to `resolution`, `dueDate` to `dueAt`, and `assigneeId` to the trusted assignee lookup. Map repository `responsibleRef` back to `ownerId`, and expose the version. `submittedAt` is provided; Date values serialize to ISO strings. Actor/requester/owner display names come from Liam's identity store; the repository only owns stable references. `categoryName` is returned from the category join.
+Map `categoryId` to `categoryRef`, `rejectionReason` to `reason`, `resolutionInformation` to `resolution`, `dueDate` to `dueAt`, and `assigneeId` to the trusted assignee lookup. For staff/management, map repository `responsibleRef` back to `ownerId` and resolve the name through Liam's identity store. For requester responses, use `hasOwner` to show the generic `ownerName` "Assigned staff" or null; a masked owner ID must not make the page falsely say "Nobody yet". Expose the version. `submittedAt` is provided; Date values serialize to ISO strings. `categoryName` is returned from the category join.
 
-For history, map `occurredAt` to `at` and `actorRef` to `actorName` through a trusted lookup. Format `eventKind`, old/new status and details as plain text in the API adapter. Rejection/resolution text is stored in the status event. Private notes are excluded by SQL before a requester response, so no browser-side privacy filter is needed.
+For history, map `occurredAt` to `at`. Staff/management views retain `actorRef` for a trusted name lookup; requester views return null for staff actors, so show a generic label such as "Staff" without a lookup. Requester ownership feedback returns `{ ownershipChanged: true }` instead of staff identifiers, and requester detail/list responses mask `responsibleRef`. The stored audit record and staff/management views retain the original actor and old/new owner references. Format `eventKind`, old/new status and details as plain text in the API adapter. Rejection/resolution text is stored in the status event. Private notes are excluded by SQL before a requester response, so no browser-side privacy filter is needed. This supplies the repository privacy outcome behind T-FR-011-03; the authenticated HTTP case still needs Liam's endpoints.
 
 ## Data rules and reviewable proposals
 
@@ -44,7 +44,7 @@ For history, map `occurredAt` to `at` and `actorRef` to `actorName` through a tr
 
 ## Verification and evidence
 
-The 23 repository/lifecycle/seed cases cover FR-002 through FR-006, FR-009 through FR-012 and the data outcomes of NFR-002/003. The existing 23 M2 cases remain. Tests execute real PostgreSQL SQL in PGlite; one disk-backed case closes/reopens storage and compares values/history.
+The 24 repository/lifecycle/seed cases cover FR-002 through FR-006, FR-009 through FR-012 and the data outcomes of NFR-002/003. The existing 23 M2 cases remain. Tests execute real PostgreSQL SQL in PGlite; one disk-backed case closes/reopens storage and compares values/history.
 
 `npm run db:verify` separately runs on a PostgreSQL 18 GitHub service, checks migration repeatability, genuine SQL-rejected event rollback, scoped queries, competing updates, report/list consistency and a fresh-process persistence read. The run prints the actual server version. The [persistence workflow](../../.github/workflows/persistence-checks.yml) runs lint/type checks and that command. The shared backend workflow still runs the full unit/component/API suite. Successful workflow runs are evidence; the workflow file alone is not a result.
 

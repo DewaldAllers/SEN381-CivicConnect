@@ -20,6 +20,7 @@ export interface PersistentRequest {
   description: string;
   status: RequestStatus;
   responsibleRef: string | null;
+  hasOwner: boolean;
   dueAt: Date | null;
   submittedAt: Date;
   version: number;
@@ -29,7 +30,8 @@ export type EventKind = "SUBMITTED" | "STATUS_CHANGED" | "OWNERSHIP_CHANGED" | "
 export interface RequestEvent {
   id: string;
   requestId: string;
-  actorRef: string;
+  /** Staff/management retain the audit actor; requester views hide staff IDs. */
+  actorRef: string | null;
   eventKind: EventKind;
   previousStatus: RequestStatus | null;
   newStatus: RequestStatus;
@@ -114,20 +116,24 @@ function predicates(principal: Principal, filters: RequestFilters, values: unkno
   }
   return clauses.join(" AND ");
 }
-function toRequest(row: RequestRow): PersistentRequest {
+function toRequest(row: RequestRow, requesterView = false): PersistentRequest {
   return {
     id: row.id, requesterRef: row.requester_ref, categoryRef: row.category_ref,
     categoryName: row.category_name, title: row.title, description: row.description,
-    status: row.status, responsibleRef: row.responsible_ref,
+    status: row.status, responsibleRef: requesterView ? null : row.responsible_ref,
+    hasOwner: row.responsible_ref !== null,
     dueAt: row.due_at ? new Date(row.due_at) : null,
     submittedAt: new Date(row.submitted_at), version: row.version,
   };
 }
-function toEvent(row: EventRow): RequestEvent {
+function toEvent(row: EventRow, requesterId?: string): RequestEvent {
+  const requesterView = requesterId !== undefined;
   return {
-    id: String(row.id), requestId: row.request_id, actorRef: row.actor_ref,
+    id: String(row.id), requestId: row.request_id,
+    actorRef: requesterView && row.actor_ref !== requesterId ? null : row.actor_ref,
     eventKind: row.event_kind, previousStatus: row.previous_status, newStatus: row.new_status,
-    details: row.details, visibleToRequester: row.visible_to_requester, occurredAt: new Date(row.occurred_at),
+    details: requesterView && row.event_kind === "OWNERSHIP_CHANGED" ? { ownershipChanged: true } : row.details,
+    visibleToRequester: row.visible_to_requester, occurredAt: new Date(row.occurred_at),
   };
 }
 export class StaleRequestError extends Error {
@@ -174,7 +180,7 @@ export class RequestStore {
     const result = await this.database.query<RequestRow>(
       `SELECT ${columns} FROM ${from} WHERE r.id = $1 AND ${allowed}`, values
     );
-    return result.rows[0] ? toRequest(result.rows[0]) : null;
+    return result.rows[0] ? toRequest(result.rows[0], principal.role === "Requester") : null;
   }
 
   async ownList(principal: Principal): Promise<PersistentRequest[]> {
@@ -193,7 +199,7 @@ export class RequestStore {
     const result = await this.database.query<RequestRow>(
       `SELECT ${columns} FROM ${from} WHERE ${where} ORDER BY r.submitted_at ${direction}, r.id`, values
     );
-    return result.rows.map(toRequest);
+    return result.rows.map((row) => toRequest(row, principal.role === "Requester"));
   }
 
   async history(principal: Principal, requestId: string): Promise<RequestEvent[]> {
@@ -205,7 +211,7 @@ export class RequestStore {
     const result = await this.database.query<EventRow>(`SELECT e.* FROM request_events e
       JOIN service_requests r ON r.id = e.request_id
       WHERE r.id = $1 AND ${allowed} ${visible} ORDER BY e.occurred_at, e.id`, values);
-    return result.rows.map(toEvent);
+    return result.rows.map((row) => toEvent(row, principal.role === "Requester" ? principal.id : undefined));
   }
   async feedback(principal: Principal, requestId: string): Promise<RequestEvent[]> {
     role(principal, "Requester");
@@ -300,7 +306,7 @@ export class RequestStore {
     const result = await this.database.query<RequestRow>(`SELECT ${columns} FROM ${from}
       WHERE ${where} AND (${buckets[bucket]}) AND $${values.length}::timestamptz IS NOT NULL
       ORDER BY r.submitted_at, r.id`, values);
-    return result.rows.map(toRequest);
+    return result.rows.map((row) => toRequest(row));
   }
   private buckets(time: string): Record<ManagementBucket, string> {
     return {

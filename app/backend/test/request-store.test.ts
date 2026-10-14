@@ -171,6 +171,28 @@ describe("PostgreSQL request repository", () => {
     await expect(store.feedback(other, "REQ-001")).rejects.toThrow("Request not found");
   });
 
+  it("keeps staff references out of requester detail and feedback while preserving the audit record", async () => {
+    await submit();
+    await store.assign(staff, { requestId: "REQ-001", expectedVersion: 0, assignee: staff });
+    await store.assign(staff, { requestId: "REQ-001", expectedVersion: 1, assignee: { ...staff, id: "staff-2" } });
+    await store.recordWork(staff, { requestId: "REQ-001", expectedVersion: 2, text: "Internal inspection" });
+    const feedback = await store.feedback(requester, "REQ-001");
+    expect(feedback).toHaveLength(3);
+    expect(feedback[0].actorRef).toBe(requester.id);
+    expect(feedback[1]).toMatchObject({ actorRef: null, details: { ownershipChanged: true } });
+    expect(JSON.stringify(feedback)).not.toContain("staff-1");
+    expect(JSON.stringify(feedback)).not.toContain("staff-2");
+    expect(JSON.stringify(feedback)).not.toContain("Internal inspection");
+    expect((await store.get(requester, "REQ-001"))?.responsibleRef).toBeNull();
+    expect((await store.get(requester, "REQ-001"))?.hasOwner).toBe(true);
+    expect((await store.ownList(requester))[0].responsibleRef).toBeNull();
+    const audit = await store.history(staff, "REQ-001");
+    expect(audit).toHaveLength(4);
+    expect(audit[2]).toMatchObject({ actorRef: staff.id, details: { previousOwner: "staff-1", newOwner: "staff-2" } });
+    expect((await store.get(staff, "REQ-001"))?.responsibleRef).toBe("staff-2");
+    expect(await store.history(manager, "REQ-001")).toEqual(audit);
+  });
+
   it("rolls back a work record and version on event failure", async () => {
     await submit();
     await expect(new RequestStore(failingEventDatabase(database)).recordWork(staff, {
