@@ -14,3 +14,8 @@ node_modules/
 rr.json
 resp.json
 pr.json
+
+# Build output and test reports
+dist/
+test-results/
+perf-results/
