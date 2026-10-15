@@ -13,8 +13,8 @@
 import { RequestStatus } from "../domain/request-status.js";
 
 /**
- * In-memory implementation of the persistence boundary.
- * Access is checked here so callers cannot widen their own permissions.
+ * In-memory implementation of the same persistence boundary used by PostgreSQL.
+ * Access is checked here too; callers cannot widen their own category scope.
  */
 export class InMemoryRequestRepository implements RequestRepository {
   private readonly requests = new Map<string, RequestRecord>();
@@ -25,13 +25,11 @@ export class InMemoryRequestRepository implements RequestRepository {
   constructor(private readonly now: () => Date = () => new Date()) {}
 
   /**
-   * Load demo and test fixtures.
-   * This is for setup only, not a user-facing repository operation.
+   * Seeds the in-memory repository with demo or test data.
+   * This helper is for setup only; normal application operations
+   * must continue to use the principal-aware repository methods.
    */
-  seed(
-    records: readonly RequestRecord[],
-    events: readonly HistoryEvent[]
-  ): void {
+  seed(records: RequestRecord[], events: HistoryEvent[] = []): void {
     this.requests.clear();
     this.events.length = 0;
 
@@ -39,20 +37,20 @@ export class InMemoryRequestRepository implements RequestRepository {
       this.requests.set(record.id, { ...record });
     }
 
-    for (const event of events) {
-      this.events.push({
+    this.events.push(
+      ...events.map((event) => ({
         ...event,
         details: { ...event.details },
-      });
-    }
+      }))
+    );
 
     this.requestCounter = records.reduce((max, record) => {
-      const match = /^REQ-(\d+)$/.exec(record.id);
+      const match = /^REQ-(\\d+)$/.exec(record.id);
       return match ? Math.max(max, Number(match[1])) : max;
     }, 0);
 
     this.eventCounter = events.reduce((max, event) => {
-      const match = /^EVT-(\d+)$/.exec(event.id);
+      const match = /^EVT-(\\d+)$/.exec(event.id);
       return match ? Math.max(max, Number(match[1])) : max;
     }, 0);
   }
@@ -70,15 +68,9 @@ export class InMemoryRequestRepository implements RequestRepository {
       throw new Error("Unauthorised operation");
     }
 
-    let id: string;
-
-    do {
-      this.requestCounter += 1;
-      id = `REQ-${String(this.requestCounter).padStart(3, "0")}`;
-    } while (this.requests.has(id));
-
+    this.requestCounter += 1;
     const record: RequestRecord = {
-      id,
+      id: `REQ-${String(this.requestCounter).padStart(3, "0")}`,
       ...input,
       status: RequestStatus.SUBMITTED,
       ownerId: null,
@@ -88,7 +80,6 @@ export class InMemoryRequestRepository implements RequestRepository {
 
     this.requests.set(record.id, record);
     this.pushEvent(record.id, event, input.submittedAt);
-
     return { ...record };
   }
 
@@ -97,11 +88,7 @@ export class InMemoryRequestRepository implements RequestRepository {
     id: string
   ): Promise<RequestRecord | null> {
     const record = this.requests.get(id);
-
-    if (!record || !this.canRead(principal, record)) {
-      return null;
-    }
-
+    if (!record || !this.canRead(principal, record)) return null;
     return this.forPrincipal(principal, record);
   }
 
@@ -109,17 +96,12 @@ export class InMemoryRequestRepository implements RequestRepository {
     principal: RepositoryPrincipal,
     requesterId: string
   ): Promise<RequestRecord[]> {
-    if (
-      principal.role !== "Requester" ||
-      requesterId !== principal.id
-    ) {
+    if (principal.role !== "Requester" || requesterId !== principal.id) {
       return [];
     }
 
     return this.sorted(
-      [...this.requests.values()].filter(
-        (record) => record.requesterId === principal.id
-      ),
+      [...this.requests.values()].filter((record) => record.requesterId === principal.id),
       false
     ).map((record) => this.forPrincipal(principal, record));
   }
@@ -128,28 +110,18 @@ export class InMemoryRequestRepository implements RequestRepository {
     principal: RepositoryPrincipal,
     filter: QueueFilter
   ): Promise<RequestRecord[]> {
-    if (
-      principal.role !== "Staff" &&
-      principal.role !== "Management"
-    ) {
-      return [];
-    }
+    if (principal.role !== "Staff" && principal.role !== "Management") return [];
 
     const allowedCategories = new Set(principal.categoryIds);
-
     const visible = [...this.requests.values()].filter(
       (record) =>
         allowedCategories.has(record.categoryId) &&
         filter.categoryIds.includes(record.categoryId) &&
-        (filter.categoryId === undefined ||
-          record.categoryId === filter.categoryId) &&
-        (filter.status === undefined ||
-          record.status === filter.status)
+        (filter.categoryId === undefined || record.categoryId === filter.categoryId) &&
+        (filter.status === undefined || record.status === filter.status)
     );
 
-    return this.sorted(visible, filter.oldestFirst === true).map(
-      (record) => ({ ...record })
-    );
+    return this.sorted(visible, filter.oldestFirst === true).map((record) => ({ ...record }));
   }
 
   async update(
@@ -160,39 +132,22 @@ export class InMemoryRequestRepository implements RequestRepository {
     event: NewHistoryEvent
   ): Promise<RequestRecord> {
     const current = this.requests.get(id);
-
-    if (!current || !this.canRead(principal, current)) {
-      throw new RequestNotFoundError();
-    }
-
-    if (
-      principal.role !== "Staff" ||
-      event.actorId !== principal.id
-    ) {
+    if (!current || !this.canRead(principal, current)) throw new RequestNotFoundError();
+    if (principal.role !== "Staff" || event.actorId !== principal.id) {
       throw new Error("Unauthorised operation");
     }
-
-    if (current.version !== expectedVersion) {
-      throw new StaleRequestError();
-    }
+    if (current.version !== expectedVersion) throw new StaleRequestError();
 
     const updated: RequestRecord = {
       ...current,
-      ...(changes.status !== undefined && {
-        status: changes.status,
-      }),
-      ...(changes.ownerId !== undefined && {
-        ownerId: changes.ownerId,
-      }),
-      ...(changes.dueDate !== undefined && {
-        dueDate: changes.dueDate,
-      }),
+      ...(changes.status !== undefined && { status: changes.status }),
+      ...(changes.ownerId !== undefined && { ownerId: changes.ownerId }),
+      ...(changes.dueDate !== undefined && { dueDate: changes.dueDate }),
       version: current.version + 1,
     };
 
     this.requests.set(id, updated);
     this.pushEvent(id, event, this.now().toISOString());
-
     return { ...updated };
   }
 
@@ -202,7 +157,6 @@ export class InMemoryRequestRepository implements RequestRepository {
     event: NewHistoryEvent
   ): Promise<void> {
     const record = this.requests.get(id);
-
     if (
       !record ||
       !this.canRead(principal, record) ||
@@ -211,7 +165,6 @@ export class InMemoryRequestRepository implements RequestRepository {
     ) {
       throw new RequestNotFoundError();
     }
-
     this.pushEvent(id, event, this.now().toISOString());
   }
 
@@ -220,28 +173,18 @@ export class InMemoryRequestRepository implements RequestRepository {
     requestId: string
   ): Promise<HistoryEvent[]> {
     const record = this.requests.get(requestId);
+    if (!record || !this.canRead(principal, record)) throw new RequestNotFoundError();
 
-    if (!record || !this.canRead(principal, record)) {
-      throw new RequestNotFoundError();
-    }
-
-    const history = this.events.filter(
-      (event) => event.requestId === requestId
-    );
-
+    const history = this.events.filter((event) => event.requestId === requestId);
     if (principal.role !== "Requester") {
-      return history.map((event) => ({
-        ...event,
-        details: { ...event.details },
-      }));
+      return history.map((event) => ({ ...event, details: { ...event.details } }));
     }
 
     return history
       .filter((event) => event.visibleToRequester)
       .map((event) => ({
         ...event,
-        actorId:
-          event.actorId === principal.id ? event.actorId : "",
+        actorId: event.actorId === principal.id ? event.actorId : "",
         details:
           event.kind === "OWNER_CHANGED"
             ? { ownershipChanged: true }
@@ -249,14 +192,10 @@ export class InMemoryRequestRepository implements RequestRepository {
       }));
   }
 
-  private canRead(
-    principal: RepositoryPrincipal,
-    record: RequestRecord
-  ): boolean {
+  private canRead(principal: RepositoryPrincipal, record: RequestRecord): boolean {
     if (principal.role === "Requester") {
       return record.requesterId === principal.id;
     }
-
     return principal.categoryIds.includes(record.categoryId);
   }
 
@@ -267,7 +206,6 @@ export class InMemoryRequestRepository implements RequestRepository {
     if (principal.role === "Requester") {
       return { ...record, ownerId: null };
     }
-
     return { ...record };
   }
 
@@ -277,7 +215,6 @@ export class InMemoryRequestRepository implements RequestRepository {
     at: string
   ): void {
     this.eventCounter += 1;
-
     this.events.push({
       ...event,
       id: `EVT-${String(this.eventCounter).padStart(3, "0")}`,
@@ -293,16 +230,9 @@ export class InMemoryRequestRepository implements RequestRepository {
   ): RequestRecord[] {
     return records.sort((a, b) => {
       const difference =
-        new Date(a.submittedAt).getTime() -
-        new Date(b.submittedAt).getTime();
-
-      if (difference !== 0) {
-        return oldestFirst ? difference : -difference;
-      }
-
-      return oldestFirst
-        ? a.id.localeCompare(b.id)
-        : b.id.localeCompare(a.id);
+        new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
+      if (difference !== 0) return oldestFirst ? difference : -difference;
+      return oldestFirst ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id);
     });
   }
 }

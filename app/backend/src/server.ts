@@ -18,10 +18,11 @@ import { PostgresRequestRepository } from "./persistence/postgres-request-reposi
 
 const PORT = Number(process.env.PORT ?? 3000);
 
+// Users and category grants are seeded server configuration (ADR-007).
+// The shared password comes from the environment, not from the repository.
 const directory = new InMemoryUserDirectory(
   await buildSeedUsers(resolveSeedPassword(process.env))
 );
-
 const sessions = new SessionStore();
 
 let repository: RequestRepository = new InMemoryRequestRepository();
@@ -64,6 +65,7 @@ const app = createApp({
   requests: new RequestApplication(repository, directory),
   directory,
   sessions,
+  // Platforms expose the deployed commit under different names; APP_VERSION wins.
   version:
     process.env.APP_VERSION ??
     process.env.RENDER_GIT_COMMIT ??
