@@ -1,6 +1,6 @@
 # CivicConnect API v1
 
-Version 3.0 | 13 October 2026 | Owner: Liam de Villiers | Status: **all seventeen requirements exposed; in-memory store behind the repository interface**
+Version 3.0 with proposed integration corrections, 15 October 2026 | Owner: Liam de Villiers | Status: **PostgreSQL adapter connected; corrections awaiting team review**
 
 The API is the HTTP boundary between the client and the CivicConnect backend. The decision behind it is [ADR-006](../decisions/ADR-006-api-integration.md). Sign-in and scope are decided in [ADR-007](../decisions/ADR-007-authentication-and-sessions.md). The boundary is versioned at `/api/v1` so a breaking change can be published alongside the current contract.
 
@@ -12,6 +12,7 @@ Authorisation is applied on the server for every operation. Hiding a control in 
 - Every success is `{ "data": ... }`. Every error is `{ "error": "..." }`, and a validation error also carries `"fields": { "<field>": "<message>" }`.
 - Times are ISO 8601 in UTC.
 - Every endpoint except `GET /health` and `POST /session` needs `Authorization: Bearer <token>`.
+- Assignment, status, note and due-date writes require `expectedVersion`: the non-negative integer `version` returned by the client's last request read. Missing/invalid values return 400; a stale value returns 409 with `code: "stale"`. Reload rather than automatically retrying. Each successful write increments the version, including notes. This enforces the existing frontend/data handoff; the stricter API contract and existing store lifecycle restrictions below require team review/change-control linkage before baselining.
 
 ## Status codes
 
@@ -41,10 +42,10 @@ A response other than 2xx leaves stored data unchanged and records no history ev
 | `GET /requests/:id` | Owner, staff or management in scope | One request. | FR-003, FR-005 |
 | `GET /requests/:id/history` | Same | Events oldest first. A requester sees only events marked visible to them. | FR-004, FR-011 |
 | `GET /staff?categoryId=` | Staff | Staff who may take requests in that category, limited to categories the caller can see. | FR-007 |
-| `POST /requests/:id/assign` | Staff in scope | Body `assigneeId`. The assignee must be Staff with a grant for the request's category, otherwise 409. | FR-007 |
+| `POST /requests/:id/assign` | Staff in scope | Body `assigneeId`, `expectedVersion`. The assignee must be Staff with a grant for the request's category, otherwise 409. | FR-007 |
 | `PATCH /requests/:id/status` | Staff in scope | See below. | FR-008 |
-| `POST /requests/:id/notes` | Staff in scope | Body `text`, `visibleToRequester`. Returns 201. | FR-009 |
-| `PATCH /requests/:id/due-date` | Staff in scope | Body `dueDate` (a date or date-time string). | FR-009 |
+| `POST /requests/:id/notes` | Staff in scope | Body `text`, `visibleToRequester`, `expectedVersion`. Returns 201. | FR-009 |
+| `PATCH /requests/:id/due-date` | Staff in scope | Body `dueDate` (a date/date-time string, or null/empty string to clear), `expectedVersion`. | FR-009 |
 | `GET /management/summary` | Management | `open`, `overdue`, `resolved`, `closed`, `openWithoutDueDate`. Optional `categoryId`, `status`. | FR-010 |
 | `GET /management/requests` | Management | The list behind a count. `bucket` is `open`, `overdue`, `resolved` or `closed`, with the same filters. | FR-010 |
 
@@ -56,6 +57,7 @@ Scope for staff and management is the caller's category grants held on the serve
 
 ```json
 {
+  "expectedVersion": 1,
   "status": "Accepted",
   "rejectionReason": "Outside the approved category list",
   "resolutionInformation": "Lock replaced and tested"
@@ -64,6 +66,7 @@ Scope for staff and management is the caller's category grants held on the serve
 
 | Field | Required | Description |
 | --- | --- | --- |
+| `expectedVersion` | Yes | The stored version observed by the browser. Invalid/missing returns 400; stale returns 409 with `code: "stale"`. |
 | `status` | Yes | One of `Submitted`, `Accepted`, `Rejected`, `In Progress`, `Resolved`, `Closed`. |
 | `rejectionReason` | For Submitted to Rejected | Non-empty after trimming. |
 | `resolutionInformation` | For In Progress to Resolved | Non-empty after trimming. |
@@ -71,11 +74,13 @@ Scope for staff and management is the caller's category grants held on the serve
 
 Success: `200 { "data": { "id": "REQ-001", "status": "Accepted" } }`.
 
-The checks run in this order: the request exists and is in scope (404), the role may change status (403), the status value is recognised (400), the transition and its required information are allowed (409).
+The checks run in this order: the request exists and is in scope (404), the role may change status (403), the observed version is valid/current (400/409), the status value is recognised (400), the transition and its required information are allowed (409). The atomic repository write also checks the version, protecting against a race after the initial read.
 
 ## History events
 
 Each successful change writes exactly one event, in the same commit as the change. An event carries its actor, time and the old and new values, and is shown as `{ at, actorName, type, text, visibleToRequester }` with `type` one of `Submitted`, `Status`, `Owner`, `Note`, `DueDate`.
+
+For requester responses, staff actors display as "Staff", ownership changes as "Responsibility updated.", and assigned requests expose `ownerId: null`, `ownerName: "Assigned staff"`. Stored audit references remain available to authorised staff/management. Private notes are not returned to requesters.
 
 ## Overdue
 
@@ -85,13 +90,15 @@ A request is overdue when it is Accepted or In Progress and its due date is **st
 
 `app/backend/test/api.test.ts` drives every endpoint through HTTP (TC-API-01 to TC-API-34). `app/backend/test/in-memory-request-repository.test.ts` runs the repository contract (TC-REPO-01 to TC-REPO-09) that the PostgreSQL store must also pass. Each test name carries the requirement or acceptance criterion it demonstrates.
 
+The PostgreSQL adapter now runs the same contract in `postgres-request-repository.test.ts`. `data-api.integration.test.ts` checks raw HTTP version enforcement, atomic notes/rollback, due-date clearing, lifecycle guards and masked requester feedback against both adapters. `npm run test:postgres` requires a real `TEST_DATABASE_URL` and includes compiled migration/server-restart verification. See the dated [data evidence](../data/m3-integration-verification.md).
+
 ## Current limitations
 
-- Requests, history and sessions are held in memory until the PostgreSQL store implements the repository interface. A restart loses them (TD-001).
+- Requests/work/history persist in PostgreSQL when `DATABASE_URL` is configured; staging/production requires it. Local development without that variable uses the in-memory adapter. Sessions remain in memory, so users sign in again after a server restart.
 - Users and category grants are seeded configuration. There is no way to change a grant while the system runs.
 - Sign-in has no lockout or rate limit.
 - The category list and field limits are the sample values from P-01 and are still to be decided.
-- Assigning and recording notes or due dates are allowed in any status, because P-02 does not restrict them.
+- The integrated data store already restricts assignment after Resolved/Closed/Rejected, notes after Closed/Rejected, and due dates outside Accepted/In Progress. The API now returns 409 consistently for these cases rather than exposing store errors as 500. These are implementation rules for team review, not a claim that P-02 approved additional restrictions.
 
 ## Change compatibility
 

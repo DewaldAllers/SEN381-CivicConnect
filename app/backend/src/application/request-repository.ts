@@ -9,6 +9,8 @@ export interface RequestRecord {
   requesterId: string;
   status: RequestStatus;
   ownerId: string | null;
+  /** Indicates an assignment when staff identity is masked for a requester. */
+  hasOwner?: boolean;
   /** ISO 8601, UTC. Null means no due date has been agreed. */
   dueDate: string | null;
   /** ISO 8601, UTC. */
@@ -134,10 +136,11 @@ export interface RequestRepository {
     event: NewHistoryEvent
   ): Promise<RequestRecord>;
 
-  /** Records an event that changes no request field, such as a note (FR-009). */
+  /** Appends a note and increments the observed request version atomically. */
   appendEvent(
     principal: RepositoryPrincipal,
     id: string,
+    expectedVersion: number,
     event: NewHistoryEvent
   ): Promise<void>;
 

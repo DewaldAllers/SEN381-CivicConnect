@@ -400,7 +400,7 @@ describe("Notes and due dates (FR-009, FR-004)", () => {
     expect(events).toHaveLength(1);
     expect(events[0].details).toEqual({ previousDueDate: null, newDueDate: "2026-10-20T00:00:00.000Z" });
 
-    for (const dueDate of ["not a date", null, 0, undefined]) {
+    for (const dueDate of ["not a date", 0, undefined]) {
       expect((await as("sipho").patch("/requests/REQ-001/due-date", { dueDate })).status).toBe(400);
     }
     expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(1);

@@ -1,4 +1,5 @@
 import { type UserDirectory } from "../auth/user-directory.js";
+import { ValidationError } from "../application/errors.js";
 import {
   RequestNotFoundError as ApplicationNotFoundError,
   StaleRequestError as ApplicationStaleRequestError,
@@ -32,12 +33,16 @@ function record(value: PersistentRequest): RequestRecord {
     requesterId: value.requesterRef,
     status: value.status,
     ownerId: value.responsibleRef,
+    hasOwner: value.hasOwner,
     dueDate: value.dueAt?.toISOString() ?? null,
     submittedAt: value.submittedAt.toISOString(),
     version: value.version,
   };
 }
 function translateError(error: unknown): never {
+  if (error instanceof Error && error.message === "Unapproved category") {
+    throw new ValidationError("Choose an active approved category", { categoryId: "Choose a category from the list." });
+  }
   if (error instanceof StoreNotFoundError || (error instanceof Error && error.name === "RequestNotFoundError")) {
     throw new ApplicationNotFoundError();
   }
@@ -64,7 +69,7 @@ function historyEvent(value: RequestEvent): HistoryEvent | null {
       break;
     case "OWNERSHIP_CHANGED":
       kind = "OWNER_CHANGED";
-      mapped = {
+      mapped = details.ownershipChanged === true ? { ownershipChanged: true } : {
         previousOwnerId: typeof details.previousOwner === "string" ? details.previousOwner : null,
         newOwnerId: typeof details.newOwner === "string" ? details.newOwner : null,
       };
@@ -138,12 +143,12 @@ export class PostgresRequestRepository implements RequestRepository {
     const scopedCategories = principal.categoryIds.filter((id) => filter.categoryIds.includes(id));
     if (filter.categoryId !== undefined && !scopedCategories.includes(filter.categoryId)) return [];
     try {
-      const results = await this.store.listForRepository(storePrincipal(principal), {
+      const results = await this.store.listForRepository({ ...storePrincipal(principal), categoryRefs: scopedCategories }, {
         ...(filter.categoryId ? { categoryRef: filter.categoryId } : {}),
         ...(filter.status ? { status: filter.status } : {}),
         sort: filter.oldestFirst ? "oldest" : "newest",
       });
-      return results.filter((item) => scopedCategories.includes(item.categoryRef)).map(record);
+      return results.map(record);
     } catch (error) {
       return translateError(error);
     }
@@ -190,14 +195,16 @@ export class PostgresRequestRepository implements RequestRepository {
     }
   }
 
-  async appendEvent(principal: RepositoryPrincipal, id: string, event: NewHistoryEvent): Promise<void> {
+  async appendEvent(principal: RepositoryPrincipal, id: string, expectedVersion: number, event: NewHistoryEvent): Promise<void> {
     try {
+      if (event.actorId !== principal.id) throw new Error("Unauthorised operation");
       if (event.kind !== "NOTE_ADDED" || typeof event.details.text !== "string") {
-        throw new Error("Only note events can be appended without changing request version");
+        throw new Error("Only note events can use the atomic note path");
       }
       await this.store.appendRepositoryNote(
         storePrincipal(principal),
         id,
+        expectedVersion,
         event.details.text,
         event.visibleToRequester
       );
