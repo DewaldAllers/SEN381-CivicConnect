@@ -10,6 +10,7 @@
     "db:seed:perf": "tsx scripts/seed-performance.ts",
     "lint": "eslint src test scripts --max-warnings=0",
     "test": "vitest run",
+    "test:postgres": "node scripts/require-test-database.mjs && tsc && vitest run test/data-api.integration.test.ts test/postgres-request-repository.test.ts test/server-restart.integration.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },

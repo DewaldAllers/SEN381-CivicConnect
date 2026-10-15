@@ -190,9 +190,14 @@ const records = await this.repository.listInCategories(
   }
 
   /** FR-007: take or assign responsibility. The assignee must hold a grant for the request's category. */
-  async assign(principal: User, id: string, assigneeId: unknown): Promise<RequestView> {
+  async assign(principal: User, id: string, body: Record<string, unknown>): Promise<RequestView> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "ASSIGN", record);
+    this.observedVersion(record, body.expectedVersion);
+    if ([RequestStatus.RESOLVED, RequestStatus.CLOSED, RequestStatus.REJECTED].includes(record.status)) {
+      throw new ConflictError("Ownership cannot change in this state");
+    }
+    const assigneeId = body.assigneeId;
 
     const assignee =
       typeof assigneeId === "string" ? this.directory.findById(assigneeId) : undefined;
@@ -230,6 +235,7 @@ const records = await this.repository.listInCategories(
   ): Promise<{ id: string; status: RequestStatus }> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "CHANGE_STATUS", record);
+    this.observedVersion(record, body.expectedVersion);
 
     const to = body.status;
     if (!Object.values(RequestStatus).includes(to as RequestStatus)) {
@@ -283,6 +289,8 @@ const records = await this.repository.listInCategories(
   async addNote(principal: User, id: string, body: Record<string, unknown>): Promise<{ saved: true }> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "RECORD_ACTION", record);
+    this.observedVersion(record, body.expectedVersion);
+    if ([RequestStatus.CLOSED, RequestStatus.REJECTED].includes(record.status)) throw new ConflictError("Request is terminal");
 
     const text = asText(body.text);
     if (text.length === 0) {
@@ -293,12 +301,17 @@ const records = await this.repository.listInCategories(
         text: `A note can be at most ${FIELD_LIMITS.noteMax} characters.`,
       });
     }
-    await this.repository.appendEvent(this.repositoryPrincipal(principal), record.id, {
-      kind: "NOTE_ADDED",
-      actorId: principal.id,
-      visibleToRequester: body.visibleToRequester === true,
-      details: { text },
-    });
+    try {
+      await this.repository.appendEvent(this.repositoryPrincipal(principal), record.id, record.version, {
+        kind: "NOTE_ADDED",
+        actorId: principal.id,
+        visibleToRequester: body.visibleToRequester === true,
+        details: { text },
+      });
+    } catch (error) {
+      if (error instanceof StaleRequestError) throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
+      throw error;
+    }
     return { saved: true };
   }
 
@@ -306,20 +319,25 @@ const records = await this.repository.listInCategories(
   async setDueDate(principal: User, id: string, body: Record<string, unknown>): Promise<RequestView> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "RECORD_ACTION", record);
+    this.observedVersion(record, body.expectedVersion);
+    if (![RequestStatus.ACCEPTED, RequestStatus.IN_PROGRESS].includes(record.status)) {
+      throw new ConflictError("Due dates require accepted work");
+    }
 
-    const when = typeof body.dueDate === "string" ? new Date(body.dueDate) : null;
-    if (!when || Number.isNaN(when.getTime())) {
+    const clear = body.dueDate === null || body.dueDate === "";
+    const when = !clear && typeof body.dueDate === "string" ? new Date(body.dueDate) : null;
+    if (!clear && (!when || Number.isNaN(when.getTime()))) {
       throw new ValidationError("Choose a valid date", { dueDate: "Choose a valid date." });
     }
     const updated = await this.commit(
       principal,
       record,
-      { dueDate: when.toISOString() },
+      { dueDate: when?.toISOString() ?? null },
       {
         kind: "DUE_DATE_SET",
         actorId: principal.id,
         visibleToRequester: true,
-        details: { previousDueDate: record.dueDate, newDueDate: when.toISOString() },
+        details: { previousDueDate: record.dueDate, newDueDate: when?.toISOString() ?? null },
       }
     );
     return this.view(updated);
@@ -341,7 +359,7 @@ const records = await this.repository.listInCategories(
       .sort((a, b) => a.at.localeCompare(b.at))
       .map((event) => ({
         at: event.at,
-        actorName: this.nameOf(event.actorId),
+        actorName: principal.role === "Requester" && event.actorId !== principal.id ? "Staff" : this.nameOf(event.actorId),
         type: this.typeOf(event),
         text: this.describe(event),
         visibleToRequester: event.visibleToRequester,
@@ -469,7 +487,7 @@ private async commit(
 );
     } catch (error) {
       if (error instanceof StaleRequestError) {
-        throw new ConflictError("This request was changed by someone else. Reload and try again.");
+        throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
       }
       throw error;
     }
@@ -482,6 +500,15 @@ private async commit(
       OVERDUE_STATUSES.includes(record.status) &&
       new Date(record.dueDate) < now
     );
+  }
+
+  private observedVersion(record: RequestRecord, value: unknown): void {
+    if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) {
+      throw new ValidationError("A valid observed version is required", { expectedVersion: "Send the non-negative integer version shown by your last read." });
+    }
+    if (value !== record.version) {
+      throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
+    }
   }
 
   private nameOf(userId: string): string {
@@ -498,7 +525,7 @@ private async commit(
       requesterName: this.nameOf(record.requesterId),
       status: record.status,
       ownerId: record.ownerId,
-      ownerName: record.ownerId ? this.nameOf(record.ownerId) : null,
+      ownerName: record.ownerId ? this.nameOf(record.ownerId) : record.hasOwner ? "Assigned staff" : null,
       dueDate: record.dueDate,
       overdue: this.isOverdue(record, this.now()),
       submittedAt: record.submittedAt,
@@ -529,6 +556,7 @@ private async commit(
         return text;
       }
       case "OWNER_CHANGED": {
+        if (d.ownershipChanged === true) return "Responsibility updated.";
         let text = `${this.nameOf(String(d.newOwnerId))} is now responsible for this request.`;
         if (typeof d.previousOwnerId === "string") {
           text += ` Previously: ${this.nameOf(d.previousOwnerId)}.`;
@@ -538,6 +566,7 @@ private async commit(
       case "NOTE_ADDED":
         return String(d.text ?? "");
       case "DUE_DATE_SET":
+        if (d.newDueDate === null) return "Due date cleared.";
         return `Due date set to ${String(d.newDueDate).slice(0, 10)}.`;
     }
   }

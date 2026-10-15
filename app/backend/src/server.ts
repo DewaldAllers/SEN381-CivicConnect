@@ -31,10 +31,6 @@ let pool: Pool | undefined;
 if (process.env.DATABASE_URL) {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl:
-      process.env.PGSSLMODE === "require"
-        ? { rejectUnauthorized: false }
-        : undefined,
   });
 
   try {
@@ -51,6 +47,10 @@ if (process.env.DATABASE_URL) {
     await pool.end();
     throw error;
   }
+}
+
+if (!pool && ["staging", "production"].includes(process.env.NODE_ENV ?? "")) {
+  throw new Error("DATABASE_URL must be set for staging or production");
 }
 
 if (
@@ -75,7 +75,8 @@ const app = createApp({
 });
 
 const server = app.listen(PORT, () => {
-  console.log(`CivicConnect API running on port ${PORT}`);
+  const address = server.address();
+  console.log(`CivicConnect API running on port ${typeof address === "object" && address ? address.port : PORT}`);
 });
 
 async function shutdown() {

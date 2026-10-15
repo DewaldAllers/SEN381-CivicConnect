@@ -45,12 +45,12 @@ export class InMemoryRequestRepository implements RequestRepository {
     );
 
     this.requestCounter = records.reduce((max, record) => {
-      const match = /^REQ-(\\d+)$/.exec(record.id);
+      const match = /^REQ-(\d+)$/.exec(record.id);
       return match ? Math.max(max, Number(match[1])) : max;
     }, 0);
 
     this.eventCounter = events.reduce((max, event) => {
-      const match = /^EVT-(\\d+)$/.exec(event.id);
+      const match = /^EVT-(\d+)$/.exec(event.id);
       return match ? Math.max(max, Number(match[1])) : max;
     }, 0);
   }
@@ -154,6 +154,7 @@ export class InMemoryRequestRepository implements RequestRepository {
   async appendEvent(
     principal: RepositoryPrincipal,
     id: string,
+    expectedVersion: number,
     event: NewHistoryEvent
   ): Promise<void> {
     const record = this.requests.get(id);
@@ -165,6 +166,8 @@ export class InMemoryRequestRepository implements RequestRepository {
     ) {
       throw new RequestNotFoundError();
     }
+    if (record.version !== expectedVersion) throw new StaleRequestError();
+    this.requests.set(id, { ...record, version: record.version + 1 });
     this.pushEvent(id, event, this.now().toISOString());
   }
 
@@ -204,7 +207,7 @@ export class InMemoryRequestRepository implements RequestRepository {
     record: RequestRecord
   ): RequestRecord {
     if (principal.role === "Requester") {
-      return { ...record, ownerId: null };
+      return { ...record, ownerId: null, hasOwner: record.ownerId !== null };
     }
     return { ...record };
   }

@@ -306,38 +306,15 @@ export class RequestStore {
     return this.list(principal, filters);
   }
 
-  /** Append a note without changing the request version, matching the application contract. */
+  /** Repository adapter hook sharing the versioned atomic work-record path. */
   async appendRepositoryNote(
     principal: Principal,
     requestId: string,
+    expectedVersion: number,
     text: string,
     visibleToRequester: boolean
   ): Promise<void> {
-    role(principal, "Staff");
-    nonBlank(text, "text");
-    await this.database.transaction(async (client) => {
-      const values: unknown[] = [requestId];
-      const allowed = scope(principal, values);
-      const result = await client.query<RequestRow>(
-        `SELECT ${columns} FROM ${from} WHERE r.id = $1 AND ${allowed} FOR UPDATE OF r`, values
-      );
-      const current = result.rows[0];
-      if (!current) throw new RequestNotFoundError();
-      if ([RequestStatus.REJECTED, RequestStatus.CLOSED].includes(current.status)) {
-        throw new Error("Request is terminal");
-      }
-      await client.query(
-        `INSERT INTO work_records (request_id, actor_ref, kind, text, visible_to_requester)
-         VALUES ($1, $2, 'NOTE', $3, $4)`,
-        [requestId, principal.id, text, visibleToRequester]
-      );
-      await client.query(
-        `INSERT INTO request_events
-         (request_id, actor_ref, event_kind, previous_status, new_status, details, visible_to_requester)
-         VALUES ($1, $2, 'WORK_RECORDED', $3, $3, $4::jsonb, $5)`,
-        [requestId, principal.id, current.status, JSON.stringify({ kind: "NOTE", text }), visibleToRequester]
-      );
-    });
+    await this.recordWork(principal, { requestId, expectedVersion, text, kind: "NOTE", visibleToRequester });
   }
 
   async managementSummary(principal: Principal, filters: RequestFilters = {}, at = new Date()): Promise<ManagementSummary> {

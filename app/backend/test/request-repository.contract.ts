@@ -170,10 +170,10 @@ export function describeRequestRepositoryContract(
   ).rejects.toBeInstanceOf(RequestNotFoundError);
 });
 
-    it("[TC-REPO-06] appendEvent records a note without changing the request", async () => {
+    it("[TC-REPO-06] appendEvent records a note and advances the observed version", async () => {
       const saved = await repo.create(requester, input(), submitted);
 
-      await repo.appendEvent(staff, saved.id, {
+      await repo.appendEvent(staff, saved.id, saved.version, {
         kind: "NOTE_ADDED",
         actorId: "u-sipho",
         visibleToRequester: false,
@@ -182,7 +182,7 @@ export function describeRequestRepositoryContract(
 
       expect(
         (await repo.findById(requester, saved.id))?.version,
-      ).toBe(saved.version);
+      ).toBe(saved.version + 1);
 
       const events = await repo.history(staff, saved.id);
 

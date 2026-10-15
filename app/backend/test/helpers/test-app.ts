@@ -43,10 +43,19 @@ export async function buildTestApp(options: { users?: User[]; startAt?: Date } =
 
   const as = (username: string) => {
     const header = { Authorization: `Bearer ${tokenFor(username)}` };
+    // Existing behaviour tests model a client that reads before writing. Raw
+    // missing/stale-version inputs are exercised by data-api.integration.test.
+    const bodyFor = async (path: string, body: object) => {
+      if (!/^\/requests\/[^/]+\/(assign|status|notes|due-date)$/.test(path)) return body;
+      if (Object.hasOwn(body, "expectedVersion")) return body;
+      const detailPath = path.slice(0, path.lastIndexOf("/"));
+      const detail = await request(app).get(`/api/v1${detailPath}`).set(header);
+      return { expectedVersion: detail.body.data?.version ?? 0, ...body };
+    };
     return {
       get: (path: string) => request(app).get(`/api/v1${path}`).set(header),
-      post: (path: string, body: object = {}) => request(app).post(`/api/v1${path}`).set(header).send(body),
-      patch: (path: string, body: object = {}) => request(app).patch(`/api/v1${path}`).set(header).send(body),
+      post: async (path: string, body: object = {}) => request(app).post(`/api/v1${path}`).set(header).send(await bodyFor(path, body)),
+      patch: async (path: string, body: object = {}) => request(app).patch(`/api/v1${path}`).set(header).send(await bodyFor(path, body)),
     };
   };
 
