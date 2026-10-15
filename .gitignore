@@ -19,3 +19,6 @@ pr.json
 dist/
 test-results/
 perf-results/
+
+# Browser journey reports
+playwright-report/
