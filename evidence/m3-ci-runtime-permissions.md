@@ -1,10 +1,10 @@
 # M3 CI gate and runtime database permissions
 
-15 October 2026 | Owner: Dewald Allers | Branch: `m3-runtime-permissions-ci-evidence`
+15 October 2026 | Author: Dewald Allers | Branch: `m3-runtime-permissions-ci-evidence`
 
 ## Required CI gate: live repository setting
 
-The owner enabled `backend-checks` as a required status check on `main`, pinned to GitHub Actions app ID 15368. Strict/up-to-date checking is enabled. The existing two approvals, stale-approval dismissal, conversation resolution and admin enforcement remain enabled; force pushes and deletions remain disabled. The backend job runs TypeScript checking, automated tests and a blocking high/critical shipped-dependency audit. A failed required job prevents merging; an administrator has no configured bypass.
+I enabled `backend-checks` as a required status check on `main`, pinned to GitHub Actions app ID 15368. Strict/up-to-date checking is enabled. I kept the existing two approvals, stale-approval dismissal, conversation resolution and admin enforcement enabled, with force pushes and deletions disabled. The backend job runs TypeScript checking, automated tests and a blocking high/critical shipped-dependency audit. A failed required job prevents merging; an administrator has no configured bypass.
 
 Read back with `gh api repos/DewaldAllers/SEN381-CivicConnect/branches/main/protection`:
 
@@ -38,9 +38,9 @@ The original `civicconnect_app` login owned the database/schema/tables and had C
 | `schema_migrations` | None |
 | `active_request_category(text)` | EXECUTE; can only read/lock a matching active category |
 
-PostgreSQL requires an UPDATE privilege to use `FOR SHARE` even when no category is changed. Migration 003 preserves the category lock through a fixed-SQL SECURITY DEFINER helper rather than granting category writes to the app. Its table is schema-qualified, its search path is fixed to `pg_catalog, pg_temp`, and PUBLIC execution is revoked. Only the owner and explicitly granted runtime login execute it. New migrations/new tables need explicit grant review; there is no blanket future-table grant.
+PostgreSQL requires an UPDATE privilege to use `FOR SHARE` even when no category is changed. Migration 003 preserves the category lock through a fixed-SQL SECURITY DEFINER helper rather than granting category writes to the app. Its table is schema-qualified, its search path is fixed to `pg_catalog, pg_temp`, and PUBLIC execution is revoked. Only the database owner role and explicitly granted runtime login execute it. New migrations/new tables need explicit grant review; there is no blanket future-table grant.
 
-`operations/runtime-privileges.sql` also revokes the default PUBLIC TEMP grant on this database. The owner retains administrative/migration ability. This is one backend database identity, not database-per-person authorisation: the server still enforces requester ownership and staff/management category scope.
+`operations/runtime-privileges.sql` also revokes the default PUBLIC TEMP grant on this database. The database owner role retains administrative/migration ability. This is one backend database identity, not database-per-person authorisation: the server still enforces requester ownership and staff/management category scope.
 
 ## Executed verification and limits
 
@@ -55,7 +55,7 @@ Local lint and type checking passed, and `npm test` passed 151 cases with two in
 - `app/backend/.env.database` and `.env.database-runtime` now contain the verified restricted app connection as `DATABASE_URL`.
 - `.codex-work/CivicConnect-Database-Connection.txt` now contains that same restricted URL for private sharing with Liam. Never paste it in a public PR, register, frontend file or screenshot.
 - `app/backend/.env.database-admin` preserves the existing owner connection as `DATABASE_ADMIN_URL`. Use it only for migrations/maintenance. `TEST_DATABASE_URL` also needs a privileged test connection because those test commands create/drop isolated schemas.
-- These local files are gitignored. Liam must replace any older owner URL he saved for the app; changing Dewald's saved file does not update another computer or a deployed service. Old owner credentials were not revoked or rotated, so no teammate was locked out.
+- These local files are gitignored. Liam must replace any older database-owner URL he saved for the app; changing my saved file does not update another computer or a deployed service. I did not revoke or rotate the database owner credentials, so no teammate was locked out.
 - The free database expires on **13 November 2026**. No payment or paid upgrade was made. Recreate/move the environment using migrations and update private settings before expiry; existing data needs a separately verified export/restore if it must be retained. Migrations alone are not a data backup.
 
 The required-check setting is live immediately. The helper/permission tooling and setup changes still follow the two-reviewer PR process before they become the main-branch release baseline. Liam still owns the measured load run and staging demonstration; Tristan owns linkage of this evidence into the PED/RTM/release review.
