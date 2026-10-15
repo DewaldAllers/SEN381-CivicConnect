@@ -1,6 +1,6 @@
 # Requirements Traceability Matrix
 
-Version 3.0 | 13 October 2026 | Owner: Tristan Els | Status: **M3 verification plan added, approved when its pull request merges**
+Version 3.0 | 15 October 2026 | Owner: Tristan Els | Status: **M3 evidence filled in from `main` at `38000fc`, approved when its pull request merges**
 
 Dewald Allers owns the requirement wording this matrix traces. I own the matrix, which means the columns, the statuses and the evidence links.
 
@@ -18,7 +18,9 @@ Version 2.1 fills the rest. The quality driver column now carries ASR-01 to ASR-
 
 Version 3.0 adds the verification plan. It lists the test cases designed for each requirement, with a status for each case and a place for the evidence. Evidence is added as each case runs and its work merges, so the matrix grows with the build.
 
-Fourteen requirements still read Not yet implemented in the tables below, which describe the state at version 2.1. That is the accurate state of a project three weeks into construction, and the matrix says so rather than describing intent as progress.
+Version 3.0 then fills the implementation and verification columns from `main` at commit `38000fc`. The endpoints, the pages and the database store exist, and 119 tests pass. Every functional requirement moves from Approved to In Development. None moves to Implemented yet, because that status needs the requirement verified through the real server and a browser, and those two checks are still to come.
+
+No functional requirement reads Not yet implemented any more. NFR-004 and NFR-005 read planned, because the five person check and the measured load run have not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
 
 ## Status vocabulary
 
@@ -54,45 +56,49 @@ The quality driver column carries the architecturally significant requirements r
 
 | ID | Quality driver | Architecture responsibility | Data and persistence | Design and interface decision | Technology decision |
 | --- | --- | --- | --- | --- | --- |
-| FR-001 | ASR-03 durable records | Application boundary, Request Management, Persistence boundary | Request record with unique reference, requester reference, title, description, category reference, status and submission time (P-01). A rejected submission creates no record. | Planned | ADR-003: Node 22.14.0, Express 5.2.1, TypeScript 7.0.2, PostgreSQL 18.6 |
-| FR-002 | ASR-03 | Request Management | Category held as controlled reference data rather than free text. Only approved categories are selectable (P-01). | Planned | ADR-003 |
-| FR-003 | ASR-01 scoped access, ASR-03 | Authorisation and scope checks, Request Management | Query scoped by `request.requesterRef` matching the authenticated principal. Knowing a reference alone gives no access ([permission matrix](../data/permission-matrix.md)). | Planned | ADR-003 |
+| FR-001 | ASR-03 durable records | Application boundary, Request Management, Persistence boundary | Request record with unique reference, requester reference, title, description, category reference, status and submission time (P-01). A rejected submission creates no record. | [ADR-006](../decisions/ADR-006-api-integration.md), `POST /api/v1/requests`, in the [API contract](../integration/api-v1.md). | ADR-003: Node 22.14.0, Express 5.2.1, TypeScript 7.0.2, PostgreSQL 18.6 |
+| FR-002 | ASR-03 | Request Management | Category held as controlled reference data rather than free text. Only approved categories are selectable (P-01). | ADR-006, `GET /api/v1/categories`. | ADR-003 |
+| FR-003 | ASR-01 scoped access, ASR-03 | Authorisation and scope checks, Request Management | Query scoped by `request.requesterRef` matching the authenticated principal. Knowing a reference alone gives no access ([permission matrix](../data/permission-matrix.md)). | ADR-006, `GET /api/v1/requests/mine`. | ADR-003 |
 | FR-004 | ASR-02 attributable history | Authorisation and scope checks, History/Audit | Feedback is read from the request event sequence. Requester-facing events only, not internal staff notes (P-04, permission matrix). | [ADR-006](../decisions/ADR-006-api-integration.md) boundary. Feedback stays inside the request history, so there is no second source of status (P-04). | ADR-003 |
-| FR-005 | ASR-01, ASR-05 bounded retrieval | Authorisation and scope checks, Request Management | Query scoped by the staff member's approved category grant. An empty grant set gives no access. | Planned | ADR-003 |
-| FR-006 | ASR-05 | Request Management | Category reference and status must be queryable as filters. Indexes follow representative data. | Planned | ADR-003 |
-| FR-007 | ASR-01, ASR-04 controlled workflow | Request Management, History/Audit | Responsible staff reference held on the request. An assignee must hold a category grant for that request's category. Every ownership change records an event. | Planned | ADR-003 |
+| FR-005 | ASR-01, ASR-05 bounded retrieval | Authorisation and scope checks, Request Management | Query scoped by the staff member's approved category grant. An empty grant set gives no access. | ADR-006, `GET /api/v1/requests`. | ADR-003 |
+| FR-006 | ASR-05 | Request Management | Category reference and status must be queryable as filters. Indexes follow representative data. | ADR-006, the `categoryId` and `status` filters on `GET /api/v1/requests`. | ADR-003 |
+| FR-007 | ASR-01, ASR-04 controlled workflow | Request Management, History/Audit | Responsible staff reference held on the request. An assignee must hold a category grant for that request's category. Every ownership change records an event. | ADR-006, `POST /api/v1/requests/:id/assign` and `GET /api/v1/staff`. | ADR-003 |
 | FR-008 | ASR-02, ASR-04 | Request Management, History/Audit | Status constrained to the P-02 transitions, with Rejected and Closed terminal. The request change and its one matching event commit together ([ADR-002](../decisions/ADR-002-request-history-persistence.md)). | [ADR-004](../decisions/ADR-004-request-lifecycle.md): one central RequestStatusPolicy holds the transition table instead of the rules spreading across handlers. [ADR-006](../decisions/ADR-006-api-integration.md): `PATCH /api/v1/requests/:id/status`. | ADR-003 |
-| FR-009 | ASR-02, ASR-04 | Request Management, History/Audit | Due date optional and stored in UTC (CR-003). Actions, comments and resolution held as request events carrying actor and recorded time. | Planned | ADR-003 |
+| FR-009 | ASR-02, ASR-04 | Request Management, History/Audit | Due date optional and stored in UTC (CR-003). Actions, comments and resolution held as request events carrying actor and recorded time. | ADR-006, `POST /api/v1/requests/:id/notes` and `PATCH /api/v1/requests/:id/due-date`. | ADR-003 |
 | FR-010 | ASR-01, ASR-05 | Authorisation and scope checks, Request Management | Overdue computed from status and due date rather than stored as a second status (CR-003). Counts and drill-down lists use the same management category scope. Counts must survive anonymisation (CR-004). | Overdue is a computed flag, so nothing runs on a schedule to move records into an overdue state (CR-003). | ADR-003 |
-| FR-011 | ASR-02, ASR-03 | History/Audit, Persistence boundary | Append-only event sequence carrying request reference, event kind, actor reference, time and the change. Append-only to ordinary users. Must tolerate a redacted actor and redacted free text without losing the event (CR-004). | Planned | ADR-003 |
-| FR-012 | ASR-05 | Request Management | Submission time must be orderable oldest first within the permitted scope. | Planned | ADR-003 |
+| FR-011 | ASR-02, ASR-03 | History/Audit, Persistence boundary | Append-only event sequence carrying request reference, event kind, actor reference, time and the change. Append-only to ordinary users. Must tolerate a redacted actor and redacted free text without losing the event (CR-004). | ADR-006, `GET /api/v1/requests/:id/history`. | ADR-003 |
+| FR-012 | ASR-05 | Request Management | Submission time must be orderable oldest first within the permitted scope. | ADR-006, the `sort` option on `GET /api/v1/requests`. | ADR-003 |
 | NFR-001 | ASR-01 | Authorisation and scope checks, cross cutting | Authorisation evaluated on the server data-access paths before any query or change, not in the interface. Deny by default where no grant exists. Rows defined by the [permission matrix](../data/permission-matrix.md). | [ADR-005](../decisions/ADR-005-authorization-policy.md): one central AuthorizationPolicy built from small permission specifications, so role, action and scope rules stay testable on their own. | ADR-003 |
 | NFR-002 | ASR-02 | Request Management, History/Audit, Persistence boundary | Exactly one event per successful audited action and none for a failed one. Request change and event commit atomically. A stale attempt is rejected as a conflict rather than overwriting (ADR-002). Ordinary users cannot edit or delete events; the CR-004 administrative route is the stated exception. | ADR-002 fixes the atomic business boundary. ADR-004 requires a valid transition to produce its event. | ADR-003 |
-| NFR-003 | ASR-03 | Persistence boundary | Persistent store required. In-memory state alone is rejected by ADR-002. A restart check proves persistence, not recovery. | Planned | ADR-003: PostgreSQL 18.6 |
-| NFR-004 | Interaction design, not an ASR | Presentation responsibility | None | Planned | ADR-003: React 19.3.0, Vite 8.3.x |
-| NFR-005 | ASR-05 | Request Management, Persistence boundary | The list, detail and management summary query shapes are the ones measured. Indexes follow the selected store and representative data. | Planned | ADR-003 |
+| NFR-003 | ASR-03 | Persistence boundary | Persistent store required. In-memory state alone is rejected by ADR-002. A restart check proves persistence, not recovery. | ADR-002 and ADR-006. The store sits behind the `RequestRepository` interface. | ADR-003: PostgreSQL 18.6 |
+| NFR-004 | Interaction design, not an ASR | Presentation responsibility | None | Wireframes in `docs/design/wireframes`. DEC-016. | ADR-003, changed by CR-006: HTML, CSS and JavaScript |
+| NFR-005 | ASR-05 | Request Management, Persistence boundary | The list, detail and management summary query shapes are the ones measured. Indexes follow the selected store and representative data. | ADR-006. `scripts/perf-nfr005.mjs` measures three calls. | ADR-003 |
 
 ## Evidence and control
 
+The cells below describe `main` at commit `38000fc` on 15 October 2026. I ran the checks on that commit. 119 tests pass in 8 files, `npx tsc --noEmit` exits 0, `npm run lint` reports no warnings and `npm audit` reports 0 vulnerabilities. The CI run for the same commit passed.
+
+Two sets of case ids appear in this matrix. The designs in the verification plan carry ids like T-FR-001-01. The cases that already run carry ids like TC-API-05 in their test names, with the acceptance criterion in a second tag. The acceptance criterion links the two. Cases written from now on, including the browser journeys, carry the design id in their names, so the link no longer needs reading between the lines.
+
 | ID | Implementation evidence | Verification evidence | Change, risk and decision reference |
 | --- | --- | --- | --- |
-| FR-001 | Not yet implemented | T-FR-001 planned, not run | CR-002, P-01, ADR-001, ADR-002 |
-| FR-002 | Not yet implemented | T-FR-002 planned, not run | CR-002, P-01, ADR-002 |
-| FR-003 | Not yet implemented | T-FR-003 planned, not run | CR-002, P-03, ADR-001, ADR-005, FEC-001 |
-| FR-004 | Not yet implemented | T-FR-004 planned, not run | CR-002, P-04, ADR-001 |
-| FR-005 | Not yet implemented | T-FR-005 planned, not run | CR-002, P-03, ADR-005, FEC-001 |
-| FR-006 | Not yet implemented | T-FR-006 planned, not run | ASR-05, ADR-002 |
-| FR-007 | Not yet implemented | T-FR-007 planned, not run | CR-002, P-03, ADR-001, ADR-004 |
-| FR-008 | `app/backend/src/domain/request-status.ts`, `request-status-policy.ts`, `src/application/request-service.ts`, `src/api/app.ts` | `test/request-status-policy.test.ts` 9 cases, `test/request-service.test.ts` 3 cases, `test/api.test.ts` 4 cases. 23 tests pass under `npm test` and `npx tsc --noEmit` passes. Both run in `.github/workflows/ci.yml`. | CR-002, P-02, ADR-004, ADR-006, RSK-019 |
-| FR-009 | Not yet implemented | T-FR-009 planned, not run | CR-002, CR-003, P-02, FEC-004 |
-| FR-010 | Not yet implemented | T-FR-010 planned, not run | CR-002, CR-003, CR-004, P-02, FEC-004 |
-| FR-011 | Not yet implemented | T-FR-011 planned, not run | CR-003, CR-004, ADR-002, FEC-002, RSK-006 |
-| FR-012 | Not yet implemented | T-FR-012 planned, not run | ASR-05 |
-| NFR-001 | `app/backend/src/authorization/authorization-policy.ts`, applied in `request-service.ts` | `test/authorization-policy.test.ts` 7 cases, passing. The caller identity is supplied by the endpoint rather than by an authenticated session, so this verifies the rule and not yet the enforcement boundary. | CR-002, P-03, ADR-005, DEP-001, FEC-001, RSK-013 |
-| NFR-002 | Status change in `request-service.ts`. History events are not recorded yet. | Transition rules verified by the 9 status policy cases. The exactly-one-event check has no implementation to run against. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
-| NFR-003 | Not yet implemented. The request store is an in-memory map in `src/api/app.ts`. | T-NFR-003 planned, not run | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
-| NFR-004 | Not yet implemented | T-NFR-004 planned, not run | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
-| NFR-005 | Not yet implemented | T-NFR-005 planned, not run | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
+| FR-001 | `POST /api/v1/requests` in `src/api/app.ts`, checked in `src/application/request-application.ts`. Store: `submit` in `src/persistence/request-store.ts`. Page: `app/frontend/requester.html` with `js/requester.js`. | TC-API-05 and TC-API-06 in `test/api.test.ts` pass. TC-API-06 checks the title and description boundaries. The store cases in `test/request-store.test.ts` pass against real PostgreSQL SQL. | CR-002, P-01, ADR-001, ADR-002 |
+| FR-002 | `GET /api/v1/categories` and a category check on submit. Six seeded categories in `migrations/002_categories_and_work.sql`. Page: the category list on `requester.html`. | TC-API-07 passes. It sends a category outside the approved list straight to the server and expects a refusal. | CR-002, P-01, ADR-002 |
+| FR-003 | `GET /api/v1/requests/mine`. Store: `ownList`. Page: the list on `requester.html`. | TC-API-10 passes. Each requester sees exactly their own requests, and one with none sees an empty list. | CR-002, P-03, ADR-001, ADR-005, FEC-001 |
+| FR-004 | `GET /api/v1/requests/:id/history` with requester events only. A requester sees "Staff" and "Assigned staff" in place of names (CR-009). Page: Updates on `requester.html`. | TC-API-26 passes, with an internal note hidden from the requester. The privacy case in `request-store.test.ts` keeps staff references out of a requester's feedback. | CR-002, P-04, ADR-001 |
+| FR-005 | `GET /api/v1/requests` for staff, scoped to the staff member's category grants. Store: `staffQueue`. Page: `staff.html` with `js/staff.js`. | TC-API-12 and TC-API-13 pass. Each staff member sees only the categories they hold. | CR-002, P-03, ADR-005, FEC-001 |
+| FR-006 | The `categoryId` and `status` filters on `GET /api/v1/requests`, applied in SQL in the store. Page: the filters on `staff.html`. | TC-API-14 passes. Filters return all and only the matching permitted requests and never widen access. | ASR-05, ADR-002 |
+| FR-007 | `POST /api/v1/requests/:id/assign`. The assignee must be staff with a grant for the request's category. `GET /api/v1/staff` lists who can take a request. Page: take it or assign it on `staff.html`. | TC-API-16, TC-API-17 and TC-API-18 pass. TC-API-17 is a decision table of who may be assigned. | CR-002, P-03, ADR-001, ADR-004 |
+| FR-008 | `PATCH /api/v1/requests/:id/status` through `request-status-policy.ts`, `request-service.ts` and `request-application.ts`. Page: change status on `staff.html`. | TC-API-19 to TC-API-24 pass, with the 9 transition cases in `request-status-policy.test.ts` and the 3 cases in `request-service.test.ts`. TC-API-21 is a decision table that includes a body claiming an owner (CR-007). | CR-002, P-02, ADR-004, ADR-006, RSK-019 |
+| FR-009 | `POST /api/v1/requests/:id/notes` and `PATCH /api/v1/requests/:id/due-date`. Store: `recordWork` and `setDueDate`. Page: the note and due date panels on `staff.html`. | TC-API-26, TC-API-27 and TC-API-28 pass. A note keeps its author and time, an empty note is refused and a due date keeps its change history. | CR-002, CR-003, P-02, FEC-004 |
+| FR-010 | `GET /api/v1/management/summary` and `GET /api/v1/management/requests`, built on the same scope and filters. Store: `managementSummary` and `managementList`. Page: `manager.html` with `js/manager.js`. | TC-API-29, TC-API-30 and TC-API-31 pass. Counts match the lists behind them and the exact due time is not overdue. | CR-002, CR-003, CR-004, P-02, FEC-004 |
+| FR-011 | One event in `request_events` for every change, with database triggers that reject any update or delete. `GET /api/v1/requests/:id/history`. Page: History on `staff.html`. | TC-API-19 passes. A request moves through its whole life and each step leaves exactly one event, in order. | CR-003, CR-004, ADR-002, FEC-002, RSK-006 |
+| FR-012 | `sort=oldest` on `GET /api/v1/requests`, in the store query. Page: the Oldest first box on `staff.html`. | TC-API-15 passes. Oldest first puts the earliest first and returns the same records. | ASR-05 |
+| NFR-001 | `src/authorization/authorization-policy.ts`, applied in `request-application.ts`. The caller comes from a server-side session (`src/auth/`, ADR-007) and category grants come from the server's user directory. The store also scopes every read in SQL. | 12 cases tagged AC-NFR-001 pass: TC-API-01 to TC-API-04, TC-API-08, TC-API-11, TC-API-13, TC-API-18, TC-API-23, TC-API-31, TC-API-32 and TC-UNIT-09. The 9 cases in `authorization-policy.test.ts` pass. | CR-002, P-03, ADR-005, DEP-001, FEC-001, RSK-013 |
+| NFR-002 | The store commits a request change and exactly one event together (`request-store.ts`, ADR-002). Database triggers reject any update or delete of history. | TC-API-19 passes. The store cases check one event for each change and a full rollback when the event fails. `npm run db:verify` checks the same against PostgreSQL 18 in the persistence workflow. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
+| NFR-003 | Requests, events and work records live in PostgreSQL through `request-store.ts`. The running server on `main` keeps requests in memory until PR #41 connects the store. | `persistence-lifecycle.test.ts` closes and reopens storage and compares the values and the history. `npm run db:verify` reads a request back in a new process against PostgreSQL 18 in the persistence workflow. PR #42 adds the same check on the built server. | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
+| NFR-004 | The pages in `app/frontend`, plain HTML, CSS and JavaScript (CR-006). Wireframes in `docs/design/wireframes`. | T-NFR-004-01 planned, not run. The five person check has not taken place. | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
+| NFR-005 | `scripts/perf-nfr005.mjs` (PR #40) measures the list, detail and summary calls. `scripts/seed-performance.ts` (PR #31) loads test data. | T-NFR-005-01 planned, not run. The script is built and has no result yet. | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
 
 ## Verification plan
 
@@ -100,21 +106,21 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 
 | ID | Test cases | Level mix | Case status | Evidence |
 | --- | --- | --- | --- | --- |
-| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | None yet |
-| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | None yet |
-| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | None yet |
-| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | None yet |
-| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | None yet |
-| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | None yet |
-| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | None yet |
-| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | The 9 policy cases and 3 service cases already pass (see the evidence table above) |
-| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed | None yet |
-| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | None yet |
-| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed | None yet |
-| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | None yet |
-| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | The 7 policy cases already pass (see the evidence table above) |
-| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed | None yet |
-| NFR-003 | T-NFR-003-01 | API | Designed | None yet |
+| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | TC-API-05 and TC-API-06 pass on `main` at `38000fc` |
+| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | TC-API-07 passes on `main` at `38000fc` |
+| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | TC-API-10 passes on `main` at `38000fc` |
+| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | TC-API-26 passes on `main` at `38000fc` |
+| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | TC-API-12 and TC-API-13 pass on `main` at `38000fc` |
+| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | TC-API-14 passes on `main` at `38000fc` |
+| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | TC-API-16 to TC-API-18 pass on `main` at `38000fc` |
+| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | TC-API-19 to TC-API-24, 9 policy cases and 3 service cases pass on `main` at `38000fc` |
+| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed | TC-API-26 to TC-API-28 pass on `main` at `38000fc` |
+| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | TC-API-29 to TC-API-31 pass on `main` at `38000fc` |
+| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed | TC-API-19 passes on `main` at `38000fc` |
+| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | TC-API-15 passes on `main` at `38000fc` |
+| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `38000fc` |
+| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed | TC-API-19 and the store cases pass on `main` at `38000fc` |
+| NFR-003 | T-NFR-003-01 | API | Designed | The reopen check passes on `main` at `38000fc`. The restart of the built server comes with PR #42 |
 | NFR-004 | T-NFR-004-01 | Manual | Designed | None yet |
 | NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
 | Journeys | T-E2E-01, T-E2E-02 | E2E | Designed | None yet |
@@ -141,21 +147,21 @@ Technology decision. ADR-003, Node.js 22.14.0, Express 5.2.1, TypeScript 7.0.2 a
 
 Interface decision. ADR-006, `PATCH /api/v1/requests/:id/status`, documented in the [API contract](../integration/api-v1.md) with all five error responses.
 
-Application artefact. `request-status.ts` holds the six statuses. `request-status-policy.ts` holds the transition table, including Rejected and Closed as terminal and the information each conditional move requires. `request-service.ts` applies authorisation and then the transition. `app/backend/src/api/app.ts` exposes the endpoint.
+Application artefact. `request-status.ts` holds the six statuses. `request-status-policy.ts` holds the transition table, including Rejected and Closed as terminal and the information each conditional move requires. `request-service.ts` applies authorisation and then the transition. `app/backend/src/api/app.ts` exposes the endpoint. `src/application/request-application.ts` reads the owner from the stored request, and `src/auth/` takes the caller from a session.
 
-Initial verification. 23 tests pass. Nine cover the transition table, including an invalid transition, a rejection without a reason and a move to In Progress without an owner. Seven cover the authorisation policy. Three cover the service. Four cover the endpoint, including 409 on an invalid transition and 404 on an unknown reference. `npx tsc --noEmit` passes. Both run on every push and pull request through `.github/workflows/ci.yml`.
+Verification. On `main` at `38000fc`, 119 tests pass. For FR-008 they are the 9 transition cases, the 3 service cases and TC-API-19 to TC-API-24 through sign in and the endpoint. They include a 409 on an invalid transition, a refused rejection without a reason and a refused move to In Progress with no owner, even when the body claims one (CR-007). `npx tsc --noEmit` passes. Both run on every push and pull request through `.github/workflows/ci.yml`.
 
-What is still missing. The request store is in memory, the caller identity is supplied rather than authenticated, and no history event is written. FR-008 is therefore In Development rather than Implemented, and NFR-002 has no implementation to verify its exactly-one-event rule against.
+What is still missing. The running server keeps requests in memory until PR #41 joins the database store, and the browser journey has not run. FR-008 stays In Development until both are done.
 
-## The trace that is not complete
+## The trace that still stops short
 
-FR-003 was the trace carried through M1 and it still stops short, which is worth showing alongside the one that works.
+FR-003 was the trace that stopped short through M1 and M2. It now runs the whole way. It goes from the visibility problem in the scenario, through NEED-P2-01 and FR-003, to ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005 and the authorisation policy, to `GET /api/v1/requests/mine`, to the list on the requester page, and to TC-API-10, which passes. A requester sees their own requests and never anyone else's.
 
-It runs from the visibility problem in the scenario, through NEED-P2-01 and FR-003, to ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005 and the authorisation policy. It stops there. No requester-facing read has been built, so there is no artefact and no verification.
+NFR-003 is the trace that stops short now. It runs from the need for records that survive a restart, through NFR-003 and ASR-03, to ADR-002, to the PostgreSQL store, to a check that closes and reopens storage and reads the same values and history back. That check passes, and the persistence workflow runs it against PostgreSQL 18 on every pull request that changes the backend. It stops there. The running server on `main` still keeps requests in memory, so a restart of the real server loses them. PR #41 puts the store behind the server, and PR #42 adds the restart check on the built server. Until both merge, NFR-003 stays In Development and the matrix says why.
 
-The two traces differ in one respect. FR-008 had a design problem worth solving early, so it was built first as a vertical slice. FR-003 depends on an authenticated identity, which is M3 work. Ordering construction that way was deliberate, and the matrix shows the consequence rather than levelling both to look equal.
+The two traces differ in one respect. FR-003 stopped short because it needed a signed in user, and that arrived with PR #38. NFR-003 stops short because two halves of the system, written by two people, have not been joined yet. Showing the second one is more useful than levelling every row to look finished.
 
-If FR-003 changed so that a requester could see another person's request, the effects would reach NFR-001, AC-FR-003, the permission matrix, the data boundary, the privacy position in CR-004 and every regression test built on the current scoping. That is a change request with an impact analysis, not an edit.
+If NFR-003 changed so that a restart could lose data, the effects would reach ADR-002, the persistence workflow, every demonstration that depends on saved requests and the release summary. That is a change request with an impact analysis, not an edit.
 
 ## Requirement dependencies
 
