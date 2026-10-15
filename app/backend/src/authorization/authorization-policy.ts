@@ -4,6 +4,7 @@ export type UserRole =
   | "Management";
 
 export type RequestAction =
+  | "SUBMIT"
   | "READ"
   | "UPDATE"
   | "ASSIGN"
@@ -24,9 +25,10 @@ export class AuthorizationPolicy {
   ): boolean {
     switch (context.role) {
       case "Requester":
+        // A requester may submit, and may read only their own requests.
         return (
-          context.action === "READ" &&
-          context.ownsRequest === true
+          context.action === "SUBMIT" ||
+          (context.action === "READ" && context.ownsRequest === true)
         );
 
       case "Staff":
