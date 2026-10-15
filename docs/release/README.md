@@ -46,7 +46,7 @@ On 9 October the system had one endpoint, stored nothing and authenticated nobod
 
 CONDITIONALLY READY becomes defensible once PR #41 and PR #42 are merged, the browser journeys pass against the real server and the real database, the load run has a result, the CI gate blocks on failure, staging shows the tagged candidate, and no severity 3 defect is open. Known limitations would then be stated as conditions rather than hidden.
 
-READY would additionally need every one of the seventeen requirements verified against its acceptance criteria. NFR-004 needs the five person check and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
+READY would also need every one of the seventeen requirements verified against its acceptance criteria. NFR-004 needs the five person check and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
 
 ## Residual risk
 
