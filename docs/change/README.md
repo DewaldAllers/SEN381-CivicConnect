@@ -1,6 +1,6 @@
 # Change control register
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **nine changes raised, four against the PED v1.0 baseline and five during M3 construction. CR-001 to CR-006 are approved**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **nine changes raised, four against the PED v1.0 baseline and five during M3 construction. CR-001 to CR-006 are approved, and CR-007 to CR-009 are approved when their pull request merges**
 
 PED v1.0 was baselined on 9 September 2026. From that point a material change to a requirement, scope item, constraint or approved decision is controlled rather than absorbed into an edit. SRC-MASTER section 14 (p. 13) sets the path, and SRC-MASTER section 11 (p. 12) says baselined requirements may not be silently edited after sign-off.
 
@@ -204,11 +204,11 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Security and privacy impact | Stops one person silently undoing another's change. No new access is given. |
 | Quality and testing impact | Dewald's tests in PR #42 send raw authenticated calls. A stale write gets a 409 and adds no event. A missing version gets a 400. A refused lifecycle change gets a 409 and not a 500. |
 | Scope impact | None. |
-| Schedule and resource impact | Small. The work is built and waiting in PR #42. |
+| Schedule and resource impact | Small. The work merged in PR #42. |
 | Cost impact | None. |
 | Risk impact | Reduces the chance that two people change one request and one change is lost. No register entry covered it before, and DEF-006 does now. |
 | Recommendation | ACCEPT. The lifecycle limits are proposals from the data work. No stakeholder has confirmed them, and they are recorded as proposals in the [handoff note](../data/m3-repository-handoff.md). |
-| Authorisation | Recorded by the approvals on PR #42 for the code and on the pull request that carries this register into `main`. |
+| Authorisation | The code merged in PR #42 on 15 October 2026 with approvals from Liam de Villiers and me. This entry is approved when its own pull request merges. |
 
 ## CR-009 Show requesters a generic label in place of staff names
 
@@ -223,13 +223,13 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Architecture and design affected | The data store hides the reference when a requester reads. The API words the labels. Names for staff come from the sign in directory. |
 | UI, API and data affected | For a requester, `ownerId` is null, `ownerName` is "Assigned staff" and each staff `actorName` is "Staff". The history list in the client shows "Staff" when a name is missing (PR #39). |
 | Security and privacy impact | A requester learns less about staff. A requester can still see that staff acted, and when. |
-| Quality and testing impact | A case in `request-store.test.ts` keeps staff references out of the requester's detail and feedback while the stored record stays complete. T-FR-011-03 in the [test designs](../testing/test-cases.md) covers it through the real server. |
+| Quality and testing impact | A case in `request-store.test.ts` keeps staff references out of the requester's detail and feedback while the stored record stays complete. T-FR-011-03 in the [test designs](../testing/test-cases.md) passes through the real server. |
 | Scope impact | None. |
-| Schedule and resource impact | Small. The store change and the client change are merged. The API change is in PR #42. |
+| Schedule and resource impact | Small. The store change, the client change and the API change are all merged. |
 | Cost impact | None. |
 | Risk impact | A requester may want to know who to ask. They ask through the request, which staff can see. We accept that. |
 | Recommendation | ACCEPT |
-| Authorisation | The store change merged in PR #31 with approvals from Liam de Villiers and me. The client change merged in PR #39 with approvals from Dewald Allers and Liam de Villiers. The API change is in PR #42. This entry is approved when its own pull request merges. |
+| Authorisation | The store change merged in PR #31 with approvals from Liam de Villiers and me. The client change merged in PR #39 with approvals from Dewald Allers and Liam de Villiers. The API change merged in PR #42 with approvals from Liam de Villiers and me. This entry is approved when its own pull request merges. |
 
 ---
 
