@@ -8,10 +8,18 @@ name: CivicConnect Backend CI
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+
+# The workflow only reads the repository. It needs no write access and no secrets.
+permissions:
+  contents: read
 
 jobs:
+  # This job name is the status check that branch protection requires on main.
+  # Renaming it breaks the gate, so change it only together with the protection rule.
   backend-checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     defaults:
       run:
@@ -31,8 +39,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
-
       - name: TypeScript check
         run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npx vitest run --reporter=default --reporter=junit --outputFile.junit=test-results/junit.xml
+
+      # Blocking: a high or critical vulnerability in code that ships fails the build.
+      - name: Dependency audit (shipped code)
+        run: npm audit --omit=dev --audit-level=high
+
+      # Not blocking: development tools are not deployed. A finding is raised as a warning
+      # and must be recorded in the Defect Register or fixed.
+      - name: Dependency audit (development tools)
+        run: npm audit --audit-level=high || echo "::warning title=Development dependency audit::npm audit reports a high or critical finding in development tools. These are not shipped. Record it in the defect register or update the lock file."
+
+      - name: Keep the test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/backend/test-results/
+          if-no-files-found: ignore
