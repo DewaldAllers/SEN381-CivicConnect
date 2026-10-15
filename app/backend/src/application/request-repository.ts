@@ -9,6 +9,8 @@ export interface RequestRecord {
   requesterId: string;
   status: RequestStatus;
   ownerId: string | null;
+  /** Indicates an assignment when staff identity is masked for a requester. */
+  hasOwner?: boolean;
   /** ISO 8601, UTC. Null means no due date has been agreed. */
   dueDate: string | null;
   /** ISO 8601, UTC. */
@@ -23,6 +25,16 @@ export type HistoryKind =
   | "OWNER_CHANGED"
   | "NOTE_ADDED"
   | "DUE_DATE_SET";
+
+/**
+ * Trusted identity and permissions from the server, never the HTTP body.
+ * Repository operations use this to enforce access at the persistence boundary.
+ */
+export interface RepositoryPrincipal {
+  id: string;
+  role: "Requester" | "Staff" | "Management";
+  categoryIds: readonly string[];
+}
 
 export interface NewHistoryEvent {
   kind: HistoryKind;
@@ -66,49 +78,75 @@ export interface QueueFilter {
 export class StaleRequestError extends Error {
   constructor() {
     super("Request changed since it was read");
+    this.name = "StaleRequestError";
   }
 }
 
 export class RequestNotFoundError extends Error {
   constructor() {
     super("Request not found");
+    this.name = "RequestNotFoundError";
   }
 }
 
 /**
- * The persistence boundary (ADR-002). The in-memory version below backs the API
- * today; the PostgreSQL store implements the same interface.
+ * Persistence boundary shared by the in-memory and PostgreSQL implementations.
+ *
+ * Every operation receives a trusted principal so access can be checked at
+ * the persistence boundary as well as in the application layer.
  *
  * Rule for every write: the change and its history event are committed together
  * or not at all (NFR-002, NFR-003). A failed write leaves no event behind.
  */
 export interface RequestRepository {
-  /** Saves the request and its SUBMITTED event atomically. Assigns the reference number. */
-  create(request: NewRequest, event: NewHistoryEvent): Promise<RequestRecord>;
+  /** Saves the request and its SUBMITTED event atomically. */
+  create(
+    principal: RepositoryPrincipal,
+    request: NewRequest,
+    event: NewHistoryEvent
+  ): Promise<RequestRecord>;
 
-  findById(id: string): Promise<RequestRecord | null>;
+  findById(
+    principal: RepositoryPrincipal,
+    id: string
+  ): Promise<RequestRecord | null>;
 
   /** One requester's own requests (FR-003). */
-  listByRequester(requesterId: string): Promise<RequestRecord[]>;
+  listByRequester(
+    principal: RepositoryPrincipal,
+    requesterId: string
+  ): Promise<RequestRecord[]>;
 
   /** Requests in the given categories, filtered and ordered (FR-005, FR-006, FR-012). */
-  listInCategories(filter: QueueFilter): Promise<RequestRecord[]>;
+  listInCategories(
+    principal: RepositoryPrincipal,
+    filter: QueueFilter
+  ): Promise<RequestRecord[]>;
 
   /**
    * Applies the changes and records exactly one event, atomically.
-   * Throws StaleRequestError if `expectedVersion` is no longer current,
-   * RequestNotFoundError if the request does not exist.
+   * Throws StaleRequestError if expectedVersion is no longer current,
+   * or RequestNotFoundError if the request does not exist.
    */
   update(
+    principal: RepositoryPrincipal,
     id: string,
     expectedVersion: number,
     changes: RequestChanges,
     event: NewHistoryEvent
   ): Promise<RequestRecord>;
 
-  /** Records an event that changes no request field, such as a note (FR-009). */
-  appendEvent(id: string, event: NewHistoryEvent): Promise<void>;
+  /** Appends a note and increments the observed request version atomically. */
+  appendEvent(
+    principal: RepositoryPrincipal,
+    id: string,
+    expectedVersion: number,
+    event: NewHistoryEvent
+  ): Promise<void>;
 
   /** Events for one request, oldest first (FR-011). */
-  history(requestId: string): Promise<HistoryEvent[]>;
+  history(
+    principal: RepositoryPrincipal,
+    requestId: string
+  ): Promise<HistoryEvent[]>;
 }

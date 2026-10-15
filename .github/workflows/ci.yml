@@ -8,6 +8,7 @@ name: CivicConnect Backend CI
   pull_request:
     branches:
       - main
+      - "liam/**"
   workflow_dispatch:
 
 # The workflow only reads the repository. It needs no write access and no secrets.

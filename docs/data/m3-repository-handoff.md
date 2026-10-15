@@ -1,6 +1,6 @@
 # M3 repository handoff
 
-Owner: Dewald Allers | Branch: `m3-dewald-persistence` | Review: [PR #31](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/31)
+Owner: Dewald Allers | Original implementation: [PR #31](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/31) | Integration corrections: `m3-data-integration-final`, based on [PR #41](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/41)
 
 This implements Dewald's revised data/query allocation. Liam owns identity, endpoints, API tests, staging and the required CI gate. Tristan owns frontend and release evidence.
 
@@ -25,13 +25,13 @@ Create one `RequestStore(new PostgresDatabase(pool))` for the application. Run `
 
 Staff and management reads use their granted category set in SQL; empty grants return nothing. All mutations require Staff role and category scope. Assignment additionally checks the target's Staff role and category grant. The endpoint must authenticate the trusted principals. A category grant revoked since a session was created must be reflected when constructing that principal.
 
-All mutations need the version the caller observed. Include `version` in detail responses and send it as `expectedVersion` for changes, so a stale browser cannot silently overwrite another change. `StaleRequestError` maps to 409; `RequestNotFoundError` maps to 404 for missing/out-of-scope records. Validate incoming fields and map other input/state errors appropriately in the endpoint. The frontend currently needs its real API adapter to pass the version. Do not automatically retry stale writes.
+All mutations need the version the caller observed. Include `version` in detail responses and send it as `expectedVersion` for changes, so a stale browser cannot silently overwrite another change. `StaleRequestError` maps to 409 with `code: "stale"`; `RequestNotFoundError` maps to 404 for missing/out-of-scope records. The real frontend adapter already sends the observed version, and the integration corrections enforce it for all four mutation endpoints. Missing/invalid versions return 400. Do not automatically retry stale writes.
 
 ## Mapping to Tristan's proposed client
 
 Map `categoryId` to `categoryRef`, `rejectionReason` to `reason`, `resolutionInformation` to `resolution`, `dueDate` to `dueAt`, and `assigneeId` to the trusted assignee lookup. For staff/management, map repository `responsibleRef` back to `ownerId` and resolve the name through Liam's identity store. For requester responses, use `hasOwner` to show the generic `ownerName` "Assigned staff" or null; a masked owner ID must not make the page falsely say "Nobody yet". Expose the version. `submittedAt` is provided; Date values serialize to ISO strings. `categoryName` is returned from the category join.
 
-For history, map `occurredAt` to `at`. Staff/management views retain `actorRef` for a trusted name lookup; requester views return null for staff actors, so show a generic label such as "Staff" without a lookup. Requester ownership feedback returns `{ ownershipChanged: true }` instead of staff identifiers, and requester detail/list responses mask `responsibleRef`. The stored audit record and staff/management views retain the original actor and old/new owner references. Format `eventKind`, old/new status and details as plain text in the API adapter. Rejection/resolution text is stored in the status event. Private notes are excluded by SQL before a requester response, so no browser-side privacy filter is needed. This supplies the repository privacy outcome behind T-FR-011-03; the authenticated HTTP case still needs Liam's endpoints.
+For history, map `occurredAt` to `at`. Staff/management views retain `actorRef` for a trusted name lookup; requester views return null for staff actors and the adapter displays "Staff". Requester ownership feedback returns `{ ownershipChanged: true }` instead of staff identifiers, displayed as "Responsibility updated.", and requester detail/list responses mask `responsibleRef`. The stored audit record and staff/management views retain the original actor and old/new owner references. Rejection/resolution text is stored in the status event. Private notes are excluded by SQL before a requester response, so no browser-side privacy filter is needed. The authenticated HTTP case now checks T-FR-011-03 against both adapters.
 
 ## Data rules and reviewable proposals
 
@@ -52,4 +52,4 @@ ESLint checks executable logic with the Babel TypeScript syntax parser because t
 
 `npm run db:seed:perf` prepares configurable synthetic load data; it does not make a performance claim. The default 10,000 rows and 10 synthetic requester references are a repeatable test fixture, not an estimate of municipal demand. Liam should substitute his seeded identities, record environment/volume/clock, then measure the real endpoints. No real people or measured results are invented.
 
-Remaining integrated verification: real authenticated endpoints, API/frontend journeys, required CI gate, staging and Liam's performance measurement. Tristan can trace the repository cases and successful workflow logs without marking those integrated checks complete.
+The [15 October integration verification](m3-integration-verification.md) adds real authenticated HTTP and compiled-server restart evidence. Remaining release verification includes browser E2E/usability journeys, a required CI gate, deployed staging and Liam's measured performance run. Tristan can link the executed data cases into the RTM/PED without marking those remaining checks complete.
