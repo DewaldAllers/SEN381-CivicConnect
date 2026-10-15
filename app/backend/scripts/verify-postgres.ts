@@ -50,7 +50,7 @@ async function verify(): Promise<void> {
     pool = scopedPool(schema);
     await checkSchema(pool, schema);
     const database = new PostgresDatabase(pool);
-    assert.equal((await migrate(database)).length, 2);
+    assert.equal((await migrate(database)).length, 3);
     assert.deepEqual(await migrate(database), []);
     const store = new RequestStore(database);
     await store.submit(requester, { id: "REQ-VERIFY", categoryRef: "c-maintenance", title: "Verify persistence", description: "Disposable PostgreSQL fixture" });

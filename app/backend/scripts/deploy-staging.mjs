@@ -82,6 +82,11 @@ const env = {
   APP_VERSION: `${ref} (${sha.slice(0, 12)})`,
   FRONTEND_DIR: path.join(stagingDir, "app", "frontend"),
 };
+// Only the migration process receives owner credentials. The running app must
+// use its restricted DATABASE_URL, never the schema-owner connection.
+const migrationEnv = { ...env };
+delete env.DATABASE_ADMIN_URL;
+delete env.TEST_DATABASE_URL;
 
 console.log("\n== Installing exactly what the lock file says");
 run("npm", ["ci"], { cwd: backend });
@@ -92,7 +97,7 @@ run("npx", ["tsc"], { cwd: backend });
 const scripts = JSON.parse(fs.readFileSync(path.join(backend, "package.json"), "utf8")).scripts ?? {};
 if (fileEnv.DATABASE_URL && scripts["db:migrate"]) {
   console.log("\n== Applying database migrations");
-  run("npm", ["run", "db:migrate"], { cwd: backend, env });
+  run("npm", ["run", "db:migrate"], { cwd: backend, env: migrationEnv });
 }
 
 // ---- Start, then verify we are running the release we meant to ----

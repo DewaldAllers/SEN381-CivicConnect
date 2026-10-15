@@ -34,7 +34,7 @@ describe("PostgreSQL request repository", () => {
     expect(await migrate(database)).toEqual([]);
     expect(await store.categories()).toHaveLength(6);
     const versions = await database.query("SELECT version FROM schema_migrations");
-    expect(versions.rows).toHaveLength(2);
+    expect(versions.rows).toHaveLength(3);
   });
 
   it("commits a request with exactly one attributable submission event", async () => {
@@ -44,6 +44,17 @@ describe("PostgreSQL request repository", () => {
     const history = await store.history(requester, created.id);
     expect(history).toHaveLength(1);
     expect(history[0]).toMatchObject({ actorRef: requester.id, eventKind: "SUBMITTED", previousStatus: null, newStatus: RequestStatus.SUBMITTED });
+  });
+
+  it("the category-lock helper has a fixed safe search path and no PUBLIC execute grant", async () => {
+    const result = await database.query<{ prosecdef: boolean; proconfig: string[]; public_execute: boolean }>(`
+      SELECT p.prosecdef, p.proconfig,
+        EXISTS (SELECT 1 FROM aclexplode(p.proacl) a WHERE a.grantee=0 AND a.privilege_type='EXECUTE') AS public_execute
+      FROM pg_proc p WHERE p.oid='active_request_category(text)'::regprocedure`);
+    expect(result.rows).toEqual([{
+      prosecdef: true, proconfig: ["search_path=pg_catalog, pg_temp"], public_execute: false,
+    }]);
+    expect((await database.query("SELECT id FROM active_request_category($1)", ["c-maintenance"])).rows).toEqual([{ id: "c-maintenance" }]);
   });
 
   it("rejects duplicate references without adding an event", async () => {
