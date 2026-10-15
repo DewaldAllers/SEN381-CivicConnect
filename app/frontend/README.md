@@ -64,6 +64,8 @@ Every change sends the `version` the page was showing, as `expectedVersion`. If 
 
 A request outside the caller's scope gets the same 404 as a request that does not exist, so a reference alone tells nobody anything (NFR-001).
 
+A requester never sees who in staff looks after a request. For a requester, `ownerId` is null and `ownerName` is "Assigned staff" when someone has it and null when nobody does. In the history, staff entries come with the name "Staff", and an ownership change reads "A member of staff took responsibility for this request." Staff and management get the real names. This follows the repository rule in the [data handoff note](../../docs/data/m3-repository-handoff.md). The stand-in server does the same, and the history list shows "Staff" when a name is missing.
+
 ## Rules the pages follow
 
 - Text typed by users is only ever shown as text, never as HTML.
