@@ -1,6 +1,6 @@
 # Requirements Traceability Matrix
 
-Version 3.0 | 15 October 2026 | Owner: Tristan Els | Status: **M3 evidence filled in from `main` at `38000fc`, approved when its pull request merges**
+Version 3.0 | 15 October 2026 | Owner: Tristan Els | Status: **M3 evidence and acceptance check from `main` at `142f6b3` and the browser journeys, approved when its pull request merges**
 
 Dewald Allers owns the requirement wording this matrix traces. I own the matrix, which means the columns, the statuses and the evidence links.
 
@@ -18,7 +18,7 @@ Version 2.1 fills the rest. The quality driver column now carries ASR-01 to ASR-
 
 Version 3.0 adds the verification plan. It lists the test cases designed for each requirement, with a status for each case and a place for the evidence. Evidence is added as each case runs and its work merges, so the matrix grows with the build.
 
-Version 3.0 then fills the implementation and verification columns from `main` at commit `38000fc`. The endpoints, the pages and the database store exist, and 119 tests pass. Every functional requirement moves from Approved to In Development. None moves to Implemented yet, because that status needs the requirement verified through the real server and a browser, and those two checks are still to come.
+Version 3.0 then fills the implementation and verification columns from `main` at commit `142f6b3`, where the database store sits behind the server. 150 tests pass, and two browser journeys pass in memory and on PostgreSQL. A new acceptance check reads every criterion against the executed cases. Thirteen requirements read Implemented, two read In Development because some of their criteria have no case yet, and two are deferred targets with no result. CR-007 to CR-009 are raised in the same pull request and take effect when it merges.
 
 No functional requirement reads Not yet implemented any more. NFR-004 and NFR-005 read planned, because the five person check and the measured load run have not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
 
@@ -32,21 +32,21 @@ Where a change has been raised and not yet authorised, the status stays at its c
 
 | ID and requirement | Stakeholder need | Source | Priority | Acceptance criteria | Status |
 | --- | --- | --- | --- | --- | --- |
-| [FR-001: Submit a valid request](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-001](acceptance-criteria.md#ac-fr-001) | Approved |
-| [FR-002: Controlled category choice](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-002](acceptance-criteria.md#ac-fr-002) | Approved |
-| [FR-003: Own request list and status](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-003](acceptance-criteria.md#ac-fr-003) | Approved |
-| [FR-004: Request feedback](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-004](acceptance-criteria.md#ac-fr-004) | Approved |
-| [FR-005: Staff queue and details](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-005](acceptance-criteria.md#ac-fr-005) | Approved |
-| [FR-006: Category and status filtering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-006](acceptance-criteria.md#ac-fr-006) | Approved |
-| [FR-007: Request ownership](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-007](acceptance-criteria.md#ac-fr-007) | Approved |
-| [FR-008: Controlled status transitions](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-008](acceptance-criteria.md#ac-fr-008) | **In Development** |
-| [FR-009: Record work and due date](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-009](acceptance-criteria.md#ac-fr-009) | Approved |
-| [FR-010: Management summary and lists](functional-requirements.md) | NEED-P2-03 | SRC-MASTER, p. 7 | Must | [AC-FR-010](acceptance-criteria.md#ac-fr-010) | Approved |
-| [FR-011: Attributable lifecycle history](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-011](acceptance-criteria.md#ac-fr-011) | Approved |
-| [FR-012: Oldest first ordering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Should | [AC-FR-012](acceptance-criteria.md#ac-fr-012) | Approved |
-| [NFR-001: Permission enforcement](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, pp. 6, 14 | Must | [AC-NFR-001](acceptance-criteria.md#ac-nfr-001) | **In Development** |
-| [NFR-002: History completeness and integrity](non-functional-requirements.md) | NEED-P2-02/03/04 | SRC-MASTER, pp. 6-7 | Must | [AC-NFR-002](acceptance-criteria.md#ac-nfr-002) | **In Development** |
-| [NFR-003: Persistence across restart](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, p. 6 | Must | [AC-NFR-003](acceptance-criteria.md#ac-nfr-003) | Approved |
+| [FR-001: Submit a valid request](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-001](acceptance-criteria.md#ac-fr-001) | **Implemented** |
+| [FR-002: Controlled category choice](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-002](acceptance-criteria.md#ac-fr-002) | **In Development** |
+| [FR-003: Own request list and status](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-003](acceptance-criteria.md#ac-fr-003) | **Implemented** |
+| [FR-004: Request feedback](functional-requirements.md) | NEED-P2-01 | SRC-MASTER, p. 7 | Must | [AC-FR-004](acceptance-criteria.md#ac-fr-004) | **Implemented**, CR-009 raised |
+| [FR-005: Staff queue and details](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-005](acceptance-criteria.md#ac-fr-005) | **Implemented** |
+| [FR-006: Category and status filtering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-006](acceptance-criteria.md#ac-fr-006) | **Implemented** |
+| [FR-007: Request ownership](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-007](acceptance-criteria.md#ac-fr-007) | **Implemented**, CR-008 raised |
+| [FR-008: Controlled status transitions](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Must | [AC-FR-008](acceptance-criteria.md#ac-fr-008) | **Implemented**, CR-008 raised |
+| [FR-009: Record work and due date](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-009](acceptance-criteria.md#ac-fr-009) | **Implemented**, CR-008 raised |
+| [FR-010: Management summary and lists](functional-requirements.md) | NEED-P2-03 | SRC-MASTER, p. 7 | Must | [AC-FR-010](acceptance-criteria.md#ac-fr-010) | **Implemented** |
+| [FR-011: Attributable lifecycle history](functional-requirements.md) | NEED-P2-02/03 | SRC-MASTER, pp. 6-7 | Must | [AC-FR-011](acceptance-criteria.md#ac-fr-011) | **Implemented**, CR-009 raised |
+| [FR-012: Oldest first ordering](functional-requirements.md) | NEED-P2-02 | SRC-MASTER, p. 7 | Should | [AC-FR-012](acceptance-criteria.md#ac-fr-012) | **Implemented** |
+| [NFR-001: Permission enforcement](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, pp. 6, 14 | Must | [AC-NFR-001](acceptance-criteria.md#ac-nfr-001) | **Implemented** |
+| [NFR-002: History completeness and integrity](non-functional-requirements.md) | NEED-P2-02/03/04 | SRC-MASTER, pp. 6-7 | Must | [AC-NFR-002](acceptance-criteria.md#ac-nfr-002) | **Implemented** |
+| [NFR-003: Persistence across restart](non-functional-requirements.md) | NEED-P2-04 | SRC-MASTER, p. 6 | Must | [AC-NFR-003](acceptance-criteria.md#ac-nfr-003) | **In Development** |
 | [NFR-004: First use usability](non-functional-requirements.md) | NEED-P2-01/04 | SRC-MASTER, p. 6 | Should | [AC-NFR-004](acceptance-criteria.md#ac-nfr-004) | Deferred target (CR-002, DEC-010) |
 | [NFR-005: Responsiveness](non-functional-requirements.md) | NEED-P2-01/02/03/04 | SRC-MASTER, pp. 6, 8 | Should | [AC-NFR-005](acceptance-criteria.md#ac-nfr-005) | Deferred target (CR-002, DEC-010) |
 
@@ -76,29 +76,55 @@ The quality driver column carries the architecturally significant requirements r
 
 ## Evidence and control
 
-The cells below describe `main` at commit `38000fc` on 15 October 2026. I ran the checks on that commit. 119 tests pass in 8 files, `npx tsc --noEmit` exits 0, `npm run lint` reports no warnings and `npm audit` reports 0 vulnerabilities. The CI run for the same commit passed.
+The cells below describe `main` at commit `142f6b3` on 15 October 2026, plus the browser journeys in `app/e2e`. I ran the checks on that commit. 150 tests pass with 2 intentional skips, `npx tsc --noEmit` exits 0, `npm run lint` reports no warnings and `npm audit` reports 0 vulnerabilities. `npm run test:postgres` passes 31 tests with 1 intentional skip, and `npm run db:verify` passes, both against PostgreSQL 18.6. The CI run for the same commit passed.
 
-Two sets of case ids appear in this matrix. The designs in the verification plan carry ids like T-FR-001-01. The cases that already run carry ids like TC-API-05 in their test names, with the acceptance criterion in a second tag. The acceptance criterion links the two. Cases written from now on, including the browser journeys, carry the design id in their names, so the link no longer needs reading between the lines.
+Two sets of case ids appear in this matrix. The designs in the verification plan carry ids like T-FR-001-01. The cases written first carry ids like TC-API-05 in their test names, with the acceptance criterion in a second tag, and the acceptance criterion links the two. The data integration tests and the browser journeys carry the design id in their names, such as T-NFR-002-03 and T-E2E-01, so the link is direct.
 
 | ID | Implementation evidence | Verification evidence | Change, risk and decision reference |
 | --- | --- | --- | --- |
-| FR-001 | `POST /api/v1/requests` in `src/api/app.ts`, checked in `src/application/request-application.ts`. Store: `submit` in `src/persistence/request-store.ts`. Page: `app/frontend/requester.html` with `js/requester.js`. | TC-API-05 and TC-API-06 in `test/api.test.ts` pass. TC-API-06 checks the title and description boundaries. The store cases in `test/request-store.test.ts` pass against real PostgreSQL SQL. | CR-002, P-01, ADR-001, ADR-002 |
+| FR-001 | `POST /api/v1/requests` in `src/api/app.ts`, checked in `src/application/request-application.ts`. Store: `submit` in `src/persistence/request-store.ts`. Page: `app/frontend/requester.html` with `js/requester.js`. | TC-API-05 and TC-API-06 in `test/api.test.ts` pass. TC-API-06 checks the title and description boundaries. The store cases in `test/request-store.test.ts` pass against real PostgreSQL SQL. T-E2E-01 sends one through the page. | CR-002, P-01, ADR-001, ADR-002 |
 | FR-002 | `GET /api/v1/categories` and a category check on submit. Six seeded categories in `migrations/002_categories_and_work.sql`. Page: the category list on `requester.html`. | TC-API-07 passes. It sends a category outside the approved list straight to the server and expects a refusal. | CR-002, P-01, ADR-002 |
-| FR-003 | `GET /api/v1/requests/mine`. Store: `ownList`. Page: the list on `requester.html`. | TC-API-10 passes. Each requester sees exactly their own requests, and one with none sees an empty list. | CR-002, P-03, ADR-001, ADR-005, FEC-001 |
-| FR-004 | `GET /api/v1/requests/:id/history` with requester events only. A requester sees "Staff" and "Assigned staff" in place of names (CR-009). Page: Updates on `requester.html`. | TC-API-26 passes, with an internal note hidden from the requester. The privacy case in `request-store.test.ts` keeps staff references out of a requester's feedback. | CR-002, P-04, ADR-001 |
-| FR-005 | `GET /api/v1/requests` for staff, scoped to the staff member's category grants. Store: `staffQueue`. Page: `staff.html` with `js/staff.js`. | TC-API-12 and TC-API-13 pass. Each staff member sees only the categories they hold. | CR-002, P-03, ADR-005, FEC-001 |
+| FR-003 | `GET /api/v1/requests/mine`. Store: `ownList`. Page: the list on `requester.html`. | TC-API-10 passes. Each requester sees exactly their own requests, and one with none sees an empty list. T-E2E-01 checks the new status after a refresh. | CR-002, P-03, ADR-001, ADR-005, FEC-001 |
+| FR-004 | `GET /api/v1/requests/:id/history` with requester events only. A requester sees "Staff" and "Assigned staff" in place of names (CR-009). Page: Updates on `requester.html`. | TC-API-26 passes, with an internal note hidden from the requester. The privacy case in `request-store.test.ts` keeps staff references out of a requester's feedback. T-E2E-01 checks that the requester sees the resolution and no private note. T-FR-011-03 passes. | CR-002, P-04, ADR-001 |
+| FR-005 | `GET /api/v1/requests` for staff, scoped to the staff member's category grants. Store: `staffQueue`. Page: `staff.html` with `js/staff.js`. | TC-API-12 and TC-API-13 pass. Each staff member sees only the categories they hold. T-E2E-02 checks that a requester cannot open the staff page. | CR-002, P-03, ADR-005, FEC-001 |
 | FR-006 | The `categoryId` and `status` filters on `GET /api/v1/requests`, applied in SQL in the store. Page: the filters on `staff.html`. | TC-API-14 passes. Filters return all and only the matching permitted requests and never widen access. | ASR-05, ADR-002 |
-| FR-007 | `POST /api/v1/requests/:id/assign`. The assignee must be staff with a grant for the request's category. `GET /api/v1/staff` lists who can take a request. Page: take it or assign it on `staff.html`. | TC-API-16, TC-API-17 and TC-API-18 pass. TC-API-17 is a decision table of who may be assigned. | CR-002, P-03, ADR-001, ADR-004 |
-| FR-008 | `PATCH /api/v1/requests/:id/status` through `request-status-policy.ts`, `request-service.ts` and `request-application.ts`. Page: change status on `staff.html`. | TC-API-19 to TC-API-24 pass, with the 9 transition cases in `request-status-policy.test.ts` and the 3 cases in `request-service.test.ts`. TC-API-21 is a decision table that includes a body claiming an owner (CR-007). | CR-002, P-02, ADR-004, ADR-006, RSK-019 |
-| FR-009 | `POST /api/v1/requests/:id/notes` and `PATCH /api/v1/requests/:id/due-date`. Store: `recordWork` and `setDueDate`. Page: the note and due date panels on `staff.html`. | TC-API-26, TC-API-27 and TC-API-28 pass. A note keeps its author and time, an empty note is refused and a due date keeps its change history. | CR-002, CR-003, P-02, FEC-004 |
-| FR-010 | `GET /api/v1/management/summary` and `GET /api/v1/management/requests`, built on the same scope and filters. Store: `managementSummary` and `managementList`. Page: `manager.html` with `js/manager.js`. | TC-API-29, TC-API-30 and TC-API-31 pass. Counts match the lists behind them and the exact due time is not overdue. | CR-002, CR-003, CR-004, P-02, FEC-004 |
-| FR-011 | One event in `request_events` for every change, with database triggers that reject any update or delete. `GET /api/v1/requests/:id/history`. Page: History on `staff.html`. | TC-API-19 passes. A request moves through its whole life and each step leaves exactly one event, in order. | CR-003, CR-004, ADR-002, FEC-002, RSK-006 |
+| FR-007 | `POST /api/v1/requests/:id/assign`. The assignee must be staff with a grant for the request's category. `GET /api/v1/staff` lists who can take a request. Page: take it or assign it on `staff.html`. | TC-API-16, TC-API-17 and TC-API-18 pass. TC-API-17 is a decision table of who may be assigned. T-NFR-002-03 checks a stale assignment. T-E2E-01 takes a request in the browser. | CR-002, P-03, ADR-001, ADR-004 |
+| FR-008 | `PATCH /api/v1/requests/:id/status` through `request-status-policy.ts`, `request-service.ts` and `request-application.ts`. Page: change status on `staff.html`. | TC-API-19 to TC-API-24 pass, with the 9 transition cases in `request-status-policy.test.ts` and the 3 cases in `request-service.test.ts`. TC-API-21 is a decision table that includes a body claiming an owner (CR-007). T-E2E-01 resolves a request in the browser. | CR-002, P-02, ADR-004, ADR-006, RSK-019 |
+| FR-009 | `POST /api/v1/requests/:id/notes` and `PATCH /api/v1/requests/:id/due-date`. Store: `recordWork` and `setDueDate`. Page: the note and due date panels on `staff.html`. | TC-API-26, TC-API-27 and TC-API-28 pass. A note keeps its author and time, an empty note is refused and a due date keeps its change history. T-FR-009-02 sets, changes and clears a due date. | CR-002, CR-003, P-02, FEC-004 |
+| FR-010 | `GET /api/v1/management/summary` and `GET /api/v1/management/requests`, built on the same scope and filters. Store: `managementSummary` and `managementList`. Page: `manager.html` with `js/manager.js`. | TC-API-29, TC-API-30 and TC-API-31 pass. Counts match the lists behind them and the exact due time is not overdue. T-E2E-02 checks in the browser that the counts match the lists. | CR-002, CR-003, CR-004, P-02, FEC-004 |
+| FR-011 | One event in `request_events` for every change, with database triggers that reject any update or delete. `GET /api/v1/requests/:id/history`. Page: History on `staff.html`. | TC-API-19 passes. A request moves through its whole life and each step leaves exactly one event, in order. T-FR-011-03 passes: a requester sees no staff references. | CR-003, CR-004, ADR-002, FEC-002, RSK-006 |
 | FR-012 | `sort=oldest` on `GET /api/v1/requests`, in the store query. Page: the Oldest first box on `staff.html`. | TC-API-15 passes. Oldest first puts the earliest first and returns the same records. | ASR-05 |
-| NFR-001 | `src/authorization/authorization-policy.ts`, applied in `request-application.ts`. The caller comes from a server-side session (`src/auth/`, ADR-007) and category grants come from the server's user directory. The store also scopes every read in SQL. | 12 cases tagged AC-NFR-001 pass: TC-API-01 to TC-API-04, TC-API-08, TC-API-11, TC-API-13, TC-API-18, TC-API-23, TC-API-31, TC-API-32 and TC-UNIT-09. The 9 cases in `authorization-policy.test.ts` pass. | CR-002, P-03, ADR-005, DEP-001, FEC-001, RSK-013 |
-| NFR-002 | The store commits a request change and exactly one event together (`request-store.ts`, ADR-002). Database triggers reject any update or delete of history. | TC-API-19 passes. The store cases check one event for each change and a full rollback when the event fails. `npm run db:verify` checks the same against PostgreSQL 18 in the persistence workflow. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
-| NFR-003 | Requests, events and work records live in PostgreSQL through `request-store.ts`. The running server on `main` keeps requests in memory until PR #41 connects the store. | `persistence-lifecycle.test.ts` closes and reopens storage and compares the values and the history. `npm run db:verify` reads a request back in a new process against PostgreSQL 18 in the persistence workflow. PR #42 adds the same check on the built server. | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
+| NFR-001 | `src/authorization/authorization-policy.ts`, applied in `request-application.ts`. The caller comes from a server-side session (`src/auth/`, ADR-007) and category grants come from the server's user directory. The store also scopes every read in SQL. | 12 cases tagged AC-NFR-001 pass: TC-API-01 to TC-API-04, TC-API-08, TC-API-11, TC-API-13, TC-API-18, TC-API-23, TC-API-31, TC-API-32 and TC-UNIT-09. The 9 cases in `authorization-policy.test.ts` pass. T-E2E-02 repeats the requester and token cases through the pages. | CR-002, P-03, ADR-005, DEP-001, FEC-001, RSK-013 |
+| NFR-002 | The store commits a request change and exactly one event together (`request-store.ts`, ADR-002). Database triggers reject any update or delete of history. | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 pass. T-NFR-002-02 makes the database refuse the event and checks that the note, the work record and the version roll back, and it runs on PostgreSQL. The store cases check one event for each change and the triggers that block edits and deletes. `npm run db:verify` checks the same against PostgreSQL 18. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
+| NFR-003 | Requests, events and work records live in PostgreSQL through `request-store.ts`. The server uses `PostgresRequestRepository` when `DATABASE_URL` is set (PR #41), and staging and production refuse to start without it. | T-NFR-003-01 passes on PostgreSQL 18.6. It builds the server, runs the migrations, saves a request with an owner, a note and a due date, restarts the server and reads it back. `persistence-lifecycle.test.ts` closes and reopens storage and compares the values and the history, and `npm run db:verify` reads a request back in a new process. | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
 | NFR-004 | The pages in `app/frontend`, plain HTML, CSS and JavaScript (CR-006). Wireframes in `docs/design/wireframes`. | T-NFR-004-01 planned, not run. The five person check has not taken place. | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
 | NFR-005 | `scripts/perf-nfr005.mjs` (PR #40) measures the list, detail and summary calls. `scripts/seed-performance.ts` (PR #31) loads test data. | T-NFR-005-01 planned, not run. The script is built and has no result yet. | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
+
+## Acceptance check
+
+This is my reading of each acceptance criterion against the executed cases, made on 15 October 2026 from the test names and bodies. Covered means every criterion of the requirement has at least one executed case that asserts it. Partly means some criteria have no case yet. Not run means nothing has been executed. Dewald or Liam can challenge any row, and a challenge moves the row.
+
+| ID | Result | Executed cases | What is not covered |
+| --- | --- | --- | --- |
+| FR-001 | Covered | TC-API-05, TC-API-06, the store cases for blank input and a non-requester, and T-E2E-01 | |
+| FR-002 | Partly | TC-API-07 refuses a category outside the list. TC-API-05 and both journeys save the category that was chosen | A case that saves one request in each of the six categories (T-FR-002-01) |
+| FR-003 | Covered | TC-API-10, TC-REPO-09, and T-E2E-01, where the list shows the new status after a refresh | |
+| FR-004 | Covered | TC-API-19, TC-API-20, TC-API-22, TC-API-26, the store case for rejection and resolution feedback, T-FR-011-03 and T-E2E-01 | |
+| FR-005 | Covered | TC-API-12, TC-API-13, TC-REPO-07 and T-E2E-02 | |
+| FR-006 | Covered | TC-API-14 and the store case for hostile filter values | |
+| FR-007 | Covered | TC-API-16, TC-API-17, TC-API-18, T-NFR-002-03 and T-E2E-01 | |
+| FR-008 | Covered | TC-API-19 to TC-API-24, the 9 transition cases, the store cases and T-E2E-01 | |
+| FR-009 | Covered | TC-API-26, TC-API-27, TC-API-28, T-FR-009-02 and the store cases | |
+| FR-010 | Covered | TC-API-29, TC-API-30, TC-API-31, the store case for counts and lists, and T-E2E-02 | |
+| FR-011 | Covered | TC-API-16, TC-API-19, T-FR-011-03 and the store case for chronological history | |
+| FR-012 | Covered | TC-API-15, TC-REPO-08 and the store case for scope before filters and order | |
+| NFR-001 | Covered against the proposed matrix | All six cases in the [permission matrix](../data/permission-matrix.md): TC-API-10 and TC-API-11 (own and other requester), TC-API-12 and TC-API-13 (staff scope), TC-API-17 (ineligible assignee), TC-API-31 (management scope), the store case that blocks edits and deletes of events, and the store cases for a missing or revoked grant. T-E2E-02 repeats the requester and token cases through the pages | P-03 is approved in principle only (CR-002), so the result is against a proposed matrix. Grants cannot change while the server runs (TD-009) |
+| NFR-002 | Covered | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01, T-NFR-002-02 (a database-rejected event rolls back, run on PostgreSQL), T-NFR-002-03, the store rollback cases and the case that blocks event edits and deletes | |
+| NFR-003 | Partly | T-NFR-003-01 builds the server, runs the migrations, saves a request with an owner, a note and a due date, restarts the server and reads it back, on PostgreSQL 18.6. The reopen case and `npm run db:verify` check the same at the store | One request goes through the restart, not requests in every status |
+| NFR-004 | Not run | | The five person check |
+| NFR-005 | Not run | | The measured load run |
+
+Thirteen requirements are Covered, two are Partly and two are Not run.
 
 ## Verification plan
 
@@ -106,24 +132,24 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 
 | ID | Test cases | Level mix | Case status | Evidence |
 | --- | --- | --- | --- | --- |
-| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | TC-API-05 and TC-API-06 pass on `main` at `38000fc` |
-| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | TC-API-07 passes on `main` at `38000fc` |
-| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | TC-API-10 passes on `main` at `38000fc` |
-| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | TC-API-26 passes on `main` at `38000fc` |
-| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | TC-API-12 and TC-API-13 pass on `main` at `38000fc` |
-| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | TC-API-14 passes on `main` at `38000fc` |
-| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | TC-API-16 to TC-API-18 pass on `main` at `38000fc` |
-| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | TC-API-19 to TC-API-24, 9 policy cases and 3 service cases pass on `main` at `38000fc` |
-| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed | TC-API-26 to TC-API-28 pass on `main` at `38000fc` |
-| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | TC-API-29 to TC-API-31 pass on `main` at `38000fc` |
-| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed | TC-API-19 passes on `main` at `38000fc` |
-| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | TC-API-15 passes on `main` at `38000fc` |
-| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `38000fc` |
-| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed | TC-API-19 and the store cases pass on `main` at `38000fc` |
-| NFR-003 | T-NFR-003-01 | API | Designed | The reopen check passes on `main` at `38000fc`. The restart of the built server comes with PR #42 |
+| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | TC-API-05 and TC-API-06 pass on `main` at `142f6b3` |
+| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | TC-API-07 passes on `main` at `142f6b3` |
+| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | TC-API-10 passes on `main` at `142f6b3` |
+| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | TC-API-26 passes on `main` at `142f6b3` |
+| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | TC-API-12 and TC-API-13 pass on `main` at `142f6b3` |
+| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | TC-API-14 passes on `main` at `142f6b3` |
+| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | TC-API-16 to TC-API-18 pass on `main` at `142f6b3` |
+| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | TC-API-19 to TC-API-24, 9 policy cases and 3 service cases pass on `main` at `142f6b3` |
+| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed, T-FR-009-02 passed | TC-API-26 to TC-API-28 pass on `main` at `142f6b3` |
+| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | TC-API-29 to TC-API-31 pass on `main` at `142f6b3` |
+| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed, T-FR-011-03 passed | TC-API-19 passes on `main` at `142f6b3` |
+| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | TC-API-15 passes on `main` at `142f6b3` |
+| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `142f6b3` |
+| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 passed | TC-API-19 and the store cases pass on `main` at `142f6b3` |
+| NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for one request | T-NFR-003-01 passes on PostgreSQL 18.6 and the reopen check passes, both on `main` at `142f6b3` |
 | NFR-004 | T-NFR-004-01 | Manual | Designed | None yet |
 | NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
-| Journeys | T-E2E-01, T-E2E-02 | E2E | Designed | None yet |
+| Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. The result is in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun it |
 
 ## The end to end trace
 
@@ -149,19 +175,19 @@ Interface decision. ADR-006, `PATCH /api/v1/requests/:id/status`, documented in 
 
 Application artefact. `request-status.ts` holds the six statuses. `request-status-policy.ts` holds the transition table, including Rejected and Closed as terminal and the information each conditional move requires. `request-service.ts` applies authorisation and then the transition. `app/backend/src/api/app.ts` exposes the endpoint. `src/application/request-application.ts` reads the owner from the stored request, and `src/auth/` takes the caller from a session.
 
-Verification. On `main` at `38000fc`, 119 tests pass. For FR-008 they are the 9 transition cases, the 3 service cases and TC-API-19 to TC-API-24 through sign in and the endpoint. They include a 409 on an invalid transition, a refused rejection without a reason and a refused move to In Progress with no owner, even when the body claims one (CR-007). `npx tsc --noEmit` passes. Both run on every push and pull request through `.github/workflows/ci.yml`.
+Verification. On `main` at `142f6b3`, 150 tests pass. For FR-008 they are the 9 transition cases, the 3 service cases and TC-API-19 to TC-API-24 through sign in and the endpoint. They include a 409 on an invalid transition, a refused rejection without a reason and a refused move to In Progress with no owner, even when the body claims one (CR-007). T-E2E-01 then takes a request from sent to resolved in the browser. `npx tsc --noEmit` passes. The checks run on every push and pull request through `.github/workflows/ci.yml` and `.github/workflows/e2e.yml`.
 
-What is still missing. The running server keeps requests in memory until PR #41 joins the database store, and the browser journey has not run. FR-008 stays In Development until both are done.
+What is still missing. Nothing for FR-008 itself. The database store sits behind the server since PR #41, T-E2E-01 resolves a request in the browser, and the acceptance check counts FR-008 as Covered.
 
 ## The trace that still stops short
 
-FR-003 was the trace that stopped short through M1 and M2. It now runs the whole way. It goes from the visibility problem in the scenario, through NEED-P2-01 and FR-003, to ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005 and the authorisation policy, to `GET /api/v1/requests/mine`, to the list on the requester page, and to TC-API-10, which passes. A requester sees their own requests and never anyone else's.
+FR-003 and NFR-003 both stopped short earlier in M3, and both now run the whole way. FR-003 runs from the visibility problem in the scenario, through NEED-P2-01 and ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005, to `GET /api/v1/requests/mine`, to the requester page, and to TC-API-10 and T-E2E-01. NFR-003 runs from the need for records that survive a restart, through ASR-03 and ADR-002, to the PostgreSQL store, to T-NFR-003-01, which restarts the built server and reads the request back.
 
-NFR-003 is the trace that stops short now. It runs from the need for records that survive a restart, through NFR-003 and ASR-03, to ADR-002, to the PostgreSQL store, to a check that closes and reopens storage and reads the same values and history back. That check passes, and the persistence workflow runs it against PostgreSQL 18 on every pull request that changes the backend. It stops there. The running server on `main` still keeps requests in memory, so a restart of the real server loses them. PR #41 puts the store behind the server, and PR #42 adds the restart check on the built server. Until both merge, NFR-003 stays In Development and the matrix says why.
+NFR-005 is the trace that stops short now. It runs from the need for pages that answer in good time, through NFR-005 and ASR-05, to the three query shapes in the store, to the load script in `scripts/perf-nfr005.mjs`. It stops there. The script is built and has no result, so there is nothing to compare against the proposed target. The target stays a proposal under DEC-010 until a result exists. NFR-004 stops in the same place, with the pages built and the five person check not yet run.
 
-The two traces differ in one respect. FR-003 stopped short because it needed a signed in user, and that arrived with PR #38. NFR-003 stops short because two halves of the system, written by two people, have not been joined yet. Showing the second one is more useful than levelling every row to look finished.
+The earlier stops were joins between work done by different people, and the joins are done. This one is a measurement, and nobody can build a measurement, only run it.
 
-If NFR-003 changed so that a restart could lose data, the effects would reach ADR-002, the persistence workflow, every demonstration that depends on saved requests and the release summary. That is a change request with an impact analysis, not an edit.
+If NFR-005 changed so that the target moved, the effects would reach AC-NFR-005, DEC-010, the load script's default and the release summary. That is a change request with an impact analysis, not an edit.
 
 ## Requirement dependencies
 
