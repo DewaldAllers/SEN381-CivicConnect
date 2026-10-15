@@ -23,6 +23,7 @@ import {
   type RequestChanges,
   type RequestRecord,
   type RequestRepository,
+  type RepositoryPrincipal,
   StaleRequestError,
 } from "./request-repository.js";
 
@@ -39,6 +40,7 @@ export interface RequestView {
   dueDate: string | null;
   overdue: boolean;
   submittedAt: string;
+  version: number;
 }
 
 export interface HistoryView {
@@ -93,6 +95,14 @@ export class RequestApplication {
     private readonly now: () => Date = () => new Date()
   ) {}
 
+  private repositoryPrincipal(user: User): RepositoryPrincipal {
+  return {
+    id: user.id,
+    role: user.role,
+    categoryIds: user.categoryIds,
+  };
+}
+
   // ---------- Requester ----------
 
   /** FR-001, FR-002 */
@@ -120,7 +130,8 @@ export class RequestApplication {
       throw new ValidationError("Some fields need correcting", fields);
     }
 
-    const record = await this.repository.create(
+   const record = await this.repository.create(
+  this.repositoryPrincipal(principal),
       {
         title,
         description,
@@ -136,7 +147,10 @@ export class RequestApplication {
   /** FR-003 */
   async listMine(principal: User): Promise<RequestView[]> {
     this.requireAllowed({ role: principal.role, action: "READ", ownsRequest: true });
-    const records = await this.repository.listByRequester(principal.id);
+const records = await this.repository.listByRequester(
+  this.repositoryPrincipal(principal),
+  principal.id
+);
     return records.map((record) => this.view(record));
   }
 
@@ -148,12 +162,15 @@ export class RequestApplication {
     filters: { categoryId?: string; status?: string; sort?: string }
   ): Promise<RequestView[]> {
     this.requireStaffWithGrants(principal);
-    const records = await this.repository.listInCategories({
+const records = await this.repository.listInCategories(
+  this.repositoryPrincipal(principal),
+  {
       categoryIds: principal.categoryIds,
       categoryId: filters.categoryId || undefined,
       status: parseStatus(filters.status),
       oldestFirst: filters.sort === "oldest",
-    });
+    }
+  );
     return records.map((record) => this.view(record));
   }
 
@@ -173,9 +190,14 @@ export class RequestApplication {
   }
 
   /** FR-007: take or assign responsibility. The assignee must hold a grant for the request's category. */
-  async assign(principal: User, id: string, assigneeId: unknown): Promise<RequestView> {
+  async assign(principal: User, id: string, body: Record<string, unknown>): Promise<RequestView> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "ASSIGN", record);
+    this.observedVersion(record, body.expectedVersion);
+    if ([RequestStatus.RESOLVED, RequestStatus.CLOSED, RequestStatus.REJECTED].includes(record.status)) {
+      throw new ConflictError("Ownership cannot change in this state");
+    }
+    const assigneeId = body.assigneeId;
 
     const assignee =
       typeof assigneeId === "string" ? this.directory.findById(assigneeId) : undefined;
@@ -189,6 +211,7 @@ export class RequestApplication {
     if (record.ownerId === assignee.id) return this.view(record);
 
     const updated = await this.commit(
+      principal,
       record,
       { ownerId: assignee.id },
       {
@@ -212,6 +235,7 @@ export class RequestApplication {
   ): Promise<{ id: string; status: RequestStatus }> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "CHANGE_STATUS", record);
+    this.observedVersion(record, body.expectedVersion);
 
     const to = body.status;
     if (!Object.values(RequestStatus).includes(to as RequestStatus)) {
@@ -243,6 +267,7 @@ export class RequestApplication {
     }
 
     const updated = await this.commit(
+      principal,
       record,
       { status: target },
       {
@@ -264,6 +289,8 @@ export class RequestApplication {
   async addNote(principal: User, id: string, body: Record<string, unknown>): Promise<{ saved: true }> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "RECORD_ACTION", record);
+    this.observedVersion(record, body.expectedVersion);
+    if ([RequestStatus.CLOSED, RequestStatus.REJECTED].includes(record.status)) throw new ConflictError("Request is terminal");
 
     const text = asText(body.text);
     if (text.length === 0) {
@@ -274,12 +301,17 @@ export class RequestApplication {
         text: `A note can be at most ${FIELD_LIMITS.noteMax} characters.`,
       });
     }
-    await this.repository.appendEvent(record.id, {
-      kind: "NOTE_ADDED",
-      actorId: principal.id,
-      visibleToRequester: body.visibleToRequester === true,
-      details: { text },
-    });
+    try {
+      await this.repository.appendEvent(this.repositoryPrincipal(principal), record.id, record.version, {
+        kind: "NOTE_ADDED",
+        actorId: principal.id,
+        visibleToRequester: body.visibleToRequester === true,
+        details: { text },
+      });
+    } catch (error) {
+      if (error instanceof StaleRequestError) throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
+      throw error;
+    }
     return { saved: true };
   }
 
@@ -287,19 +319,25 @@ export class RequestApplication {
   async setDueDate(principal: User, id: string, body: Record<string, unknown>): Promise<RequestView> {
     const record = await this.load(principal, id);
     this.requireAction(principal, "RECORD_ACTION", record);
+    this.observedVersion(record, body.expectedVersion);
+    if (![RequestStatus.ACCEPTED, RequestStatus.IN_PROGRESS].includes(record.status)) {
+      throw new ConflictError("Due dates require accepted work");
+    }
 
-    const when = typeof body.dueDate === "string" ? new Date(body.dueDate) : null;
-    if (!when || Number.isNaN(when.getTime())) {
+    const clear = body.dueDate === null || body.dueDate === "";
+    const when = !clear && typeof body.dueDate === "string" ? new Date(body.dueDate) : null;
+    if (!clear && (!when || Number.isNaN(when.getTime()))) {
       throw new ValidationError("Choose a valid date", { dueDate: "Choose a valid date." });
     }
     const updated = await this.commit(
+      principal,
       record,
-      { dueDate: when.toISOString() },
+      { dueDate: when?.toISOString() ?? null },
       {
         kind: "DUE_DATE_SET",
         actorId: principal.id,
         visibleToRequester: true,
-        details: { previousDueDate: record.dueDate, newDueDate: when.toISOString() },
+        details: { previousDueDate: record.dueDate, newDueDate: when?.toISOString() ?? null },
       }
     );
     return this.view(updated);
@@ -315,13 +353,13 @@ export class RequestApplication {
   /** FR-004, FR-011. Requesters see only events marked for them. */
   async history(principal: User, id: string): Promise<HistoryView[]> {
     const record = await this.load(principal, id);
-    const events = await this.repository.history(record.id);
+    const events = await this.repository.history(this.repositoryPrincipal(principal), record.id);
     return events
       .filter((event) => principal.role !== "Requester" || event.visibleToRequester)
       .sort((a, b) => a.at.localeCompare(b.at))
       .map((event) => ({
         at: event.at,
-        actorName: this.nameOf(event.actorId),
+        actorName: principal.role === "Requester" && event.actorId !== principal.id ? "Staff" : this.nameOf(event.actorId),
         type: this.typeOf(event),
         text: this.describe(event),
         visibleToRequester: event.visibleToRequester,
@@ -385,7 +423,10 @@ export class RequestApplication {
 
   /** Loads a request only if the caller may read it. Missing and out-of-scope look identical. */
   private async load(principal: User, id: string): Promise<RequestRecord> {
-    const record = await this.repository.findById(id);
+const record = await this.repository.findById(
+  this.repositoryPrincipal(principal),
+  id
+);
     if (!record || !AuthorizationPolicy.isAllowed(this.context(principal, "READ", record))) {
       throw new NotFoundError();
     }
@@ -421,7 +462,7 @@ export class RequestApplication {
       action: "VIEW_REPORT",
       withinApprovedScope: principal.categoryIds.length > 0,
     });
-    return this.repository.listInCategories({
+    return this.repository.listInCategories(this.repositoryPrincipal(principal), {
       categoryIds: principal.categoryIds,
       categoryId: filters.categoryId || undefined,
       status: parseStatus(filters.status),
@@ -430,16 +471,23 @@ export class RequestApplication {
   }
 
   /** Writes the change with its event, turning a lost race into a clear 409. */
-  private async commit(
-    record: RequestRecord,
-    changes: RequestChanges,
-    event: NewHistoryEvent
-  ): Promise<RequestRecord> {
+private async commit(
+  principal: User,
+  record: RequestRecord,
+  changes: RequestChanges,
+  event: NewHistoryEvent
+): Promise<RequestRecord> {
     try {
-      return await this.repository.update(record.id, record.version, changes, event);
+      return await this.repository.update(
+  this.repositoryPrincipal(principal),
+  record.id,
+  record.version,
+  changes,
+  event
+);
     } catch (error) {
       if (error instanceof StaleRequestError) {
-        throw new ConflictError("This request was changed by someone else. Reload and try again.");
+        throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
       }
       throw error;
     }
@@ -452,6 +500,15 @@ export class RequestApplication {
       OVERDUE_STATUSES.includes(record.status) &&
       new Date(record.dueDate) < now
     );
+  }
+
+  private observedVersion(record: RequestRecord, value: unknown): void {
+    if (typeof value !== "number" || !Number.isSafeInteger(value) || value < 0) {
+      throw new ValidationError("A valid observed version is required", { expectedVersion: "Send the non-negative integer version shown by your last read." });
+    }
+    if (value !== record.version) {
+      throw new ConflictError("This request was changed by someone else. Reload and try again.", "stale");
+    }
   }
 
   private nameOf(userId: string): string {
@@ -468,10 +525,11 @@ export class RequestApplication {
       requesterName: this.nameOf(record.requesterId),
       status: record.status,
       ownerId: record.ownerId,
-      ownerName: record.ownerId ? this.nameOf(record.ownerId) : null,
+      ownerName: record.ownerId ? this.nameOf(record.ownerId) : record.hasOwner ? "Assigned staff" : null,
       dueDate: record.dueDate,
       overdue: this.isOverdue(record, this.now()),
       submittedAt: record.submittedAt,
+      version: record.version,
     };
   }
 
@@ -498,6 +556,7 @@ export class RequestApplication {
         return text;
       }
       case "OWNER_CHANGED": {
+        if (d.ownershipChanged === true) return "Responsibility updated.";
         let text = `${this.nameOf(String(d.newOwnerId))} is now responsible for this request.`;
         if (typeof d.previousOwnerId === "string") {
           text += ` Previously: ${this.nameOf(d.previousOwnerId)}.`;
@@ -507,6 +566,7 @@ export class RequestApplication {
       case "NOTE_ADDED":
         return String(d.text ?? "");
       case "DUE_DATE_SET":
+        if (d.newDueDate === null) return "Due date cleared.";
         return `Due date set to ${String(d.newDueDate).slice(0, 10)}.`;
     }
   }

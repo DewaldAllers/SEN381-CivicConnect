@@ -141,7 +141,7 @@ export function createApp(deps: AppDependencies) {
 
   api.post("/requests/:id/assign", async (req, res) => {
     res.json({
-      data: await requests.assign(principalOf(res), param(req, "id"), bodyOf(req).assigneeId),
+      data: await requests.assign(principalOf(res), param(req, "id"), bodyOf(req)),
     });
   });
 
@@ -189,7 +189,7 @@ export function createApp(deps: AppDependencies) {
     if (err instanceof AppError) {
       res
         .status(err.status)
-        .json(err.fields ? { error: err.message, fields: err.fields } : { error: err.message });
+        .json({ error: err.message, ...(err.fields && { fields: err.fields }), ...(err.code && { code: err.code }) });
       return;
     }
     const type = (err as { type?: string } | null)?.type;

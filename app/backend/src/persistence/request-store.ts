@@ -45,6 +45,7 @@ export interface SubmitRequestInput {
   description: string;
   /** Only for controlled imports/test fixtures, not an HTTP body field. */
   id?: string;
+  submittedAt?: Date | string;
 }
 export interface VersionedChange {
   requestId: string;
@@ -165,16 +166,28 @@ export class RequestStore {
         "SELECT id FROM request_categories WHERE id = $1 AND active = TRUE FOR SHARE", [input.categoryRef]
       );
       if (!category.rows.length) throw new Error("Unapproved category");
-      await client.query(`INSERT INTO service_requests
-        (id, requester_ref, category_ref, title, description, status) VALUES ($1, $2, $3, $4, $5, 'Submitted')`,
-      [id, principal.id, input.categoryRef, input.title, input.description]);
+      const submittedAt = input.submittedAt === undefined
+        ? null
+        : input.submittedAt instanceof Date
+          ? input.submittedAt
+          : new Date(input.submittedAt);
+      if (submittedAt !== null && !Number.isFinite(submittedAt.getTime())) throw new Error("Invalid submittedAt");
+      if (submittedAt === null) {
+        await client.query(`INSERT INTO service_requests
+          (id, requester_ref, category_ref, title, description, status) VALUES ($1, $2, $3, $4, $5, 'Submitted')`,
+        [id, principal.id, input.categoryRef, input.title, input.description]);
+      } else {
+        await client.query(`INSERT INTO service_requests
+          (id, requester_ref, category_ref, title, description, status, submitted_at) VALUES ($1, $2, $3, $4, $5, 'Submitted', $6)`,
+        [id, principal.id, input.categoryRef, input.title, input.description, submittedAt]);
+      }
       await client.query(`INSERT INTO request_events (request_id, actor_ref, event_kind, new_status)
         VALUES ($1, $2, 'SUBMITTED', 'Submitted')`, [id, principal.id]);
       return this.readInserted(client, id);
     });
   }
 
-  async get(principal: Principal, requestId: string): Promise<PersistentRequest | null> {
+ async get( principal: Principal, requestId: string): Promise<PersistentRequest | null> {
     const values: unknown[] = [requestId];
     const allowed = scope(principal, values);
     const result = await this.database.query<RequestRow>(
@@ -283,6 +296,25 @@ export class RequestStore {
         newDueAt: input.dueAt?.toISOString() ?? null,
       } };
     });
+  }
+
+  /** Repository adapter hook: list all records in the caller's trusted scope, including terminal statuses. */
+  async listForRepository(principal: Principal, filters: RequestFilters = {}): Promise<PersistentRequest[]> {
+    if (principal.role !== "Staff" && principal.role !== "Management") {
+      throw new Error("Unauthorised operation");
+    }
+    return this.list(principal, filters);
+  }
+
+  /** Repository adapter hook sharing the versioned atomic work-record path. */
+  async appendRepositoryNote(
+    principal: Principal,
+    requestId: string,
+    expectedVersion: number,
+    text: string,
+    visibleToRequester: boolean
+  ): Promise<void> {
+    await this.recordWork(principal, { requestId, expectedVersion, text, kind: "NOTE", visibleToRequester });
   }
 
   async managementSummary(principal: Principal, filters: RequestFilters = {}, at = new Date()): Promise<ManagementSummary> {

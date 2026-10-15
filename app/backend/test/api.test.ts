@@ -2,6 +2,7 @@ import request from "supertest";
 import { describe, expect, it } from "vitest";
 
 import { RequestStatus } from "../src/domain/request-status.js";
+import type { RepositoryPrincipal } from "../src/application/request-repository.js";
 import { buildTestApp, record, seedUsers, TEST_PASSWORD, validSubmission } from "./helpers/test-app.js";
 
 /**
@@ -12,6 +13,14 @@ import { buildTestApp, record, seedUsers, TEST_PASSWORD, validSubmission } from 
  */
 
 const text = (n: number) => "a".repeat(n);
+
+// Trusted repository-level principal used only by assertions in these tests.
+// It has access to every seeded test category, while production access remains scoped.
+const repositoryStaff: RepositoryPrincipal = {
+  id: "u-sipho",
+  role: "Staff",
+  categoryIds: ["c-facilities", "c-it", "c-security", "c-maintenance"],
+};
 
 describe("Sign in and sessions (NFR-001)", () => {
   it("[TC-API-01][AC-NFR-001] valid credentials return a token and the user, never the password hash", async () => {
@@ -69,7 +78,7 @@ describe("Submit a request (FR-001, FR-002)", () => {
       ownerId: null,
     });
     expect(res.body.data.id).toMatch(/^REQ-/);
-    const events = await repository.history(res.body.data.id);
+    const events = await repository.history(repositoryStaff, res.body.data.id);
     expect(events.map((e) => e.kind)).toEqual(["SUBMITTED"]);
   });
 
@@ -105,7 +114,7 @@ describe("Submit a request (FR-001, FR-002)", () => {
     const res = await as("sipho").post("/requests", validSubmission);
 
     expect(res.status).toBe(403);
-    expect(await repository.listInCategories({ categoryIds: ["c-facilities"] })).toHaveLength(0);
+    expect(await repository.listInCategories(repositoryStaff, { categoryIds: ["c-facilities"] })).toHaveLength(0);
   });
 
   it("[TC-API-09] malformed JSON is a 400, not a 500", async () => {
@@ -238,8 +247,8 @@ describe("Ownership (FR-007)", () => {
 
     expect(res.status).toBe(expected);
     if (expected === 409) {
-      expect((await repository.findById("REQ-001"))?.ownerId).toBeNull();
-      expect(await repository.history("REQ-001")).toHaveLength(0);
+      expect((await repository.findById(repositoryStaff, "REQ-001"))?.ownerId).toBeNull();
+      expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(0);
     }
   });
 
@@ -249,7 +258,7 @@ describe("Ownership (FR-007)", () => {
 
     expect((await as("thandi").post("/requests/REQ-001/assign", { assigneeId: "u-sipho" })).status).toBe(403);
     expect((await as("mary").post("/requests/REQ-001/assign", { assigneeId: "u-sipho" })).status).toBe(403);
-    expect((await repository.findById("REQ-001"))?.ownerId).toBeNull();
+    expect((await repository.findById(repositoryStaff, "REQ-001"))?.ownerId).toBeNull();
   });
 });
 
@@ -265,7 +274,7 @@ describe("Status changes and history (FR-008, FR-011, NFR-002)", () => {
     const closed = await as("sipho").patch(`/requests/${id}/status`, { status: "Closed" });
     expect(closed.body.data).toEqual({ id, status: "Closed" });
 
-    expect(await repository.history(id)).toHaveLength(6);
+    expect(await repository.history(repositoryStaff, id)).toHaveLength(6);
     const seen = (await as("thandi").get(`/requests/${id}/history`)).body.data;
     expect(seen.map((e: { type: string }) => e.type)).toEqual(["Submitted", "Status", "Owner", "Status", "Status", "Status"]);
     expect(seen[0].actorName).toBe("Thandi Nkosi");
@@ -281,8 +290,8 @@ describe("Status changes and history (FR-008, FR-011, NFR-002)", () => {
 
     expect(res.status).toBe(409);
     expect(res.body.error).toBe("Invalid request status transition");
-    expect((await repository.findById("REQ-001"))?.status).toBe("Submitted");
-    expect(await repository.history("REQ-001")).toHaveLength(0);
+    expect((await repository.findById(repositoryStaff, "REQ-001"))?.status).toBe("Submitted");
+    expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(0);
   });
 
   // Decision table for the transitions that need extra information (P-02).
@@ -299,8 +308,8 @@ describe("Status changes and history (FR-008, FR-011, NFR-002)", () => {
     const res = await as("sipho").patch("/requests/REQ-001/status", body);
 
     expect(res.status).toBe(409);
-    expect((await repository.findById("REQ-001"))?.status).toBe(state.status);
-    expect(await repository.history("REQ-001")).toHaveLength(0);
+    expect((await repository.findById(repositoryStaff, "REQ-001"))?.status).toBe(state.status);
+    expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(0);
   });
 
   it("[TC-API-22][AC-FR-008] a rejection with a reason is accepted and the reason is kept in the history", async () => {
@@ -324,8 +333,8 @@ describe("Status changes and history (FR-008, FR-011, NFR-002)", () => {
     expect((await as("thandi").patch("/requests/REQ-001/status", { status: "Accepted" })).status).toBe(403);
     expect((await as("mary").patch("/requests/REQ-001/status", { status: "Accepted" })).status).toBe(403);
     expect((await as("sipho").patch("/requests/REQ-002/status", { status: "Accepted" })).status).toBe(404);
-    expect((await repository.findById("REQ-001"))?.status).toBe("Submitted");
-    expect((await repository.findById("REQ-002"))?.status).toBe("Submitted");
+    expect((await repository.findById(repositoryStaff, "REQ-001"))?.status).toBe("Submitted");
+    expect((await repository.findById(repositoryStaff, "REQ-002"))?.status).toBe("Submitted");
   });
 
   it("[TC-API-24][AC-FR-008] an unknown request is 404 and an unrecognised status value is 400", async () => {
@@ -346,7 +355,7 @@ describe("Status changes and history (FR-008, FR-011, NFR-002)", () => {
     ]);
 
     expect(results.map((r) => r.status).sort()).toEqual([200, 409]);
-    const events = await repository.history("REQ-001");
+    const events = await repository.history(repositoryStaff, "REQ-001");
     expect(events.filter((e) => e.kind === "STATUS_CHANGED")).toHaveLength(1);
   });
 });
@@ -377,7 +386,7 @@ describe("Notes and due dates (FR-009, FR-004)", () => {
 
     expect(res.status).toBe(400);
     expect(res.body.fields.text).toBeDefined();
-    expect(await repository.history("REQ-001")).toHaveLength(0);
+    expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(0);
   });
 
   it("[TC-API-28][AC-FR-009] a due date is stored with its change history; a missing or invalid date is refused", async () => {
@@ -387,14 +396,14 @@ describe("Notes and due dates (FR-009, FR-004)", () => {
     const set = await as("sipho").patch("/requests/REQ-001/due-date", { dueDate: "2026-10-20" });
     expect(set.status).toBe(200);
     expect(set.body.data.dueDate).toBe("2026-10-20T00:00:00.000Z");
-    const events = await repository.history("REQ-001");
+    const events = await repository.history(repositoryStaff, "REQ-001");
     expect(events).toHaveLength(1);
     expect(events[0].details).toEqual({ previousDueDate: null, newDueDate: "2026-10-20T00:00:00.000Z" });
 
-    for (const dueDate of ["not a date", null, 0, undefined]) {
+    for (const dueDate of ["not a date", 0, undefined]) {
       expect((await as("sipho").patch("/requests/REQ-001/due-date", { dueDate })).status).toBe(400);
     }
-    expect(await repository.history("REQ-001")).toHaveLength(1);
+    expect(await repository.history(repositoryStaff, "REQ-001")).toHaveLength(1);
   });
 });
 

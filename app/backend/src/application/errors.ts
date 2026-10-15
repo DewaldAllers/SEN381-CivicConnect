@@ -3,7 +3,8 @@ export class AppError extends Error {
   constructor(
     readonly status: number,
     message: string,
-    readonly fields?: Record<string, string>
+    readonly fields?: Record<string, string>,
+    readonly code?: string
   ) {
     super(message);
   }
@@ -35,7 +36,7 @@ export class ValidationError extends AppError {
 }
 
 export class ConflictError extends AppError {
-  constructor(message: string) {
-    super(409, message);
+  constructor(message: string, code?: string) {
+    super(409, message, undefined, code);
   }
 }
