@@ -1,6 +1,6 @@
 # Change control register
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **six changes raised, four against the PED v1.0 baseline and two during M3 construction**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **nine changes raised, four against the PED v1.0 baseline and five during M3 construction. CR-001 to CR-006 are approved**
 
 PED v1.0 was baselined on 9 September 2026. From that point a material change to a requirement, scope item, constraint or approved decision is controlled rather than absorbed into an edit. SRC-MASTER section 14 (p. 13) sets the path, and SRC-MASTER section 11 (p. 12) says baselined requirements may not be silently edited after sign-off.
 
@@ -26,12 +26,15 @@ Planned milestone progression is also not a change. M1 recorded architecture, te
 
 | ID | Date raised | Change | Main artefacts affected | Recommendation | Status |
 | --- | --- | --- | --- | --- | --- |
-| [CR-001](#cr-001-align-artefact-version-and-status-lines-with-the-ped-version) | 2026-09-29 | Align artefact version numbers and status lines with the PED version | All v1.0 artefact headers | Accept | Raised |
-| [CR-002](#cr-002-close-the-five-requirement-proposals-p-01-to-p-05) | 2026-09-29 | Close the five requirement proposals P-01 to P-05 | FR-001 to FR-011, NFR-001 to NFR-005, acceptance criteria, RTM | Modify | Raised |
-| [CR-003](#cr-003-define-overdue-on-calendar-time-in-one-recorded-time-zone) | 2026-09-29 | Define overdue on calendar time in one recorded time zone | FR-009, FR-010, FR-011 and their criteria | Accept | Raised |
-| [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Raised |
-| [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Raised |
-| [CR-006](#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite) | 2026-10-12 | Build the client in HTML, CSS and JavaScript instead of React and Vite | ADR-003 frontend selection, ADR-006 wording, ASM-005, TD-007 | Accept | Raised |
+| [CR-001](#cr-001-align-artefact-version-and-status-lines-with-the-ped-version) | 2026-09-29 | Align artefact version numbers and status lines with the PED version | All v1.0 artefact headers | Accept | Approved, PR #27 |
+| [CR-002](#cr-002-close-the-five-requirement-proposals-p-01-to-p-05) | 2026-09-29 | Close the five requirement proposals P-01 to P-05 | FR-001 to FR-011, NFR-001 to NFR-005, acceptance criteria, RTM | Modify | Approved, PR #27 |
+| [CR-003](#cr-003-define-overdue-on-calendar-time-in-one-recorded-time-zone) | 2026-09-29 | Define overdue on calendar time in one recorded time zone | FR-009, FR-010, FR-011 and their criteria | Accept | Approved, PR #27 |
+| [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Approved, PR #27 |
+| [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Approved, PR #32 |
+| [CR-006](#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite) | 2026-10-12 | Build the client in HTML, CSS and JavaScript instead of React and Vite | ADR-003 frontend selection, ADR-006 wording, ASM-005, TD-007 | Accept | Approved, PR #32 |
+| [CR-007](#cr-007-ignore-the-hasowner-field-in-the-status-request) | 2026-10-14 | Ignore the `hasOwner` field in the status request and read the owner from the stored request | FR-008, AC-FR-008, API v1 status endpoint | Accept | Raised |
+| [CR-008](#cr-008-require-the-observed-version-on-every-change-and-apply-the-lifecycle-limits-at-the-api) | 2026-10-15 | Require the observed version on every change and apply the lifecycle limits at the API | FR-007, FR-008, FR-009, AC-FR-007 to AC-FR-009, API v1 write endpoints | Accept | Raised |
+| [CR-009](#cr-009-show-requesters-a-generic-label-in-place-of-staff-names) | 2026-10-15 | Show requesters a generic label in place of staff names | FR-004, FR-011, AC-FR-004, AC-FR-011, requester pages | Accept | Raised |
 
 ---
 
@@ -162,6 +165,71 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Risk impact | React and Vite no longer count against the assumption in ASM-005. We lose reusable components and React's larger ecosystem. A new risk is user text shown as HTML. An end-to-end test that types a script tag into a field checks it. |
 | Recommendation | ACCEPT |
 | Authorisation | Recorded by the approvals on the pull request that carries this change into `main`. |
+
+---
+
+## CR-007 Ignore the hasOwner field in the status request
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-007 |
+| Requested by | Liam de Villiers, recorded by me |
+| Date | 2026-10-14 |
+| Requested change | The status endpoint stops reading `hasOwner` from the request body. The server works out whether a request has an owner from the stored request. The field is still accepted and ignored, so older callers do not break. |
+| Reason and expected value | Before this change a caller could send `hasOwner: true` and move a request to In Progress with nobody responsible. P-02 says In Progress needs an owner, and the rule meant little if the caller could claim one. Liam found it while adding sign in (ADR-007). |
+| Requirements affected | FR-008 and AC-FR-008. The wording does not change. |
+| Architecture and design affected | The application layer reads the owner from the stored request. The transition table in ADR-004 does not change. |
+| UI, API and data affected | The `hasOwner` row in the status table of the [API contract](../integration/api-v1.md) now says the field is ignored. The client still sends it, and the server ignores it. |
+| Security and privacy impact | Closes a way to skip a rule by saying so in the request. It fits NFR-001: what the server decides never comes from the caller. |
+| Quality and testing impact | TC-API-21 in `api.test.ts` sends `hasOwner: true` with no owner and expects the move to be refused and nothing to change. |
+| Scope impact | None. |
+| Schedule and resource impact | Small. It came with the sign in work. |
+| Cost impact | None. |
+| Risk impact | Removes one way a status could be changed wrongly. No entry in the Risk Register needed to change. |
+| Recommendation | ACCEPT |
+| Authorisation | The code change merged in PR #38 on 15 October 2026 with approvals from Dewald Allers and me. The code cited this identifier before the register held it, which is DEF-012. This entry closes that gap, and it is approved when its own pull request merges. |
+
+## CR-008 Require the observed version on every change and apply the lifecycle limits at the API
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-008 |
+| Requested by | Dewald Allers in PR #42, recorded by me |
+| Date | 2026-10-15 |
+| Requested change | Every call that changes a request (assign, status, note and due date) must send `expectedVersion`, the version the page last read. A missing or invalid value gets a 400. A value that no longer matches gets a 409 with `code: "stale"`. The API also applies the limits the data store already holds. Ownership cannot change once a request is Resolved, Closed or Rejected. A note cannot be added once a request is Closed or Rejected. A due date can be set or cleared only while a request is Accepted or In Progress. |
+| Reason and expected value | FR-007 to FR-009 and P-02 do not say when an owner change, a note or a due date is allowed, or what happens when two people edit one request at the same time. Dewald's data work answered both questions in the store. When the endpoints did not follow, a page holding an old version could overwrite a newer change (DEF-006), and a refused change came back as a server error instead of a clear answer (DEF-009). The client already sends `expectedVersion` on every change. |
+| Requirements affected | FR-007, FR-008 and FR-009, with AC-FR-007, AC-FR-008 and AC-FR-009. The wording does not change. The limits fill in what P-02 left open. |
+| Architecture and design affected | None. The database holds the same limits. The application layer now refuses early with a clear answer, and the database check stays as the last word when two changes arrive together. |
+| UI, API and data affected | Four write endpoints gain a required body field. Making a field required is not an additive change under the versioning rule in the API contract. The only caller is our client, which already sends the field, so we keep `v1` and record the change here. |
+| Security and privacy impact | Stops one person silently undoing another's change. No new access is given. |
+| Quality and testing impact | Dewald's tests in PR #42 send raw authenticated calls. A stale write gets a 409 and adds no event. A missing version gets a 400. A refused lifecycle change gets a 409 and not a 500. |
+| Scope impact | None. |
+| Schedule and resource impact | Small. The work is built and waiting in PR #42. |
+| Cost impact | None. |
+| Risk impact | Reduces the chance that two people change one request and one change is lost. No register entry covered it before, and DEF-006 does now. |
+| Recommendation | ACCEPT. The lifecycle limits are proposals from the data work. No stakeholder has confirmed them, and they are recorded as proposals in the [handoff note](../data/m3-repository-handoff.md). |
+| Authorisation | Recorded by the approvals on PR #42 for the code and on the pull request that carries this register into `main`. |
+
+## CR-009 Show requesters a generic label in place of staff names
+
+| Field | Entry |
+| --- | --- |
+| Change ID | CR-009 |
+| Requested by | Dewald Allers in PR #31 and PR #42, recorded by me |
+| Date | 2026-10-15 |
+| Requested change | A requester never sees which member of staff looks after a request. The request shows "Assigned staff" when someone has it, and nothing when nobody does. The history shows "Staff" for events by staff, and an ownership change reads as a plain line with no names. Staff and management still see names. The stored record keeps who did what. |
+| Reason and expected value | AC-FR-004 says anything outside what the requester may see stays hidden. AC-FR-011 says the history shows each actor to an authorised user. The permission matrix does not say whether a requester may see staff names. Requests can be about security or lost property, and staff are named people. A requester does not need a name to follow their own request. |
+| Requirements affected | FR-004 and FR-011, with AC-FR-004 and AC-FR-011. The wording does not change. This is a reading of what the requester is permitted to see. |
+| Architecture and design affected | The data store hides the reference when a requester reads. The API words the labels. Names for staff come from the sign in directory. |
+| UI, API and data affected | For a requester, `ownerId` is null, `ownerName` is "Assigned staff" and each staff `actorName` is "Staff". The history list in the client shows "Staff" when a name is missing (PR #39). |
+| Security and privacy impact | A requester learns less about staff. A requester can still see that staff acted, and when. |
+| Quality and testing impact | A case in `request-store.test.ts` keeps staff references out of the requester's detail and feedback while the stored record stays complete. T-FR-011-03 in the [test designs](../testing/test-cases.md) covers it through the real server. |
+| Scope impact | None. |
+| Schedule and resource impact | Small. The store change and the client change are merged. The API change is in PR #42. |
+| Cost impact | None. |
+| Risk impact | A requester may want to know who to ask. They ask through the request, which staff can see. We accept that. |
+| Recommendation | ACCEPT |
+| Authorisation | The store change merged in PR #31 with approvals from Liam de Villiers and me. The client change merged in PR #39 with approvals from Dewald Allers and Liam de Villiers. The API change is in PR #42. This entry is approved when its own pull request merges. |
 
 ---
 
