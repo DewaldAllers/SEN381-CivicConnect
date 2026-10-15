@@ -1,0 +1,14 @@
+{
+  "name": "civicconnect-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser journeys for CivicConnect, run with Playwright against the real server",
+  "scripts": {
+    "test": "playwright test",
+    "test:postgres": "node run-on-postgres.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
+}
