@@ -17,7 +17,7 @@ Each case traces to an acceptance criterion in [acceptance-criteria.md](../requi
 | API or integration | The server with a real PostgreSQL database behind it, including rollbacks and restarts | Vitest, with the PostgreSQL service in continuous integration |
 | E2E | A whole journey through the real pages in a browser | Playwright against the server |
 | Performance | List, detail and summary calls under load (NFR-005) | A script against the staging copy |
-| Manual | The five-person first-use check (NFR-004) | Done in person, with the results written down |
+| Manual | The five-person first-use check (NFR-004), set out in [the check sheet](nfr-004-check.md) | Done in person, with the results written down |
 
 ## Techniques
 
