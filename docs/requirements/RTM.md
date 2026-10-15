@@ -149,7 +149,7 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 | NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for one request | T-NFR-003-01 passes on PostgreSQL 18.6 and the reopen check passes, both on `main` at `142f6b3` |
 | NFR-004 | T-NFR-004-01 | Manual | Designed | None yet |
 | NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
-| Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. The result is in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun it |
+| Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. GitHub ran both modes on pull request #43 at commit `13c3206` and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). The tests are in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun them |
 
 ## The end to end trace
 
