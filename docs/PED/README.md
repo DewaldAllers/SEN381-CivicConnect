@@ -100,7 +100,7 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Acceptance criteria | [acceptance-criteria.md](../requirements/acceptance-criteria.md) | v1.0 | Baselined, affected by CR-002 and CR-003 |
 | Requirement proposals P-01 to P-05 | [decisions-to-confirm.md](../requirements/decisions-to-confirm.md) | v1.0 | Closed or deferred by CR-002 |
 | Requirements Traceability Matrix | [RTM.md](../requirements/RTM.md) | v3.0 | Implementation and evidence columns filled from `main`, with an acceptance check |
-| Test approach and test cases | [testing/README.md](../testing/README.md), [test-cases.md](../testing/test-cases.md), [nfr-004-check.md](../testing/nfr-004-check.md) | v1.0 | 49 cases designed, approved on merge of PR #34. The first use check sheet is new in v3.0 |
+| Test approach and test cases | [testing/README.md](../testing/README.md), [test-cases.md](../testing/test-cases.md), [nfr-004-check.md](../testing/nfr-004-check.md), [nfr-004-results.md](../testing/nfr-004-results.md) | v1.0 | 49 cases designed, approved on merge of PR #34. The first use check sheet and its results are new in v3.0 |
 | Change control register | [change/README.md](../change/README.md) | v3.0 | CR-001 to CR-006 approved, CR-007 to CR-009 raised |
 | Baseline register and sign-off | [baselines/README.md](../baselines/README.md) | v2.0 | New in v2.0 |
 | Risk Register | [risks/README.md](../risks/README.md) | v2.0 | Reviewed and extended |

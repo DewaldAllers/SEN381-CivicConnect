@@ -32,7 +32,7 @@ The results below come from `main` at commit `142f6b3`, where the database store
 | Performance | Script built, no result | `scripts/perf-nfr005.mjs` (PR #40) follows AC-NFR-005. It runs three request types, 10 at a time, with warm-up kept apart, and writes the environment and data size next to the result. `scripts/seed-performance.ts` (PR #31) loads test data. | The first measured run is Liam's, against the database, and the result says which store it used. TD-008 and TD-011. NFR-005 stays a proposed target until a result exists |
 | Staging | Script built, not deployed | `scripts/deploy-staging.mjs` (PR #40) builds one named commit into a clean folder, starts it on its own port with its own secret, asks the server which release it is and fails if the answer is wrong. Rolling back is the same command with the previous tag. | Deploying the candidate and showing it in the demonstration is Liam's. The brief accepts a local staging environment when the demonstration plan is stated |
 | Known defects | 13 raised, 5 closed, 6 fixed, 2 in progress | DEF-006 to DEF-011 are product defects that Dewald found by reviewing PR #41. PR #42 fixed all six, and no severity 3 defect is open. DEF-012 and DEF-013 are documentation defects I found, and they are fixed when this pull request merges. | The fixed defects move to Closed at the release review |
-| Acceptance | 13 of 17 requirements covered, 2 partly, 2 not run | The [acceptance check in the RTM](../requirements/RTM.md#acceptance-check) reads every criterion against the executed cases. FR-002 and NFR-003 have criteria with no case yet. NFR-004 and NFR-005 have no result. | The five person check is mine and needs people. The load run is Liam's |
+| Acceptance | 13 of 17 requirements covered, 3 partly, 1 not run | The [acceptance check in the RTM](../requirements/RTM.md#acceptance-check) reads every criterion against the executed cases. FR-002 and NFR-003 have criteria with no case yet. NFR-004 has an informal check with five people that I did not time, and NFR-005 has no result. | A timed check for NFR-004 is mine. The load run is Liam's |
 
 ## Current classification
 
@@ -46,7 +46,7 @@ The product itself moved a long way in a week. On 9 October the system had one e
 
 CONDITIONALLY READY becomes defensible once the three items above are done and the CI gate stays set, the PED and the RTM describe the tagged commit, and no severity 3 defect is open. Known limitations would then be stated as conditions rather than hidden.
 
-READY would also need every one of the seventeen requirements covered by executed cases. FR-002 and NFR-003 need the cases named in the acceptance check, NFR-004 needs the five person check and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
+READY would also need every one of the seventeen requirements covered by executed cases. FR-002 and NFR-003 need the cases named in the acceptance check, NFR-004 needs a timed check with a written record and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
 
 ## Residual risk
 

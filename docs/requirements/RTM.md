@@ -18,9 +18,9 @@ Version 2.1 fills the rest. The quality driver column now carries ASR-01 to ASR-
 
 Version 3.0 adds the verification plan. It lists the test cases designed for each requirement, with a status for each case and a place for the evidence. Evidence is added as each case runs and its work merges, so the matrix grows with the build.
 
-Version 3.0 then fills the implementation and verification columns from `main` at commit `142f6b3`, where the database store sits behind the server. 150 tests pass, and two browser journeys pass in memory and on PostgreSQL. A new acceptance check reads every criterion against the executed cases. Thirteen requirements read Implemented, two read In Development because some of their criteria have no case yet, and two are deferred targets with no result. CR-007 to CR-009 are raised in the same pull request and take effect when it merges.
+Version 3.0 then fills the implementation and verification columns from `main` at commit `142f6b3`, where the database store sits behind the server. 150 tests pass, and two browser journeys pass in memory and on PostgreSQL. A new acceptance check reads every criterion against the executed cases. Thirteen requirements read Implemented, two read In Development because some of their criteria have no case yet, and two are deferred targets, NFR-004 with an informal result from five people and NFR-005 with none. CR-007 to CR-009 are raised in the same pull request and take effect when it merges.
 
-No functional requirement reads Not yet implemented any more. NFR-004 and NFR-005 read planned, because the five person check and the measured load run have not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
+No functional requirement reads Not yet implemented any more. NFR-004 reads deferred with an informal result from five people, and NFR-005 reads planned, because the measured load run has not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
 
 ## Status vocabulary
 
@@ -97,7 +97,7 @@ Two sets of case ids appear in this matrix. The designs in the verification plan
 | NFR-001 | `src/authorization/authorization-policy.ts`, applied in `request-application.ts`. The caller comes from a server-side session (`src/auth/`, ADR-007) and category grants come from the server's user directory. The store also scopes every read in SQL. | 12 cases tagged AC-NFR-001 pass: TC-API-01 to TC-API-04, TC-API-08, TC-API-11, TC-API-13, TC-API-18, TC-API-23, TC-API-31, TC-API-32 and TC-UNIT-09. The 9 cases in `authorization-policy.test.ts` pass. T-E2E-02 repeats the requester and token cases through the pages. | CR-002, P-03, ADR-005, DEP-001, FEC-001, RSK-013 |
 | NFR-002 | The store commits a request change and exactly one event together (`request-store.ts`, ADR-002). Database triggers reject any update or delete of history. | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 pass. T-NFR-002-02 makes the database refuse the event and checks that the note, the work record and the version roll back, and it runs on PostgreSQL. The store cases check one event for each change and the triggers that block edits and deletes. `npm run db:verify` checks the same against PostgreSQL 18. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
 | NFR-003 | Requests, events and work records live in PostgreSQL through `request-store.ts`. The server uses `PostgresRequestRepository` when `DATABASE_URL` is set (PR #41), and staging and production refuse to start without it. | T-NFR-003-01 passes on PostgreSQL 18.6. It builds the server, runs the migrations, saves a request with an owner, a note and a due date, restarts the server and reads it back. `persistence-lifecycle.test.ts` closes and reopens storage and compares the values and the history, and `npm run db:verify` reads a request back in a new process. | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
-| NFR-004 | The pages in `app/frontend`, plain HTML, CSS and JavaScript (CR-006). Wireframes in `docs/design/wireframes`. | T-NFR-004-01 planned, not run. The five person check has not taken place. | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
+| NFR-004 | The pages in `app/frontend`, plain HTML, CSS and JavaScript (CR-006). Wireframes in `docs/design/wireframes`. | T-NFR-004-01 ran informally on 16 October. Five people completed both tasks and I saw each finish in under five minutes. I did not record the times and I explained the pages first, so AC-NFR-004 is not confirmed. See [the results](../testing/nfr-004-results.md). | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
 | NFR-005 | `scripts/perf-nfr005.mjs` (PR #40) measures the list, detail and summary calls. `scripts/seed-performance.ts` (PR #31) loads test data. | T-NFR-005-01 planned, not run. The script is built and has no result yet. | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
 
 ## Acceptance check
@@ -121,10 +121,10 @@ This is my reading of each acceptance criterion against the executed cases, made
 | NFR-001 | Covered against the proposed matrix | All six cases in the [permission matrix](../data/permission-matrix.md): TC-API-10 and TC-API-11 (own and other requester), TC-API-12 and TC-API-13 (staff scope), TC-API-17 (ineligible assignee), TC-API-31 (management scope), the store case that blocks edits and deletes of events, and the store cases for a missing or revoked grant. T-E2E-02 repeats the requester and token cases through the pages | P-03 is approved in principle only (CR-002), so the result is against a proposed matrix. Grants cannot change while the server runs (TD-009) |
 | NFR-002 | Covered | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01, T-NFR-002-02 (a database-rejected event rolls back, run on PostgreSQL), T-NFR-002-03, the store rollback cases and the case that blocks event edits and deletes | |
 | NFR-003 | Partly | T-NFR-003-01 builds the server, runs the migrations, saves a request with an owner, a note and a due date, restarts the server and reads it back, on PostgreSQL 18.6. The reopen case and `npm run db:verify` check the same at the store | One request goes through the restart, not requests in every status |
-| NFR-004 | Not run | | The five person check |
+| NFR-004 | Partly | T-NFR-004-01, run informally with five people on 16 October ([results](../testing/nfr-004-results.md)). All five completed both tasks, and I saw each finish in under five minutes | I did not record the times, I made no recording, and I explained the pages first, so the pass rule is not confirmed |
 | NFR-005 | Not run | | The measured load run |
 
-Thirteen requirements are Covered, two are Partly and two are Not run.
+Thirteen requirements are Covered, three are Partly and one is Not run.
 
 ## Verification plan
 
@@ -147,7 +147,7 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 | NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `142f6b3` |
 | NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 passed | TC-API-19 and the store cases pass on `main` at `142f6b3` |
 | NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for one request | T-NFR-003-01 passes on PostgreSQL 18.6 and the reopen check passes, both on `main` at `142f6b3` |
-| NFR-004 | T-NFR-004-01 | Manual | Designed | None yet |
+| NFR-004 | T-NFR-004-01 | Manual | Designed, run informally | Five people completed both tasks on 16 October, not timed ([results](../testing/nfr-004-results.md)) |
 | NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
 | Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. GitHub ran both modes on pull request #43 at commit `13c3206` and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). The tests are in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun them |
 
@@ -183,7 +183,7 @@ What is still missing. Nothing for FR-008 itself. The database store sits behind
 
 FR-003 and NFR-003 both stopped short earlier in M3, and both now run the whole way. FR-003 runs from the visibility problem in the scenario, through NEED-P2-01 and ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005, to `GET /api/v1/requests/mine`, to the requester page, and to TC-API-10 and T-E2E-01. NFR-003 runs from the need for records that survive a restart, through ASR-03 and ADR-002, to the PostgreSQL store, to T-NFR-003-01, which restarts the built server and reads the request back.
 
-NFR-005 is the trace that stops short now. It runs from the need for pages that answer in good time, through NFR-005 and ASR-05, to the three query shapes in the store, to the load script in `scripts/perf-nfr005.mjs`. It stops there. The script is built and has no result, so there is nothing to compare against the proposed target. The target stays a proposal under DEC-010 until a result exists. NFR-004 stops in the same place, with the pages built and the five person check not yet run.
+NFR-005 is the trace that stops short now. It runs from the need for pages that answer in good time, through NFR-005 and ASR-05, to the three query shapes in the store, to the load script in `scripts/perf-nfr005.mjs`. It stops there. The script is built and has no result, so there is nothing to compare against the proposed target. The target stays a proposal under DEC-010 until a result exists. NFR-004 has moved a little. Five people tried the pages on 16 October, but I did not time them, so there is still no measured result.
 
 The earlier stops were joins between work done by different people, and the joins are done. This one is a measurement, and nobody can build a measurement, only run it.
 
