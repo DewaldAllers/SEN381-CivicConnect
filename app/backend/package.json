@@ -7,6 +7,7 @@
     "dev": "tsx src/server.ts",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:verify": "tsx scripts/verify-postgres.ts",
+    "db:verify:runtime": "tsx scripts/verify-runtime-access.ts",
     "db:seed:perf": "tsx scripts/seed-performance.ts",
     "lint": "eslint src test scripts --max-warnings=0",
     "test": "vitest run",

@@ -163,7 +163,7 @@ export class RequestStore {
     nonBlank(id, "id");
     return this.database.transaction(async (client) => {
       const category = await client.query(
-        "SELECT id FROM request_categories WHERE id = $1 AND active = TRUE FOR SHARE", [input.categoryRef]
+        "SELECT id FROM active_request_category($1)", [input.categoryRef]
       );
       if (!category.rows.length) throw new Error("Unapproved category");
       const submittedAt = input.submittedAt === undefined

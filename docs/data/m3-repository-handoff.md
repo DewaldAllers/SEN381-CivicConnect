@@ -8,6 +8,8 @@ This implements Dewald's revised data/query allocation. Liam owns identity, endp
 
 Create one `RequestStore(new PostgresDatabase(pool))` for the application. Run `npm run db:migrate` before serving traffic. Construct `Principal { id, role, categoryRefs }` from the authenticated session and real stored category grants. Never copy a principal, requester ID, assignee grants or permission flag from a submitted JSON body. Requester submission is attributed to `principal.id`.
 
+Runtime permission correction (15 October): use a separate `DATABASE_ADMIN_URL` for migrations, then the restricted `civicconnect_runtime` connection as the server's `DATABASE_URL`. Migration 003 preserves the active-category lock without category UPDATE rights. Apply the owner's explicit grants and run `npm run db:verify:runtime`; see [CI/runtime evidence](../../evidence/m3-ci-runtime-permissions.md). The restricted URL cannot run the schema-creating test commands, which need a privileged disposable `TEST_DATABASE_URL`.
+
 | Client/API operation | Repository call |
 | --- | --- |
 | Category choices | `categories()` (active categories) |
