@@ -5,8 +5,8 @@
 //
 //   node --env-file=../backend/.env run-on-postgres.mjs
 //
-// It reads TEST_DATABASE_URL, or DATABASE_URL when that is not set. The address
-// stays in the environment and is never printed.
+// It reads TEST_DATABASE_URL, which must be a login that may create and drop schemas.
+// The address stays in the environment and is never printed.
 import { spawnSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { createRequire } from "node:module";
@@ -17,9 +17,9 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const backend = path.resolve(here, "../backend");
 const { Pool } = createRequire(path.join(backend, "package.json"))("pg");
 
-const base = process.env.TEST_DATABASE_URL ?? process.env.DATABASE_URL;
+const base = process.env.TEST_DATABASE_URL;
 if (!base) {
-  console.error("Set TEST_DATABASE_URL or DATABASE_URL to a PostgreSQL address.");
+  console.error("Set TEST_DATABASE_URL to the owner login of a development or test database.");
   process.exit(2);
 }
 

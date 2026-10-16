@@ -18,7 +18,7 @@ npm test
 
 The test run starts the backend itself on port 4300, signs in as the sample users with the password `demo`, and stops the server when it ends. Requests stay in memory.
 
-To run them against PostgreSQL, set `TEST_DATABASE_URL` (or `DATABASE_URL`) to a PostgreSQL address and run:
+To run them against PostgreSQL, set `TEST_DATABASE_URL` to the owner login of a development or test database, because the runner creates and drops a schema and the restricted app login cannot do that. Then run:
 
 ```text
 node --env-file=../backend/.env run-on-postgres.mjs
