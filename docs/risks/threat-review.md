@@ -54,7 +54,7 @@ I also read the response headers the server sets. Every response carries `X-Cont
 | No limit on sign in attempts or request rate, sessions in memory | TD-009 | Liam | If the system is used beyond a demonstration |
 | No Content-Security-Policy header | TD-012 | Liam | Before the release tag if time allows, otherwise recorded as an accepted limitation |
 | Secrets are checked by pattern and not by a scanner in CI | TD-013 | Tristan | When a scanner is added to CI |
-| The free database expires on 13 November 2026 and the rights of its role are unconfirmed | TD-010 | Dewald | Before the release tag |
+| The free database expires on 13 November 2026. A restricted runtime login is set up in PR #44, which is open | TD-010 | Dewald | Before the release tag |
 
 ## Limits of this review
 

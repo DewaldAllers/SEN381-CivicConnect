@@ -4,7 +4,7 @@
 | --- | --- |
 | Document | CivicConnect Project Engineering Document (PED) |
 | Current version | v3.0, in progress |
-| Version date | 15 October 2026 |
+| Version date | 16 October 2026 |
 | Status | In progress for M3. Each part is approved on the merge of the pull request that carries it |
 | Previous baselines | v1.0, baselined 9 September 2026. v2.0, submitted as BL-002 on 30 September 2026 and approved on the merge of PR #30 on 1 October 2026 |
 | Document control owner | Tristan Els |
@@ -21,6 +21,7 @@ The PED is held as linked Markdown in this repository rather than as one file, s
 
 | Field | Entry |
 | --- | --- |
+| Team | Virtual Group A |
 | Team members | Tristan Els, Dewald Allers and Liam de Villiers |
 | GitHub repository | https://github.com/DewaldAllers/SEN381-CivicConnect |
 | M3 release candidate | Named in the [release evidence summary](../release/README.md) on the day the tag is cut. The assessed version is that tag |
@@ -53,7 +54,7 @@ Nothing baselined in v1.0 has been deleted. Where wording changed, the identifie
 
 Version 2.0 answered how we would build it. Version 3.0 answers whether it works and whether we can release it.
 
-We built it. A person can sign in, send a request and follow it to the end. Staff can work on it, and management can see the totals. The pages, the endpoints and the PostgreSQL store work together on `main`. 150 tests pass, two browser journeys pass in memory and on PostgreSQL, and CI checks the types, runs the tests and audits the dependencies on every push. The [release evidence summary](../release/README.md) says what that does and does not show. It still reads NOT READY, because the release candidate tag is not cut, the CI gate is not set, there is no measured load result and staging has not shown a tagged candidate.
+We built it. A person can sign in, send a request and follow it to the end. Staff can work on it, and management can see the totals. The pages, the endpoints and the PostgreSQL store work together on `main`. 150 tests pass, two browser journeys pass in memory and on PostgreSQL, and CI checks the types, runs the tests and audits the dependencies on every push. The [release evidence summary](../release/README.md) says what that does and does not show. It still reads NOT READY, because the release candidate tag is not cut, there is no measured load result and staging has not shown a tagged candidate. The CI gate is set and shown blocking a failing change.
 
 The design held. The modular server, the one-save-for-a-change-and-its-event rule, the central status policy, the central permission policy and the `/api/v1` boundary all went into the code as ADR-001 to ADR-006 described them. We made five controlled changes while building. We build all seventeen requirements (CR-005), the client is plain HTML, CSS and JavaScript (CR-006), the server ignores an owner claim in the request body (CR-007), every change carries the version the page last read (CR-008) and requesters see "Staff" in place of names (CR-009). Each has a decision entry or an ADR behind it.
 
@@ -69,7 +70,7 @@ Each row below follows the section headings SRC-M3 section 6 (p. 4) asks for. Th
 | 2. M2 baseline conformance | The M2 design went into the code as written. The modular server, the one-save rule for a change and its event, the status policy, the permission policy and the API boundary all exist. PostgreSQL 18.6 holds the data. | [ADR-001 to ADR-006](../decisions/README.md#adr-index), [architecture and data](architecture-and-data.md), [API v1](../integration/api-v1.md), the `src` folders in [app/backend](../../app/backend) | In place on `main` |
 | 3. Controlled changes | Five changes were raised in M3 and each is recorded with its reason and effect. | [Change control register](../change/README.md) (CR-005 to CR-009), [decision log](../decisions/README.md) (DEC-014 to DEC-018, ADR-007) | CR-005 and CR-006 approved. CR-007 to CR-009 raised |
 | 4. Construction and configuration | Work goes through branches and pull requests into a protected `main` with two approvals. Secrets stay out of the repository: the seed password and the database address come from the environment, `.env` files are ignored and the example file holds names only. | [GitHub governance evidence](../../evidence/github-governance.md), [backend README](../../app/backend/README.md), [ADR-007](../decisions/ADR-007-authentication-and-sessions.md), RSK-021 in the [Risk Register](../risks/README.md) | In place |
-| 5. CI and automated verification | CI checks the types, runs the tests with a saved report and audits the dependencies. A high or critical finding in shipped code fails the build. A second workflow checks the database store against PostgreSQL 18, and a third runs the browser journeys in memory and on PostgreSQL. | `.github/workflows/ci.yml`, `.github/workflows/persistence-checks.yml`, `.github/workflows/e2e.yml`, the [Actions runs](https://github.com/DewaldAllers/SEN381-CivicConnect/actions), TD-005 in the [technical debt register](../technical-debt/README.md) | In place. Requiring the workflow in branch protection is for Dewald to confirm before the tag |
+| 5. CI and automated verification | CI checks the types, runs the tests with a saved report and audits the dependencies. A high or critical finding in shipped code fails the build. A second workflow checks the database store against PostgreSQL 18, and a third runs the browser journeys in memory and on PostgreSQL. | `.github/workflows/ci.yml`, `.github/workflows/persistence-checks.yml`, `.github/workflows/e2e.yml`, the [Actions runs](https://github.com/DewaldAllers/SEN381-CivicConnect/actions), TD-005 in the [technical debt register](../technical-debt/README.md) | In place. `backend-checks` is a required check on `main`, and [PR #45](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/45) shows a failing test blocked |
 | 6. Quality strategy applied | The riskiest rules got the strongest checks: who may see and change a request (NFR-001, 12 tagged cases and the policy cases), one event for every change with a full rollback on failure (NFR-002, T-NFR-002-02), and stale writes (T-NFR-002-03). | [Test approach](../testing/README.md), [RTM](../requirements/RTM.md), DEC-017 and DEC-018 in the [decision log](../decisions/README.md) | In place for the API and the store |
 | 7. Black-box, integration and system validation | Boundary values, decision tables and a state-transition run check the rules through real HTTP calls. Two browser journeys drive the real pages. | [Test cases](../testing/test-cases.md), the TC-API cases in [api.test.ts](../../app/backend/test/api.test.ts), the [browser journeys](../../app/e2e/README.md), the acceptance check in the [RTM](../requirements/RTM.md#acceptance-check) | API cases and both journeys pass, in memory and on PostgreSQL |
 | 8. Performance and reliability | A load script follows AC-NFR-005 and a seed loads test data. A restart check and injected failures check reliability at the store. | [Load script](../../app/backend/scripts/perf-nfr005.mjs), [seed script](../../app/backend/scripts/seed-performance.ts), [data verification handoff](../data/m3-repository-handoff.md), TD-008 and TD-011 | Scripts built. The measured run has no result yet |
@@ -107,11 +108,11 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Forward Engineering Considerations | [forward-engineering/README.md](../forward-engineering/README.md) | v2.0 | Reviewed |
 | Engineering Decision Log and ADR index | [decisions/README.md](../decisions/README.md) | v3.0 | 18 decisions and 7 ADRs |
 | Defect Register | [defects/README.md](../defects/README.md) | v3.0 | 13 entries, 5 closed, 6 fixed, 2 in progress |
-| Technical Debt Register | [technical-debt/README.md](../technical-debt/README.md) | v3.0 | 13 entries, 6 repaid, 7 open |
+| Technical Debt Register | [technical-debt/README.md](../technical-debt/README.md) | v3.0 | 13 entries, 7 repaid, 6 open |
 | Threat review | [threat-review.md](../risks/threat-review.md) | v3.0 | 16 threats, each with its control, its evidence and any gap |
 | Release evidence summary | [release/README.md](../release/README.md) | v3.0 | Classified NOT READY on 15 October 2026 |
 | GitHub governance evidence | [github-governance.md](../../evidence/github-governance.md) | v1.0 | Baselined, rechecked for v2.0 |
-| AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v2.0 | Extended with the M2 entries |
+| AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v3.0 | Extended with the M2 and M3 entries |
 | Source register | [sources.md](../sources.md) | v2.0 | Extended with SRC-M2 |
 | Architecturally significant requirements and quality drivers | [architecture-and-data.md](architecture-and-data.md) | v2.0 | ASR-01 to ASR-05 |
 | Architecture selection, diagrams and ADR | [ADR-001](../decisions/ADR-001-civicconnect-architecture.md) | v2.0 | Modular application server |

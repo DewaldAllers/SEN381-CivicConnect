@@ -1,6 +1,6 @@
 # Release evidence summary
 
-Version 3.0 | Opened 9 October 2026, updated 15 October 2026 | Owner: Tristan Els | Status: **NOT READY, construction and integration in progress**
+Version 3.0 | Opened 9 October 2026, updated 16 October 2026 | Owner: Tristan Els | Status: **NOT READY, construction and integration in progress**
 
 This is where the separate pieces of M3 evidence become one argument about whether CivicConnect can be released. It is filled in as the evidence arrives and classified at the release review.
 
@@ -24,7 +24,7 @@ The results below come from `main` at commit `142f6b3`, where the database store
 
 | Evidence area | Result | Interpretation | Concern or action |
 | --- | --- | --- | --- |
-| Build and CI | Passing | CI installs the packages, checks the types, runs the tests with a saved report and audits the dependencies. A high or critical finding in shipped code fails the build (PR #36). A second workflow runs lint and checks the database store against PostgreSQL 18 on backend pull requests (PR #31). A third workflow, added with the browser journeys, runs them in memory and on PostgreSQL on every pull request. | TD-005. On 15 October GitHub reported `backend-checks` as not required on a pull request, so a red run can still merge. Setting the rule is for Dewald, before the tag |
+| Build and CI | Passing | CI installs the packages, checks the types, runs the tests with a saved report and audits the dependencies. A high or critical finding in shipped code fails the build (PR #36). A second workflow runs lint and checks the database store against PostgreSQL 18 on backend pull requests (PR #31). A third workflow, added with the browser journeys, runs them in memory and on PostgreSQL on every pull request. | TD-005 is repaid. Dewald made `backend-checks` a required check on `main` on 15 October, with up-to-date branches required. [Pull request #45](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/45) held one failing test, the check went red, GitHub blocked the merge and refused it, and I closed it unmerged |
 | Automated regression | 150 tests passing, 2 intentional skips | 11 files: 52 API, 22 store, 21 data and API integration, 13 authentication, 10 in-memory repository, 9 authorisation policy, 9 repository contract, 9 transition, 3 service and 2 persistence lifecycle. The cases use boundary values (TC-API-06), decision tables (TC-API-17 and TC-API-21), a state-transition run (TC-API-19), a concurrency case (T-NFR-002-03) and fault injection (T-NFR-002-02). | The M3 minimum is 15 meaningful cases across a stated mix, and the suite is above it at every level. The 2 skips need a real database or a SQL constraint, and the PostgreSQL run below covers the database one |
 | API and integration | Passing, in memory and on PostgreSQL | `api.test.ts` and `data-api.integration.test.ts` send raw authenticated HTTP requests through sign in to the endpoints. `npm run test:postgres` passes 31 tests with 1 intentional skip on PostgreSQL 18.6. It includes the contract cases, the HTTP cases and T-NFR-003-01, which restarts the built server. `npm run db:verify` passes. | These checks use temporary schemas and leave the shared tables untouched |
 | System and E2E | 2 journeys passing | T-E2E-01 takes a request from sent to resolved through three people's pages. T-E2E-02 covers a script in a title, a requester reaching staff pages, a stale change and the management counts. Both pass in memory and on PostgreSQL 18.6, and the PostgreSQL run saved 2 requests, 9 history events and 3 work records. | GitHub ran both modes on pull request #43 at commit `13c3206`, and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). M3 requires at least 2 critical E2E cases |
@@ -38,13 +38,13 @@ The results below come from `main` at commit `142f6b3`, where the database store
 
 **NOT READY.**
 
-Four things still stand between this and CONDITIONALLY READY. The release candidate tag is not cut. The CI gate is not set, so a red run can still merge. There is no measured load result. Staging has not shown the tagged candidate.
+Three things still stand between this and CONDITIONALLY READY. The release candidate tag is not cut. There is no measured load result. Staging has not shown the tagged candidate.
 
-The product itself moved a long way in a week. On 9 October the system had one endpoint, stored nothing and authenticated nobody. On 15 October a person can sign in and work a request from sent to resolved through the pages, the server and a PostgreSQL database, and two browser journeys check that on every pull request. The classification stays NOT READY because those four items are the ones the brief names for a release, and none of them is done yet.
+The product itself moved a long way in a week. On 9 October the system had one endpoint, stored nothing and authenticated nobody. On 15 October a person can sign in and work a request from sent to resolved through the pages, the server and a PostgreSQL database, and two browser journeys check that on every pull request. The classification stays NOT READY because the three items that remain are ones the brief names for a release. The fourth, the CI gate, is set and shown blocking a failing change.
 
 ## What would change the classification
 
-CONDITIONALLY READY becomes defensible once the four items above are done, the PED and the RTM describe the tagged commit, and no severity 3 defect is open. Known limitations would then be stated as conditions rather than hidden.
+CONDITIONALLY READY becomes defensible once the three items above are done and the CI gate stays set, the PED and the RTM describe the tagged commit, and no severity 3 defect is open. Known limitations would then be stated as conditions rather than hidden.
 
 READY would also need every one of the seventeen requirements covered by executed cases. FR-002 and NFR-003 need the cases named in the acceptance check, NFR-004 needs the five person check and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
 
