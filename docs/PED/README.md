@@ -24,12 +24,12 @@ The PED is held as linked Markdown in this repository rather than as one file, s
 | Team | Virtual Group A |
 | Team members | Tristan Els, Dewald Allers and Liam de Villiers |
 | GitHub repository | https://github.com/DewaldAllers/SEN381-CivicConnect |
-| M3 release candidate | Named in the [release evidence summary](../release/README.md) on the day the tag is cut. The assessed version is that tag |
+| M3 release candidate | Tag `v3.0-m3`, named in the [release evidence summary](../release/README.md). The assessed version is the commit the tag points to |
 | PED version | v3.0 |
 | RTM | [RTM.md](../requirements/RTM.md) |
 | CI and test evidence | The runs at https://github.com/DewaldAllers/SEN381-CivicConnect/actions, the [test approach](../testing/README.md) and the evidence columns of the RTM |
 | Staging or test environment | The release evidence summary names the environment and how it is shown in the demonstration |
-| Date submitted | Recorded in the release evidence summary with the tag |
+| Date submitted | 16 October 2026 |
 
 ## Version history
 
@@ -38,7 +38,7 @@ The PED is held as linked Markdown in this repository rather than as one file, s
 | v0.1 to v0.3 | 7 to 8 September 2026 | M1 drafting | Three members drafted in parallel on separate branches. Nothing was baselined. | Branch commits on `feature/m1-member1-foundation`, `m1-part2-requirements-foundation` and `m1-part3-risk-decisions-governance` |
 | v1.0 | 9 September 2026 | M1 baseline | Problem and business need, stakeholders, scope baseline, constraints, 12 functional and 5 non-functional requirements, acceptance criteria, initial RTM, initial Risk Register, initial Engineering Decision Log, Forward Engineering Considerations, GitHub governance evidence, AI Usage Register and the team working agreement. | PR #21, #22, #23, #24, #25 and #26 merged into `main`. Working agreement agreed by all three members on 9 September 2026 |
 | v2.0 | 30 September 2026 | M2 | Review of the v1.0 baseline and the four changes arising from it. Change control register, baseline register, assumptions and dependencies register. RTM rebuilt on the M2 columns and populated. Risk Register reviewed and extended to 22 entries. Architecturally significant requirements, architecture selection and data model. Technology stack with pinned versions and deployment direction. Two design decisions and the initial interface decision. Backend vertical slice with automated checks. | PR #27 and #29 merged into `main`, each approved by the two members who did not author it. PR #28 and the integration request PR #30 carry the remainder. Baseline record BL-002 |
-| v3.0 | In progress from 9 October 2026 | M3 | Defect Register, Technical Debt Register and release evidence summary. Change control extended to CR-009, and the decision log to DEC-018 and ADR-007. Test approach and 49 designed test cases. RTM filled in from `main` with executed cases. Backend: sign in and sessions, every endpoint, the PostgreSQL store with migrations, the CI audit and the persistence workflow, and the staging and load scripts. Client pages and wireframes. Two browser journeys with their own CI workflow. The M3 evidence index and submission information in this document. | PR #31 to #34 and PR #36 to #42 merged into `main`, each approved by two members who did not author it. PR #43 carries this update and is open. The release candidate tag is named in the release summary once cut |
+| v3.0 | In progress from 9 October 2026 | M3 | Defect Register, Technical Debt Register and release evidence summary. Change control extended to CR-009, and the decision log to DEC-018 and ADR-007. Test approach and 49 designed test cases. RTM filled in from `main` with executed cases. Backend: sign in and sessions, every endpoint, the PostgreSQL store with migrations, the CI audit and the persistence workflow, and the staging and load scripts. Client pages and wireframes. Two browser journeys with their own CI workflow. The M3 evidence index and submission information in this document. | PR #31 to #34 and PR #36 to #44 merged into `main`, each approved by two members who did not author it. The release candidate is the tag `v3.0-m3` |
 
 ## What changed between v1.0 and v2.0
 
@@ -54,7 +54,7 @@ Nothing baselined in v1.0 has been deleted. Where wording changed, the identifie
 
 Version 2.0 answered how we would build it. Version 3.0 answers whether it works and whether we can release it.
 
-We built it. A person can sign in, send a request and follow it to the end. Staff can work on it, and management can see the totals. The pages, the endpoints and the PostgreSQL store work together on `main`. 150 tests pass, two browser journeys pass in memory and on PostgreSQL, and CI checks the types, runs the tests and audits the dependencies on every push. The [release evidence summary](../release/README.md) says what that does and does not show. It still reads NOT READY, because the release candidate tag is not cut, there is no measured load result and staging has not shown a tagged candidate. The CI gate is set and shown blocking a failing change.
+We built it. A person can sign in, send a request and follow it to the end. Staff can work on it, and management can see the totals. The pages, the endpoints and the PostgreSQL store work together on `main`. 151 tests pass, two browser journeys pass in memory and on PostgreSQL, and CI checks the types, runs the tests and audits the dependencies on every push. The [release evidence summary](../release/README.md) says what that does and does not show. It still reads NOT READY, because there is no measured load result and staging has not shown a tagged candidate. The tag is cut, and the CI gate is set and shown blocking a failing change.
 
 The design held. The modular server, the one-save-for-a-change-and-its-event rule, the central status policy, the central permission policy and the `/api/v1` boundary all went into the code as ADR-001 to ADR-006 described them. We made five controlled changes while building. We build all seventeen requirements (CR-005), the client is plain HTML, CSS and JavaScript (CR-006), the server ignores an owner claim in the request body (CR-007), every change carries the version the page last read (CR-008) and requesters see "Staff" in place of names (CR-009). Each has a decision entry or an ADR behind it.
 
@@ -75,7 +75,7 @@ Each row below follows the section headings SRC-M3 section 6 (p. 4) asks for. Th
 | 7. Black-box, integration and system validation | Boundary values, decision tables and a state-transition run check the rules through real HTTP calls. Two browser journeys drive the real pages. | [Test cases](../testing/test-cases.md), the TC-API cases in [api.test.ts](../../app/backend/test/api.test.ts), the [browser journeys](../../app/e2e/README.md), the acceptance check in the [RTM](../requirements/RTM.md#acceptance-check) | API cases and both journeys pass, in memory and on PostgreSQL |
 | 8. Performance and reliability | A load script follows AC-NFR-005 and a seed loads test data. A restart check and injected failures check reliability at the store. | [Load script](../../app/backend/scripts/perf-nfr005.mjs), [seed script](../../app/backend/scripts/seed-performance.ts), [data verification handoff](../data/m3-repository-handoff.md), TD-008 and TD-011 | Scripts built. The measured run has no result yet |
 | 9. Defects and quality interpretation | Thirteen defects are recorded. Six product defects came from one review and share one cause, two halves written separately. All six are fixed, and no severity 3 defect is open. | [Defect Register](../defects/README.md) | Six fixed, two documentation defects fixed on merge |
-| 10. Release readiness | The classification is NOT READY, with the reasons, what would change it and seven residual risks. | [Release evidence summary](../release/README.md) | NOT READY on 15 October 2026 |
+| 10. Release readiness | The classification is NOT READY, with the reasons, what would change it and seven residual risks. | [Release evidence summary](../release/README.md) | NOT READY on 16 October 2026 |
 
 The registers and the traceability matrix are continued in place and linked, not copied. The RTM is the [Requirements Traceability Matrix](../requirements/RTM.md), the risks are in the [Risk Register](../risks/README.md), the decisions are in the [decision log](../decisions/README.md), the debt is in the [Technical Debt Register](../technical-debt/README.md) and the AI use is in the [AI Usage Register](../ai-register/AI-Usage-Register.md).
 
@@ -108,9 +108,9 @@ Ownership means the member drafts the part and answers for it first. All three o
 | Forward Engineering Considerations | [forward-engineering/README.md](../forward-engineering/README.md) | v2.0 | Reviewed |
 | Engineering Decision Log and ADR index | [decisions/README.md](../decisions/README.md) | v3.0 | 18 decisions and 7 ADRs |
 | Defect Register | [defects/README.md](../defects/README.md) | v3.0 | 13 entries, 5 closed, 6 fixed, 2 in progress |
-| Technical Debt Register | [technical-debt/README.md](../technical-debt/README.md) | v3.0 | 13 entries, 7 repaid, 6 open |
+| Technical Debt Register | [technical-debt/README.md](../technical-debt/README.md) | v3.0 | 14 entries, 7 repaid, 7 open |
 | Threat review | [threat-review.md](../risks/threat-review.md) | v3.0 | 16 threats, each with its control, its evidence and any gap |
-| Release evidence summary | [release/README.md](../release/README.md) | v3.0 | Classified NOT READY on 15 October 2026 |
+| Release evidence summary | [release/README.md](../release/README.md) | v3.0 | Classified NOT READY on 16 October 2026 |
 | GitHub governance evidence | [github-governance.md](../../evidence/github-governance.md) | v1.0 | Baselined, rechecked for v2.0 |
 | AI Usage Register | [AI-Usage-Register.md](../ai-register/AI-Usage-Register.md) | v3.0 | Extended with the M2 and M3 entries |
 | Source register | [sources.md](../sources.md) | v2.0 | Extended with SRC-M2 |

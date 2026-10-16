@@ -4,7 +4,7 @@ How to start the release candidate and the steps for the demonstration. The step
 
 ## Before you start
 
-You need Node.js 22 and Google Chrome. The database address is private and stays out of the repository. The team shares it privately, and it goes in `app/backend/.env` as one line:
+You need Node.js 22 and Google Chrome. The database address is private and stays out of the repository. Dewald shares the restricted app login privately, and it goes in `app/backend/.env` as one line:
 
 ```text
 DATABASE_URL=<the PostgreSQL address>
@@ -16,6 +16,8 @@ Then, from `app/backend`:
 npm ci
 npx tsx --env-file=.env src/server.ts
 ```
+
+The owner login that creates the tables is a separate address, `DATABASE_ADMIN_URL`, and only `npm run db:migrate` uses it. The migrations are already applied, so the demonstration does not need it.
 
 The server prints "PostgreSQL connected successfully" and "Using the PostgreSQL request repository", then listens on port 3000. Open http://localhost:3000.
 
@@ -52,7 +54,7 @@ Use a separate browser tab or window for each person. Each tab keeps its own sig
 7. **Management.** Sign in as `mary`. The summary shows Open, Overdue, Resolved and Closed. Click each card. The list below always has as many rows as the number on the card. Overdue is also counted as open, and the page says so.
 8. **A script in a title.** As Thandi, send a request titled `<script>alert(1)</script> test`. It shows as plain text, and no alert appears.
 9. **Saved across a restart** (database mode only). Stop the server with Ctrl+C and start it again. Sign in as Thandi. The requests are still there, with the same history.
-10. **The evidence.** Show `npm test` in `app/backend`, which passes 150 tests, and `npm run lint` and `npx tsc --noEmit`, which are clean. Run `npm test` in `app/e2e` to show both browser journeys. Open the GitHub Actions page for the repository and show the runs. Open the [RTM acceptance check](../requirements/RTM.md#acceptance-check) and the [release evidence summary](../release/README.md), which reads NOT READY and says why.
+10. **The evidence.** Show `npm test` in `app/backend`, which passes 151 tests, and `npm run lint` and `npx tsc --noEmit`, which are clean. Run `npm test` in `app/e2e` to show both browser journeys. Open the GitHub Actions page for the repository and show the runs. Open the [RTM acceptance check](../requirements/RTM.md#acceptance-check) and the [release evidence summary](../release/README.md), which reads NOT READY and says why.
 
 ## If something goes wrong
 

@@ -1,6 +1,6 @@
 # Requirements Traceability Matrix
 
-Version 3.0 | 15 October 2026 | Owner: Tristan Els | Status: **M3 evidence and acceptance check from `main` at `142f6b3` and the browser journeys, approved when its pull request merges**
+Version 3.0 | 16 October 2026 | Owner: Tristan Els | Status: **M3 evidence and acceptance check from `main` at `d3091fd` and the browser journeys, approved when its pull request merges**
 
 Dewald Allers owns the requirement wording this matrix traces. I own the matrix, which means the columns, the statuses and the evidence links.
 
@@ -18,7 +18,7 @@ Version 2.1 fills the rest. The quality driver column now carries ASR-01 to ASR-
 
 Version 3.0 adds the verification plan. It lists the test cases designed for each requirement, with a status for each case and a place for the evidence. Evidence is added as each case runs and its work merges, so the matrix grows with the build.
 
-Version 3.0 then fills the implementation and verification columns from `main` at commit `142f6b3`, where the database store sits behind the server. 150 tests pass, and two browser journeys pass in memory and on PostgreSQL. A new acceptance check reads every criterion against the executed cases. Thirteen requirements read Implemented, two read In Development because some of their criteria have no case yet, and two are deferred targets, NFR-004 with an informal result from five people and NFR-005 with none. CR-007 to CR-009 are raised in the same pull request and take effect when it merges.
+Version 3.0 then fills the implementation and verification columns from `main` at commit `d3091fd`, where the database store sits behind the server. 151 tests pass, and two browser journeys pass in memory and on PostgreSQL. A new acceptance check reads every criterion against the executed cases. Thirteen requirements read Implemented, two read In Development because some of their criteria have no case yet, and two are deferred targets, NFR-004 with an informal result from five people and NFR-005 with none. CR-007 to CR-009 are raised in the same pull request and take effect when it merges.
 
 No functional requirement reads Not yet implemented any more. NFR-004 reads deferred with an informal result from five people, and NFR-005 reads planned, because the measured load run has not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
 
@@ -76,7 +76,7 @@ The quality driver column carries the architecturally significant requirements r
 
 ## Evidence and control
 
-The cells below describe `main` at commit `142f6b3` on 15 October 2026, plus the browser journeys in `app/e2e`. I ran the checks on that commit. 150 tests pass with 2 intentional skips, `npx tsc --noEmit` exits 0, `npm run lint` reports no warnings and `npm audit` reports 0 vulnerabilities. `npm run test:postgres` passes 31 tests with 1 intentional skip, and `npm run db:verify` passes, both against PostgreSQL 18.6. The CI run for the same commit passed.
+The cells below describe `main` at commit `d3091fd` on 16 October 2026, plus the browser journeys in `app/e2e`. I ran the checks on that commit. 151 tests pass with 2 intentional skips, `npx tsc --noEmit` exits 0, `npm run lint` reports no warnings and `npm audit` reports 0 vulnerabilities. `npm run test:postgres` passes 31 tests with 1 intentional skip, and `npm run db:verify` passes, both against PostgreSQL 18.6. The CI run for the same commit passed.
 
 Two sets of case ids appear in this matrix. The designs in the verification plan carry ids like T-FR-001-01. The cases written first carry ids like TC-API-05 in their test names, with the acceptance criterion in a second tag, and the acceptance criterion links the two. The data integration tests and the browser journeys carry the design id in their names, such as T-NFR-002-03 and T-E2E-01, so the link is direct.
 
@@ -132,21 +132,21 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 
 | ID | Test cases | Level mix | Case status | Evidence |
 | --- | --- | --- | --- | --- |
-| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | TC-API-05 and TC-API-06 pass on `main` at `142f6b3` |
-| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | TC-API-07 passes on `main` at `142f6b3` |
-| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | TC-API-10 passes on `main` at `142f6b3` |
-| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | TC-API-26 passes on `main` at `142f6b3` |
-| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | TC-API-12 and TC-API-13 pass on `main` at `142f6b3` |
-| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | TC-API-14 passes on `main` at `142f6b3` |
-| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | TC-API-16 to TC-API-18 pass on `main` at `142f6b3` |
-| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | TC-API-19 to TC-API-24, 9 policy cases and 3 service cases pass on `main` at `142f6b3` |
-| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed, T-FR-009-02 passed | TC-API-26 to TC-API-28 pass on `main` at `142f6b3` |
-| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | TC-API-29 to TC-API-31 pass on `main` at `142f6b3` |
-| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed, T-FR-011-03 passed | TC-API-19 passes on `main` at `142f6b3` |
-| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | TC-API-15 passes on `main` at `142f6b3` |
-| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `142f6b3` |
-| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 passed | TC-API-19 and the store cases pass on `main` at `142f6b3` |
-| NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for one request | T-NFR-003-01 passes on PostgreSQL 18.6 and the reopen check passes, both on `main` at `142f6b3` |
+| FR-001 | T-FR-001-01 to T-FR-001-04 | Black-box, API | Designed | TC-API-05 and TC-API-06 pass on `main` at `d3091fd` |
+| FR-002 | T-FR-002-01, T-FR-002-02 | API | Designed | TC-API-07 passes on `main` at `d3091fd` |
+| FR-003 | T-FR-003-01 to T-FR-003-04 | API, Black-box, E2E | Designed | TC-API-10 passes on `main` at `d3091fd` |
+| FR-004 | T-FR-004-01 to T-FR-004-03 | Black-box | Designed | TC-API-26 passes on `main` at `d3091fd` |
+| FR-005 | T-FR-005-01, T-FR-005-02 | API | Designed | TC-API-12 and TC-API-13 pass on `main` at `d3091fd` |
+| FR-006 | T-FR-006-01, T-FR-006-02 | Black-box, API | Designed | TC-API-14 passes on `main` at `d3091fd` |
+| FR-007 | T-FR-007-01 to T-FR-007-03 | API | Designed | TC-API-16 to TC-API-18 pass on `main` at `d3091fd` |
+| FR-008 | T-FR-008-01 to T-FR-008-05 | Unit, API, Black-box | Designed | TC-API-19 to TC-API-24, 9 policy cases and 3 service cases pass on `main` at `d3091fd` |
+| FR-009 | T-FR-009-01 to T-FR-009-03 | API | Designed, T-FR-009-02 passed | TC-API-26 to TC-API-28 pass on `main` at `d3091fd` |
+| FR-010 | T-FR-010-01 to T-FR-010-04 | Black-box, API | Designed | TC-API-29 to TC-API-31 pass on `main` at `d3091fd` |
+| FR-011 | T-FR-011-01 to T-FR-011-03 | API | Designed, T-FR-011-03 passed | TC-API-19 passes on `main` at `d3091fd` |
+| FR-012 | T-FR-012-01, T-FR-012-02 | Unit, Black-box | Designed | TC-API-15 passes on `main` at `d3091fd` |
+| NFR-001 | T-NFR-001-01 to T-NFR-001-03 | API, Unit | Designed | 12 tagged cases and 9 policy cases pass on `main` at `d3091fd` |
+| NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 passed | TC-API-19 and the store cases pass on `main` at `d3091fd` |
+| NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for one request | T-NFR-003-01 passes on PostgreSQL 18.6 and the reopen check passes, both on `main` at `d3091fd` |
 | NFR-004 | T-NFR-004-01 | Manual | Designed, run informally | Five people completed both tasks on 16 October, not timed ([results](../testing/nfr-004-results.md)) |
 | NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
 | Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. GitHub ran both modes on pull request #43 at commit `13c3206` and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). The tests are in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun them |
@@ -175,7 +175,7 @@ Interface decision. ADR-006, `PATCH /api/v1/requests/:id/status`, documented in 
 
 Application artefact. `request-status.ts` holds the six statuses. `request-status-policy.ts` holds the transition table, including Rejected and Closed as terminal and the information each conditional move requires. `request-service.ts` applies authorisation and then the transition. `app/backend/src/api/app.ts` exposes the endpoint. `src/application/request-application.ts` reads the owner from the stored request, and `src/auth/` takes the caller from a session.
 
-Verification. On `main` at `142f6b3`, 150 tests pass. For FR-008 they are the 9 transition cases, the 3 service cases and TC-API-19 to TC-API-24 through sign in and the endpoint. They include a 409 on an invalid transition, a refused rejection without a reason and a refused move to In Progress with no owner, even when the body claims one (CR-007). T-E2E-01 then takes a request from sent to resolved in the browser. `npx tsc --noEmit` passes. The checks run on every push and pull request through `.github/workflows/ci.yml` and `.github/workflows/e2e.yml`.
+Verification. On `main` at `d3091fd`, 151 tests pass. For FR-008 they are the 9 transition cases, the 3 service cases and TC-API-19 to TC-API-24 through sign in and the endpoint. They include a 409 on an invalid transition, a refused rejection without a reason and a refused move to In Progress with no owner, even when the body claims one (CR-007). T-E2E-01 then takes a request from sent to resolved in the browser. `npx tsc --noEmit` passes. The checks run on every push and pull request through `.github/workflows/ci.yml` and `.github/workflows/e2e.yml`.
 
 What is still missing. Nothing for FR-008 itself. The database store sits behind the server since PR #41, T-E2E-01 resolves a request in the browser, and the acceptance check counts FR-008 as Covered.
 

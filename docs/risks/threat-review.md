@@ -2,7 +2,7 @@
 
 Version 3.0 | 15 October 2026 | Owner: Tristan Els | Status: **approved when its pull request merges**
 
-This review asks what could go wrong with the release candidate on purpose, or by mistake, and what stops it. It covers the server, the pages and the database at `main` commit `142f6b3`. SRC-MASTER section 16 (security engineering, p. 14) asks for the security position to rest on evidence, so every row names the test or check behind it, and every gap has an owner.
+This review asks what could go wrong with the release candidate on purpose, or by mistake, and what stops it. It covers the server, the pages and the database at `main` commit `d3091fd`. SRC-MASTER section 16 (security engineering, p. 14) asks for the security position to rest on evidence, so every row names the test or check behind it, and every gap has an owner.
 
 ## How I did it
 
@@ -54,7 +54,7 @@ I also read the response headers the server sets. Every response carries `X-Cont
 | No limit on sign in attempts or request rate, sessions in memory | TD-009 | Liam | If the system is used beyond a demonstration |
 | No Content-Security-Policy header | TD-012 | Liam | Before the release tag if time allows, otherwise recorded as an accepted limitation |
 | Secrets are checked by pattern and not by a scanner in CI | TD-013 | Tristan | When a scanner is added to CI |
-| The free database expires on 13 November 2026. A restricted runtime login is set up in PR #44, which is open | TD-010 | Dewald | Before the release tag |
+| The free database expires on 13 November 2026. A restricted runtime login is set up in PR #44, which is merged | TD-010 | Dewald | Before the release tag |
 
 ## Limits of this review
 
