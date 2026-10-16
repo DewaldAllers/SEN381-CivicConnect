@@ -8,7 +8,7 @@ Each entry names a cause, an uncertain event and a consequence. SRC-MASTER secti
 
 ## Rating scale
 
-The scale is a 3 by 3 grid. [DEC-005](../decisions/README.md#dec-005-use-a-3-3-probability-and-impact-scale) records why the team did not use a 5 by 5 grid: with no historical project data, the middle bands of a wider scale would be guesses presented as measurements. The same scale is used at every milestone, or the trend between them means nothing.
+The scale is a 3 by 3 grid. [DEC-005](../decisions/README.md#dec-005-use-a-3-by-3-probability-and-impact-scale) records why the team did not use a 5 by 5 grid: with no historical project data, the middle bands of a wider scale would be guesses presented as measurements. The same scale is used at every milestone, or the trend between them means nothing.
 
 Probability, judged over the window from now to the end of Milestone 4:
 

@@ -1,6 +1,6 @@
 # Release evidence summary
 
-Version 3.0 | Opened 9 October 2026 | Owner: Tristan Els | Status: **NOT READY, construction in progress**
+Version 3.0 | Opened 9 October 2026, updated 16 October 2026 | Owner: Tristan Els | Status: **NOT READY, construction and integration in progress**
 
 This is where the separate pieces of M3 evidence become one argument about whether CivicConnect can be released. It is filled in as the evidence arrives and classified at the release review.
 
@@ -10,40 +10,43 @@ The classification earns little on its own. The evidence and the reasoning behin
 
 | Field | Entry |
 | --- | --- |
-| Release candidate tag | Not yet cut |
-| Commit | Not yet identified |
-| PED version | v3.0, in progress |
+| Release candidate tag | `v3.0-m3`, on the commit that carries this page |
+| Commit | The commit the tag points to. `git rev-list -n 1 v3.0-m3` prints it |
+| PED version | v3.0 |
 | Scope included | All seventeen baselined requirements under DEC-015. Any requirement that leaves the candidate is recorded as a controlled change here. |
-| Date classified | Not yet classified |
+| Date classified | 16 October 2026 |
 
 The assessed version is the tag named here. The demonstration has to run against that tag and not against whatever is on `main` at the time.
 
 ## Evidence summary
 
+The results below come from `main` at commit `d3091fd`, where the database store sits behind the server, plus the browser journeys in `app/e2e`. I ran the checks on 16 October 2026, and the CI run for the same commit passed.
+
 | Evidence area | Result | Interpretation | Concern or action |
 | --- | --- | --- | --- |
-| Build and CI | Passing | `npm ci`, `npm test` and `npx tsc --noEmit` run on every push and pull request. The workflow reports and does not gate, so a red run can still merge. | TD-005. Make the workflow a required status check, which SRC-M3 section 9 (p. 5) requires |
-| Automated regression | 23 tests passing | 9 status transition, 7 authorisation, 3 service, 4 API. They cover the P-02 transition rules and the endpoint responses. | Below the M3 minimum of 15 meaningful cases across the required mix. No E2E or black-box functional cases exist |
-| API and integration | 4 cases passing | One endpoint, `PATCH /api/v1/requests/:id/status`, with success, invalid transition, unknown reference and invalid status value. | M3 requires at least 3 API or integration cases against a real integration. These run against an in-memory store, so no integration is exercised |
-| System and E2E | None | No end to end journey can run. There is no client, no authentication and no persistence. | TD-001, TD-004 and TD-007. M3 requires at least 2 critical E2E cases |
-| Static and security | Partial | `npx tsc --noEmit` exits 0. `npm audit` reported 0 vulnerabilities across 144 packages on 30 September, run by hand. | TD-006. No static analysis tool beyond the type check, and the audit is not in the workflow |
-| Performance | None | No performance exercise has been designed or run. | M3 requires one justified workload on a performance-sensitive operation. NFR-005 has no verification environment, which is TD-008 |
-| Known defects | 5 raised, 5 closed | All five were build or documentation defects found through peer review during M2. None is open. | No product defect has been recorded, because the M3 construction has not started |
-| Acceptance | 3 of 17 requirements in development | FR-008, NFR-001 and NFR-002 carry implementation and verification evidence. Fourteen requirements are not started. | DEC-015 puts all fourteen into the release candidate, so each needs execution evidence before it counts as met |
+| Build and CI | Passing | CI installs the packages, checks the types, runs the tests with a saved report and audits the dependencies. A high or critical finding in shipped code fails the build (PR #36). A second workflow runs lint and checks the database store against PostgreSQL 18 on backend pull requests (PR #31). A third workflow, added with the browser journeys, runs them in memory and on PostgreSQL on every pull request. | TD-005 is repaid. Dewald made `backend-checks` a required check on `main` on 15 October, with up-to-date branches required. [Pull request #45](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/45) held one failing test, the check went red, GitHub blocked the merge and refused it, and I closed it unmerged |
+| Automated regression | 151 tests passing, 2 intentional skips | 11 files: 52 API, 23 store, 21 data and API integration, 13 authentication, 10 in-memory repository, 9 authorisation policy, 9 repository contract, 9 transition, 3 service and 2 persistence lifecycle. The cases use boundary values (TC-API-06), decision tables (TC-API-17 and TC-API-21), a state-transition run (TC-API-19), a concurrency case (T-NFR-002-03) and fault injection (T-NFR-002-02). | The M3 minimum is 15 meaningful cases across a stated mix, and the suite is above it at every level. The 2 skips need a real database or a SQL constraint, and the PostgreSQL run below covers the database one |
+| API and integration | Passing, in memory and on PostgreSQL | `api.test.ts` and `data-api.integration.test.ts` send raw authenticated HTTP requests through sign in to the endpoints. `npm run test:postgres` passes 31 tests with 1 intentional skip on PostgreSQL 18.6. It includes the contract cases, the HTTP cases and T-NFR-003-01, which restarts the built server. `npm run db:verify` passes. | These checks use temporary schemas and leave the shared tables untouched |
+| System and E2E | 2 journeys passing | T-E2E-01 takes a request from sent to resolved through three people's pages. T-E2E-02 covers a script in a title, a requester reaching staff pages, a stale change and the management counts. Both pass in memory and on PostgreSQL 18.6, and the PostgreSQL run saved 2 requests, 9 history events and 3 work records. | GitHub ran both modes on pull request #43 at commit `13c3206`, and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). M3 requires at least 2 critical E2E cases |
+| Static and security | Passing | `npx tsc --noEmit` exits 0. `npm run lint` reports no warnings. `npm audit` reports 0 vulnerabilities across 355 packages, 101 of them shipped. Passwords are hashed with scrypt and session tokens are stored as hashes (ADR-007). T-E2E-02 checks that a script in a title runs nothing. | The [threat review](../risks/threat-review.md) covers 16 threats. Its open positions are TD-009, TD-010, TD-012 and TD-013 |
+| Performance | Script built, no result | `scripts/perf-nfr005.mjs` (PR #40) follows AC-NFR-005. It runs three request types, 10 at a time, with warm-up kept apart, and writes the environment and data size next to the result. `scripts/seed-performance.ts` (PR #31) loads test data. | The first measured run is Liam's, against the database, and the result says which store it used. TD-008 and TD-011. NFR-005 stays a proposed target until a result exists |
+| Staging | Script built, not deployed | `scripts/deploy-staging.mjs` (PR #40) builds one named commit into a clean folder, starts it on its own port with its own secret, asks the server which release it is and fails if the answer is wrong. Rolling back is the same command with the previous tag. | Deploying the candidate and showing it in the demonstration is Liam's. The brief accepts a local staging environment when the demonstration plan is stated |
+| Known defects | 13 raised, 5 closed, 6 fixed, 2 in progress | DEF-006 to DEF-011 are product defects that Dewald found by reviewing PR #41. PR #42 fixed all six, and no severity 3 defect is open. DEF-012 and DEF-013 are documentation defects I found, and they are fixed when this pull request merges. | The fixed defects move to Closed at the release review |
+| Acceptance | 13 of 17 requirements covered, 3 partly, 1 not run | The [acceptance check in the RTM](../requirements/RTM.md#acceptance-check) reads every criterion against the executed cases. FR-002 and NFR-003 have criteria with no case yet. NFR-004 has an informal check with five people that I did not time, and NFR-005 has no result. | A timed check for NFR-004 is mine. The load run is Liam's |
 
 ## Current classification
 
 **NOT READY.**
 
-Three of the eight evidence areas have no evidence at all, and one of the required M3 gates does not block. The system has one endpoint, stores nothing and authenticates nobody, so there is no journey a user could complete.
+Two things still stand between this and CONDITIONALLY READY. There is no measured load result. Staging has not shown the tagged candidate. The release candidate tag `v3.0-m3` is cut.
 
-This is the accurate position on 9 October and it is recorded rather than softened. The classification is expected to move as the construction in the [technical debt register](../technical-debt/README.md) is paid off, and the reasoning behind each move stays in this document.
+The product itself moved a long way in a week. On 9 October the system had one endpoint, stored nothing and authenticated nobody. On 15 October a person can sign in and work a request from sent to resolved through the pages, the server and a PostgreSQL database, and two browser journeys check that on every pull request. The classification stays NOT READY because the two items that remain are ones the brief names for a release. The tag is cut, and the CI gate is set and shown blocking a failing change.
 
 ## What would change the classification
 
-CONDITIONALLY READY becomes defensible once the frozen scope runs end to end, the test suite meets the M3 minimum across the required categories, the CI gate blocks on failure, and the staging environment demonstrates the identified release candidate. Known limitations would then be stated as conditions rather than hidden.
+CONDITIONALLY READY becomes defensible once the two items above are done and the CI gate stays set, the PED and the RTM describe the tagged commit, and no severity 3 defect is open. Known limitations would then be stated as conditions rather than hidden.
 
-READY would additionally need every requirement in the frozen scope verified against its acceptance criteria with no open severity 3 defect. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
+READY would also need every one of the seventeen requirements covered by executed cases. FR-002 and NFR-003 need the cases named in the acceptance check, NFR-004 needs a timed check with a written record and NFR-005 needs a measured result. On the current scope and schedule, CONDITIONALLY READY is the realistic target.
 
 ## Residual risk
 
@@ -52,12 +55,14 @@ These are the uncertainties that remain after verification, not the work still o
 | Residual risk | Why it remains | Current mitigation | Next action and owner |
 | --- | --- | --- | --- |
 | Production scale load is untested | A three person student environment cannot represent a municipal workload, and no demand figure exists for CivicConnect. ASM-003 records that no volume was ever supplied. | The planned small performance exercise plus the ADR-001 architecture review | Re-test against a representative environment and a real volume figure before any production use. Dewald |
-| The single store is a single point of failure | ADR-002 records it and declines replication without evidence to justify the cost. ASM-008 carries the assumption that one instance is acceptable for an educational deployment. | Recorded rather than designed around. NFR-003 covers a controlled restart only | State an acceptable data loss position and demonstrate a restore. Dewald |
-| The institutional environment is unproven | ASM-005 assumes the selected stack runs on the team machines and on the Belgium Campus environment. The backend half is proven. PostgreSQL has not been run by anyone, and CR-006 removed React and Vite from the stack. | The backend, its tests and the type check run on the team machines and on the GitHub runner | Install and run PostgreSQL on an institutional machine. Liam |
+| The single store is a single point of failure | ADR-002 records it and declines replication without evidence to justify the cost. ASM-008 carries the assumption that one instance is acceptable for an educational deployment. The development database is a free hosted instance that expires on 13 November 2026 (TD-010). | The migrations rebuild the schema and the categories on a new database. NFR-003 covers a controlled restart only | State an acceptable data loss position, demonstrate a restore and move off the free instance. Dewald |
+| The institutional environment is unproven | ASM-005 assumes the selected stack runs on the team machines and on the Belgium Campus environment. The backend, the pages and PostgreSQL run on team machines and in CI, and the pages need no build step. None of it has run on an institutional machine. | The same install steps run on a clean GitHub runner on every push | Install and run the system on an institutional machine. Liam |
 | Overdue is measured on calendar time | ASM-004 and CR-003. No stakeholder confirmed whether the organisation measures overdue in working hours. | CR-003 records the rule, the time zone and the reasoning, so the position is explicit rather than implied | Confirm with a stakeholder if one becomes reachable. Tristan |
-| The data protection position is unconfirmed | ASM-002 and DEC-011. Nobody has established whether the Protection of Personal Information Act binds a student project. | The data model is designed as though it applies, under CR-004, and no artefact claims compliance | Obtain a confirmed answer on applicability. Tristan |
+| The data protection position is unconfirmed | ASM-002 and DEC-011. Nobody has established whether the Protection of Personal Information Act binds a student project. | The data model is designed as though it applies, under CR-004, and no artefact claims compliance. Requesters never see staff names (DEC-018) | Obtain a confirmed answer on applicability. Tristan |
+| Sessions live in server memory and sign in has no limit | ADR-007 and TD-009. A restart signs everyone out, only one server can run and repeated password guesses are not slowed. | Passwords are hashed with scrypt, the shared seed password comes from the environment, sessions end after 8 hours and an unknown user gets the same answer as a wrong password | Add a limit on sign in attempts if the system is used beyond a demonstration. Liam |
+| The lifecycle limits and the required version are our proposals | CR-008 and DEC-017. No stakeholder has confirmed when a note, an owner change or a due date is allowed. | The limits are recorded in the handoff note, the change record and the decision log, so they are visible and can change by change request | Confirm with a stakeholder if one becomes reachable. Tristan |
 
-Further residual risks are expected once the M3 suite runs, because a passing test narrows uncertainty rather than removing it. They are added here as they are identified rather than listed in advance.
+Further residual risks are expected once the browser journeys and the load run produce results, because a passing test narrows uncertainty rather than removing it. They are added here as they are identified rather than listed in advance.
 
 ## References
 

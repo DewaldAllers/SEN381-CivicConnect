@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **16 decisions recorded, 6 ADRs recorded**
+Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **18 decisions recorded, 7 ADRs recorded**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -18,7 +18,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | [DEC-002](#dec-002-defer-requirements-until-the-master-brief-was-located) | 2026-09-07 | Do not derive requirements until the Master Brief was located | Taken | Part 2 owner, ratified on merge of PR #23 | Closed 2026-09-07 |
 | [DEC-003](#dec-003-branch-and-pull-request-workflow-instead-of-committing-to-main) | 2026-09-07 | Work on feature branches, merge through pull requests | Taken | Team, ratified on merge of PR #22 | In force, now enforced by branch protection |
 | [DEC-004](#dec-004-keep-part-3-on-its-own-branch-and-reuse-the-agreed-folder-paths) | 2026-09-08 | Keep Part 3 on its own branch, reuse agreed folder paths, do not edit another member's files | Taken | Part 3 owner, ratified on merge of PR #22 | Closed at integration |
-| [DEC-005](#dec-005-use-a-3-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Team, ratified on merge of PR #22 | In force, used again at the M2 review |
+| [DEC-005](#dec-005-use-a-3-by-3-probability-and-impact-scale) | 2026-09-08 | Rate risks on a 3 by 3 probability and impact scale | Taken | Team, ratified on merge of PR #22 | In force, used again at the M2 review |
 | [DEC-006](#dec-006-defer-the-response-to-the-branch-protection-gap) | 2026-09-08 | Do not change repository visibility or buy a plan to obtain branch protection | Deferred | Part 3 owner | Closed 2026-09-09, superseded by DEC-008 |
 | [DEC-007](#dec-007-defer-stack-architecture-persistence-ci-and-deployment-platform) | 2026-09-08 | Do not select stack, architecture, persistence, CI or deployment platform | Deferred | Team, ratified on merge of PR #22 | Revisit trigger fired 2026-09-29, closing under the M2 selection |
 | [DEC-008](#dec-008-make-the-repository-public-to-obtain-branch-protection) | 2026-09-09 | Make the repository public so that branch protection becomes available | Taken | Team | In force, held as ASM-007 |
@@ -305,13 +305,45 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Later consequence | Recorded at the M3 release review. |
 | Revisit trigger | The client needs something the plain pages cannot do without turning into a framework of their own, or the client must be deployed separately. Either one goes through the [change control register](../change/README.md). |
 
+## DEC-017 Every change carries the version the page last read
+
+| Field | Entry |
+| --- | --- |
+| Context | Two staff can open the same request and change it. ADR-002 says a stale change must be refused and must not overwrite the stored state. The data store already enforces that with a version number. When the endpoints were joined to the store, they ignored the version the page sent, so a page holding an old copy could overwrite a newer change (DEF-006). |
+| Constraints | The client is the only caller, and it already sends `expectedVersion` on every change. The store holds lifecycle limits that P-02 does not spell out. Three people and one milestone, so the rule has to be small. |
+| Alternatives | Read the version on the server at the moment of the change, which only guards the instant between reading and writing. Make the version optional and check it only when sent. Require the version on every change and refuse a missing one. |
+| Decision | Require `expectedVersion` on assign, status, note and due date. A missing or invalid value is a 400. A value that no longer matches is a 409 with `code: "stale"`. The API also refuses the changes the store refuses (ownership after Resolved, Closed or Rejected, a note after Closed or Rejected, a due date outside Accepted and In Progress) with a 409 and a clear message. |
+| Rationale | Only the version the person saw can show that they were looking at old information. Reading the version at the moment of the change cannot. An optional version would let any caller skip the check, which is the problem we are fixing. |
+| Trade-offs | A caller that does not send the version stops working. Our client already sends it. Making a field required is not an additive change under the API versioning rule, so the change is recorded in CR-008. |
+| Risks | A person gets a refusal and loses what they typed. The client shows the latest version and says what happened. The lifecycle limits are our proposals and no stakeholder has confirmed them. |
+| Evidence | [CR-008](../change/README.md#cr-008-require-the-observed-version-on-every-change-and-apply-the-lifecycle-limits-at-the-api). DEF-006 and DEF-009 in the [Defect Register](../defects/README.md). The tests and the verification note in PR #42. |
+| Missing information | Whether the lifecycle limits match what the organisation expects. Whether a person who loses a race needs more help than a message. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | A second caller of the API, or a change to P-02. Either one goes through the [change control register](../change/README.md). |
+
+## DEC-018 Show requesters a generic label in place of staff names
+
+| Field | Entry |
+| --- | --- |
+| Context | AC-FR-004 says anything outside what the requester may see stays hidden. AC-FR-011 says the history shows each actor to an authorised user. The permission matrix does not say whether a requester may see staff names. Requests can be about security or lost property, and staff are named people. |
+| Constraints | FR-004 must still tell the requester what happened and when. FR-011 must keep the actor in the stored record. The page must not say "Nobody yet" about a request someone is looking after. |
+| Alternatives | Show staff names to requesters. Show a team name in place of a person. Show a generic label and keep names for staff and management. |
+| Decision | A requester sees "Assigned staff" when someone has the request, and nothing when nobody does. The history shows "Staff" for events by staff, and an ownership change reads as a plain line with no names. Staff and management see names. The stored record keeps the actor. |
+| Rationale | A requester follows their own request by its status and its updates, and does not need a name for that. Hiding the name costs nothing they use and protects people who handle sensitive matters. A team name would need a list of teams that nobody has asked for. |
+| Trade-offs | A requester cannot ask for a person by name. The history looks less personal. Staff and management lose nothing. |
+| Risks | The page says "Nobody yet" when a hidden owner exists. The store now sends a flag that says an owner exists, and the page shows "Assigned staff" from it. |
+| Evidence | [CR-009](../change/README.md#cr-009-show-requesters-a-generic-label-in-place-of-staff-names). The privacy case in `request-store.test.ts`. The data [handoff note](../data/m3-repository-handoff.md). |
+| Missing information | Whether stakeholders want requesters to see a team name. The permission matrix needs a row for this once the position is confirmed. |
+| Later consequence | Recorded at the M3 release review. |
+| Revisit trigger | A stakeholder asks for names or team names on requester pages. It goes through the [change control register](../change/README.md). |
+
 ## ADR index
 
 SRC-MASTER section 13 (p. 13) asks for an Architecture Decision Record, or an equivalent structured record, on major architecture, technology, persistence, integration, authentication, deployment and infrastructure choices. The entries above use the same fields, so the distinction here is scope rather than format: a `DEC` entry is any recorded decision, and an `ADR` is one of the foundational choices that the M2 baseline is made of and that later decisions inherit from.
 
 Every ADR carries the fields in SRC-MASTER section 13 (p. 13) and Appendix A (p. 25): context, constraints, alternatives, decision, rationale, trade-offs, risks, evidence and a later consequence that is filled in when evidence emerges rather than left blank. Where a decision rests on Assignment 2 research, the ADR cites the finding it used. It does not reproduce the research, which SRC-M2 section 4.1 (p. 3) rules out.
 
-| ID | Decision | Owner | State on 30 September 2026 |
+| ID | Decision | Owner | State when recorded |
 | --- | --- | --- | --- |
 | [ADR-001](ADR-001-civicconnect-architecture.md) | Modular application server with a distinct presentation boundary, chosen over an undifferentiated layered application and over separate request and audit services | Dewald Allers | Recorded, proposed for BL-002 |
 | [ADR-002](ADR-002-request-history-persistence.md) | Request and history persistence boundary, committing a request change and exactly one matching event together | Dewald Allers | Recorded, proposed for BL-002 |
@@ -319,6 +351,7 @@ Every ADR carries the fields in SRC-MASTER section 13 (p. 13) and Appendix A (p.
 | [ADR-004](ADR-004-request-lifecycle.md) | Central RequestStatusPolicy holding the transition table, chosen over controller checks and over the State pattern | Liam de Villiers | Recorded, implemented and verified |
 | [ADR-005](ADR-005-authorization-policy.md) | Central AuthorizationPolicy built from small permission specifications | Liam de Villiers | Recorded, implemented against the proposed matrix |
 | [ADR-006](ADR-006-api-integration.md) | REST-style HTTP boundary at `/api/v1`, with internal backend collaboration staying in process | Liam de Villiers | Recorded, first endpoint implemented |
+| [ADR-007](ADR-007-authentication-and-sessions.md) | Server-side sessions with opaque tokens, scrypt password hashes and category grants held by the server, chosen over signed tokens, cookie sessions and an external identity provider | Liam de Villiers | Recorded 14 October 2026, merged in PR #38 |
 
 ADR-001 and ADR-002 are logical decisions and do not select a technology. ADR-003 selects the technology and does not change the module boundaries. The two sets were written on separate branches and agree, which is the check that mattered when they merged.
 
