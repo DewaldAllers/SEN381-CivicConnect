@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { type Database } from "./database.js";
 
-const versions = ["001_requests_and_events", "002_categories_and_work"];
+const versions = ["001_requests_and_events", "002_categories_and_work", "003_active_category_lock"];
 
 /** Serialises concurrent runners and applies each version once, atomically. */
 export async function migrate(database: Database): Promise<string[]> {
