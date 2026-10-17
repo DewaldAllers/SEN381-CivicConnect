@@ -79,6 +79,10 @@ Each row below follows the section headings SRC-M3 section 6 (p. 4) asks for. Th
 
 The registers and the traceability matrix are continued in place and linked, not copied. The RTM is the [Requirements Traceability Matrix](../requirements/RTM.md), the risks are in the [Risk Register](../risks/README.md), the decisions are in the [decision log](../decisions/README.md), the debt is in the [Technical Debt Register](../technical-debt/README.md) and the AI use is in the [AI Usage Register](../ai-register/AI-Usage-Register.md).
 
+## M4 data and scope contribution, pending team integration
+
+Dewald's [M1 scope to final delivery assessment](final-scope-assessment.md) counts the original acceptance-criterion bullets rather than treating all 17 requirements as equally complete. The [M4 data finalisation record](../data/m4-data-finalisation.md) records the category and six-status restart checks, their execution boundary and remaining team work. These are contributions to this continuing PED, not a replacement PED or a claim that PED v4.0/the final release is already approved. The original M3 status and evidence above remain historical. Tristan owns the final RTM/PED reconciliation after review; Liam supplies final deployment and load evidence.
+
 ## Contributors and section ownership
 
 | Member | GitHub account | Owns in v2.0 | Owns in v3.0 |
