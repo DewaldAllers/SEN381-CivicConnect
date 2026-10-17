@@ -92,7 +92,7 @@ Declared calculation: 35.5 / 40 = 88.75%.
 
 Current ledger: 34 Met, 3 Partially Met, 3 Not Met. This is a provisional evidence assessment, not a team-approved final score, lecturer mark or release approval. Recalculate when either teammate's final evidence or team review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
 
-The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
+The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. The [data handoff](../data/m4-data-finalisation.md#consequences-and-handoff) also identifies the lack of seeded Staff grants for Lost property and Other; passing category persistence does not prove an operational journey for every category. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
 
 ## Finalisation handoff
 

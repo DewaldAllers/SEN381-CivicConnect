@@ -54,6 +54,7 @@ No Windows embedded-worker crash occurred in these default runs. That does not e
 | Area | Dewald's conclusion | Remaining integration responsibility |
 | --- | --- | --- |
 | FR-002 | All six configured category save/read paths are now explicitly exercised. | Tristan can replace the corresponding missing-case statement in the existing RTM after review. |
+| Category coverage in the demonstration | The [seeded user directory](../../app/backend/src/auth/user-directory.ts) gives no Staff identity a grant for Lost property or Other. Saving those categories does not prove a staff journey can process them with the supplied identities. | Liam and the team must confirm the intended grants or state the limitation before claiming all-category operational coverage. This contribution does not silently grant additional access. |
 | NFR-003 | The expanded real-server fixture covers all proposed statuses and compares persisted values and history. | Tristan can reconcile the historical Partly row with this reviewed execution evidence. |
 | NFR-002 | Existing atomic rollback, stale-write and one-event checks are retained and rerun. | Keep the distinction between ordinary-user append-only history and the unimplemented CR-004 administrative route. |
 | Scope completion | The original criterion inventory and current calculation are ready for review. | All three members approve the classifications; Tristan integrates final RTM/PED links to the frozen version. |
