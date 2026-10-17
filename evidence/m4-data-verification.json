@@ -1,0 +1,176 @@
+{
+  "contribution": "Dewald Allers M4 data/scope finalisation",
+  "date": "2026-10-17",
+  "branch": "m4-data-scope-finalisation",
+  "integrationBase": "dec53fa87226a147f3c06ddf2152a9f663c98d85",
+  "sourceGitBlobs": {
+    "app/backend/test/data-api.integration.test.ts": "836b4488aa36122f3e705572b48db333c5fdeff1",
+    "app/backend/test/server-restart.integration.test.ts": "b061368c7aaee25d19484290ace2e739670f31f5",
+    "app/backend/scripts/check-final-scope.mjs": "514526cbaf07bdb171528f8b99f31f3afcc9f958"
+  },
+  "environment": {
+    "os": "Windows",
+    "node": "v22.18.0",
+    "postgres": "18.6 (Debian 18.6-1.pgdg12+2)",
+    "data": "Synthetic, randomly isolated temporary schemas",
+    "cost": "No new or paid resource"
+  },
+  "checks": {
+    "lint": "passed, exit 0",
+    "typecheck": "passed, exit 0",
+    "compiledBuild": "passed, exit 0",
+    "scope": {
+      "assessment": "docs\\PED\\final-scope-assessment.md",
+      "baseline": "13fe8a0ac68319c8d466c09e440756b9c39f2e97",
+      "applicableCriteria": 40,
+      "counts": {
+        "Met": 34,
+        "Partially Met": 3,
+        "Not Met": 3
+      },
+      "score": 35.5,
+      "percentage": 88.75,
+      "status": "Working evidence assessment; not team approval or a frozen final release"
+    },
+    "scopeCheckerNegativeTests": {
+      "total": 7,
+      "passed": 7,
+      "types": [
+        "valid",
+        "duplicate",
+        "missing",
+        "invalid status",
+        "unknown criterion",
+        "wrong total",
+        "missing evidence"
+      ]
+    }
+  },
+  "runs": [
+    {
+      "localReport": "app/backend/test-results/m4-backend-final.json",
+      "rawReportSha256": "90c34e09de84f0d261fe20390e51e5a9804172dbc902ea0b88b5ec0c93db1c35",
+      "startedAt": "2026-10-17T21:28:42.635Z",
+      "success": true,
+      "tests": {
+        "total": 155,
+        "passed": 153,
+        "failed": 0,
+        "skipped": 2
+      },
+      "selectedCases": [
+        {
+          "name": "Data/API integration: memory [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 253.8542,
+          "failureMessages": []
+        },
+        {
+          "name": "Data/API integration: postgres [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 3233.7533000000003,
+          "failureMessages": []
+        },
+        {
+          "name": "[T-NFR-003-01][AC-NFR-003] compiled server restart preserves all six statuses, owners, notes, due dates and history",
+          "status": "skipped",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "localReport": "app/backend/test-results/m4-postgres.json",
+      "rawReportSha256": "2fdfdb0979580d6cc2ef5303bc44e9a0dfab032eb3eaf4c64ae2235a3f6bd1f0",
+      "startedAt": "2026-10-17T21:23:37.796Z",
+      "success": false,
+      "tests": {
+        "total": 34,
+        "passed": 32,
+        "failed": 1,
+        "skipped": 1
+      },
+      "selectedCases": [
+        {
+          "name": "Data/API integration: memory [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 126.77460000000008,
+          "failureMessages": []
+        },
+        {
+          "name": "Data/API integration: postgres [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 22749.7723,
+          "failureMessages": []
+        },
+        {
+          "name": "[T-NFR-003-01][AC-NFR-003] compiled server restart preserves all six statuses, owners, notes, due dates and history",
+          "status": "failed",
+          "durationMs": 10414.0757,
+          "failureMessages": [
+            "Error: Compiled server exited before startup\n    at ChildProcess.<anonymous> (<workspace>/app/backend/test/server-restart.integration.test.ts:35:60)\n    at ChildProcess.emit (node:events:518:28)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:293:12)"
+          ]
+        }
+      ]
+    },
+    {
+      "localReport": "app/backend/test-results/m4-restart-isolated.json",
+      "rawReportSha256": "24d863556ebaefaf2f339977a0dc8d92f1282ed059ec4a619a43d45511ea1411",
+      "startedAt": "2026-10-17T21:27:26.869Z",
+      "success": true,
+      "tests": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0
+      },
+      "selectedCases": [
+        {
+          "name": "[T-NFR-003-01][AC-NFR-003] compiled server restart preserves all six statuses, owners, notes, due dates and history",
+          "status": "passed",
+          "durationMs": 86968.95409999999,
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "localReport": "app/backend/test-results/m4-postgres-final.json",
+      "rawReportSha256": "3bb7593b220bfd73dd84617550e70baae806d0bc1546c1aed1dc1d37d8340578",
+      "startedAt": "2026-10-17T21:29:47.394Z",
+      "success": true,
+      "tests": {
+        "total": 34,
+        "passed": 33,
+        "failed": 0,
+        "skipped": 1
+      },
+      "selectedCases": [
+        {
+          "name": "Data/API integration: memory [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 123.39140000000009,
+          "failureMessages": []
+        },
+        {
+          "name": "Data/API integration: postgres [T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read",
+          "status": "passed",
+          "durationMs": 20968.6016,
+          "failureMessages": []
+        },
+        {
+          "name": "[T-NFR-003-01][AC-NFR-003] compiled server restart preserves all six statuses, owners, notes, due dates and history",
+          "status": "passed",
+          "durationMs": 86109.5497,
+          "failureMessages": []
+        }
+      ]
+    }
+  ],
+  "correction": "Initial restart failed because inherited DATABASE_ADMIN_URL could override the fixture migration target. The migration child now receives the fixture URL explicitly and the application child does not inherit the admin variable. Failed evidence is retained.",
+  "boundaries": [
+    "These are AI-operated execution records, not independent human review.",
+    "Default suite uses embedded SQL unless a real test URL is supplied.",
+    "PostgreSQL command includes memory and real-PostgreSQL API cases, not solely database-only tests.",
+    "No new browser/usability/load/deployment/backup result is claimed.",
+    "Calculation is provisional; final team acceptance and frozen release remain outstanding."
+  ]
+}
