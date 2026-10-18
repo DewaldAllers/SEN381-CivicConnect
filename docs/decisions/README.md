@@ -184,7 +184,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Risks | RSK-004, now rated 2 rather than 4, because the consequence of a wrong target is no longer a change against baselined content. |
 | Evidence | CR-002 in the [change control register](../change/README.md). The deferral is recorded against NFR-004 and NFR-005 in the RTM and in BL-002 as a decision held outside the baseline. |
 | Missing information | The verification environment and its data volume, which depend on DEP-002. How the five representative participants would be selected. How elapsed time would be measured. |
-| Later consequence | Held to the end. NFR-004 and NFR-005 keep their wording and their numbers, and neither number was approved. NFR-004 has an informal result from five people ([results](../testing/nfr-004-results.md)). NFR-005 has a load script and no measured result. Both read Partially implemented in the RTM, and TD-008 stays open. |
+| Later consequence | Held to the end. NFR-004 and NFR-005 keep their wording and their numbers, and neither number was approved. NFR-004 has an informal result from five people ([results](../testing/nfr-004-results.md)). NFR-005 has one measured run, a local one, and all 600 observed cases finished within the proposed two seconds ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)). Both read Partially implemented in the RTM, and TD-008 stays open. |
 | Revisit trigger | The verification environment is defined, or a first measurement in M3 gives the team real numbers to approve against. |
 
 ## DEC-011 Design as though the data protection obligation applies, without claiming compliance

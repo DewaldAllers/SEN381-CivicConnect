@@ -95,20 +95,20 @@ RSK-019 materialised on 30 September and was handled as the mitigation set out. 
 
 This is the final review. It covers everything since 30 September in one pass, against the final version. Each row gives the rating the entry ends on and the evidence behind it. The original ratings and the earlier review notes stay in the register above.
 
-Eight entries are Closed: RSK-001, RSK-003, RSK-007, RSK-014, RSK-018, RSK-019, RSK-020 and RSK-022. Four ratings moved. RSK-010 rose from 4 to 6. RSK-013 and RSK-016 fell from 6 to 3, and RSK-017 fell from 6 to 2. The other ten open entries keep their rating. Fourteen entries stay open, and they carry into the residual risk statement in the PED. The three that matter most for the final version are RSK-009 (defence readiness, 9), RSK-010 (staging evidence and the database expiry, 6) and RSK-021 (secrets, 6).
+Eight entries are Closed: RSK-001, RSK-003, RSK-007, RSK-014, RSK-018, RSK-019, RSK-020 and RSK-022. Four ratings moved, and all four fell. RSK-013 and RSK-016 fell from 6 to 3, RSK-017 fell from 6 to 2, and RSK-004 fell from 2 to 1. The other ten open entries keep their rating. Fourteen entries stay open, and they carry into the residual risk statement in the PED. The three that matter most for the final version are RSK-009 (defence readiness, 9), RSK-006 (personal data, 6) and RSK-021 (secrets, 6).
 
 | ID | P | I | Pri | Final status | Evidence |
 | --- | --- | --- | --- | --- | --- |
 | RSK-001 | 3 | 3 | 9 | Closed | Closed on 29 September 2026. Branch protection enforces two approvals from other members, and the required check blocks a red run (PR #45). |
 | RSK-002 | 2 | 3 | 6 | Open, unchanged | Pull request #46 and the pull request that carries this record each need two approvals from other members before the deadline. |
 | RSK-003 | 3 | 2 | 6 | Closed | Closed on 29 September 2026. All three parts merged and the one contradiction was resolved. |
-| RSK-004 | 2 | 1 | 2 | Open, unchanged | NFR-004 met its proposed target in an informal run with five people. NFR-005 has no measurement, so the trigger has not fired. |
+| RSK-004 | 1 | 1 | 1 | Open, lowered from 2 to 1 | NFR-004 met its proposed target in an informal run with five people. NFR-005 met its proposed target in the first measured run, a local one, so the trigger, a first measurement that misses, did not fire. Both numbers stay proposals. |
 | RSK-005 | 1 | 3 | 3 | Open on the residual, unchanged | The permission matrix exists and is approved in principle (CR-002, P-03). AC-NFR-001.1 reads Partially Met for that reason. |
 | RSK-006 | 2 | 3 | 6 | Open, unchanged | The route CR-004 asked for is not built (TD-016). No document claims compliance with any data protection law, and ASM-002 still holds the obligation as unconfirmed. |
 | RSK-007 | 2 | 2 | 4 | Closed | Closed on 18 October 2026. The stack installs and runs on the team machines and on the CI runner, and the trigger, a proof of concept that will not run, did not fire. Campus machines were not part of the check. |
 | RSK-008 | 3 | 2 | 6 | Open, unchanged | Stays open until the last M4 pull request merges, because the pattern at a deadline cannot be judged before then. |
 | RSK-009 | 3 | 3 | 9 | Open, unchanged | The individual defence is the test, and no document can show it. |
-| RSK-010 | 3 | 2 | 6 | Open, raised from 4 to 6 | The platform is chosen (Render free tier, ADR-003). A staging run of the tagged version is not yet in the repository, and the free database expires on 13 November 2026 (TD-010). Probability rises from 2 to 3 because the trigger is already showing. |
+| RSK-010 | 2 | 2 | 4 | Open, unchanged | The platform is chosen (Render free tier, ADR-003). A local staging run of the tested commit reported the expected release and connected to PostgreSQL (PR #48). The free database still expires on 13 November 2026 (TD-010), and no staging run has used a host other than a team machine. |
 | RSK-011 | 2 | 3 | 6 | Open, unchanged | DEC-013 removed the installed packages from tracking, and none is tracked in the final version. Since 30 September `main` has received 74 commits through 16 merged pull requests. |
 | RSK-012 | 2 | 3 | 6 | Open, unchanged | The defence is the test. Each member answers for the rows in the AI Usage Register that carry their name. |
 | RSK-013 | 1 | 3 | 3 | Open, lowered from 6 to 3 | The cause is gone. `AuthorizationPolicy` reads category grants from the signed-in user on every request (ADR-005, ADR-007, TD-002 repaid in PR #38). What stays open is the matrix being approved in principle only, and grants being fixed server settings (TD-009). |
