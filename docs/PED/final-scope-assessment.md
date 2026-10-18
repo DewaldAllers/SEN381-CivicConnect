@@ -1,8 +1,8 @@
 # M1 scope to final delivery assessment
 
-Date: 17 October 2026 | Contribution: Dewald Allers | Branch: `m4-data-scope-finalisation` | Status: **working assessment for team review, not the frozen final baseline**
+Date: 17 October 2026 | Contribution: Dewald Allers | Branch: `m4-data-scope-finalisation` | Status: **final scope assessment for M4, approved when its pull request merges**
 
-This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. Tristan can incorporate this section in PED v4.0 and reconcile the existing RTM with the reviewed evidence. All three members must review the classifications before final submission.
+This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. PED v4.0 incorporates this section, and the RTM final outcome carries the same results. Each classification is approved by the reviews on the pull requests that carry it.
 
 ## Baseline and counting rule
 
@@ -41,7 +41,7 @@ The M1 list of architecture, schema, client, API, CI and production work that wa
 
 ## Criterion ledger
 
-The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The M3 [RTM acceptance check](../requirements/RTM.md#acceptance-check) is retained as historical evidence, not rewritten to claim this branch is already approved. A newly passing case must still be linked to the final reviewed release by Tristan.
+The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The [RTM acceptance check](../requirements/RTM.md#acceptance-check) carries the same results for FR-002 and NFR-003, and the [RTM final outcome](../requirements/RTM.md#final-outcome) links each requirement to the final version.
 
 | Criterion | Result | Evidence and qualification |
 | --- | --- | --- |
@@ -90,7 +90,7 @@ The evidence below uses the current branch's test sources and the [M4 data verif
 
 Declared calculation: 35.5 / 40 = 88.75%.
 
-Current ledger: 34 Met, 3 Partially Met, 3 Not Met. This is a provisional evidence assessment, not a team-approved final score, lecturer mark or release approval. Recalculate when either teammate's final evidence or team review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
+Current ledger: 34 Met, 3 Partially Met, 3 Not Met. This is the final calculation for M4, approved when the pull request that carries it merges. It is not a lecturer mark or release approval. It is recalculated if either teammate's evidence or a review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
 
 The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. The [data handoff](../data/m4-data-finalisation.md#consequences-and-handoff) also identifies the lack of seeded Staff grants for Lost property and Other; passing category persistence does not prove an operational journey for every category. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
 
