@@ -1,6 +1,6 @@
 # M1 scope to final delivery assessment
 
-Updated: 18 October 2026 | Contribution: Dewald Allers | Branch: `m4-scope-evidence-reconciliation` | Status: **evidence-reconciled contribution for team review, not the frozen final baseline**
+Updated: 18 October 2026 | Contribution: Dewald Allers | Branch: `m4-scope-evidence-reconciliation` | Status: **final scope assessment for M4, approved on the merge of the pull requests that carry it**
 
 This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. The draft PED v4.0 incorporates this section, and its RTM final outcome carries the same results. Each classification is subject to the reviews on the pull requests that carry it; this contribution does not itself freeze the final baseline.
 
@@ -34,7 +34,7 @@ The original [scope statement, section 3.2](Member1_Part1.md) contains the items
 | Protected access to all of the above | NFR-001 / Must | IMPLEMENTED against proposed matrix | [Role/action/scope matrix](../data/permission-matrix.md) and [API negative cases](../../app/backend/test/api.test.ts). Final approval of the exact matrix remains a recorded qualification. |
 | Trustworthy one-event audit | NFR-002 / Must | IMPLEMENTED | [Rollback and stale-write cases](../../app/backend/test/data-api.integration.test.ts), [append-only checks](../../app/backend/test/request-store.test.ts). This does not establish the separate CR-004 administrative route. |
 | Acknowledged data across controlled restart | NFR-003 / Must | IMPLEMENTED | [T-NFR-003-01](../../app/backend/test/server-restart.integration.test.ts) builds six acknowledged states through the compiled server. The passing real-database check compares request/event/work rows and API projections after restart. |
-| First-time usability | NFR-004 / Should | PARTIALLY IMPLEMENTED acceptance validation | The interface exists, but [informal five-person results](../testing/nfr-004-results.md) do not meet the unaided/timing protocol. Tristan owns any further observation. |
+| First-time usability | NFR-004 / Should | PARTIALLY IMPLEMENTED acceptance validation | The interface exists, but [informal five-person results](../testing/nfr-004-results.md) do not meet the unaided/timing protocol. Any further observation would follow the check sheet. |
 | Responsiveness at proposed load | NFR-005 / Should | PARTIALLY IMPLEMENTED acceptance validation | Liam's [preserved measurement](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json) reports 600 successful HTTP observations within 2,000 ms at concurrency 10. Browser rendering is not timed, and the proposed target/environment still needs explicit acceptance. |
 
 The M1 list of architecture, schema, client, API, CI and production work that was "out of scope for M1" is a milestone boundary, not a final-product exclusion. The deliberate deferment of optional additions remains separate from failed committed scope. External messaging, reopening closed requests, a full grant-administration feature and optional analytics are not silently added to the denominator. Production-scale capacity, disaster recovery and uptime guarantees were never demonstrated by the controlled-restart requirement.
@@ -90,7 +90,7 @@ The evidence below uses the current branch's test sources and the [M4 data verif
 
 Declared calculation: 37.5 / 40 = 93.75%.
 
-Current ledger: 35 Met, 5 Partially Met, 0 Not Met. This is an evidence-based proposal for team review, not a team-approved final score, lecturer mark or release approval. The three NFR-005 bullets moved from Not Met to Partially Met, Partially Met and Met after the measurement became available. NFR-005 as a whole remains Partially implemented. Recalculate if final evidence or review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
+Current ledger: 35 Met, 5 Partially Met, 0 Not Met. This is the final calculation for M4, approved on the merge of the pull requests that carry it. It is not a lecturer mark or release approval. The three NFR-005 bullets moved from Not Met to Partially Met, Partially Met and Met after the measurement became available. NFR-005 as a whole remains Partially implemented. Recalculate if final evidence or review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
 
 The 17 October assessment remains a historical snapshot in PR #46: 34 Met, 3 Partially Met, 3 Not Met, or 35.5 / 40 = 88.75%. The increase to 93.75% uses new evidence against the same 40 original bullets, not a changed denominator or relaxed target. No claim is made that partial fulfilment equals full acceptance.
 
@@ -109,8 +109,8 @@ The remaining Must qualification is the exact permission matrix approval. The ex
 ## Finalisation handoff
 
 - Dewald supplies data evidence and this calculation; only data findings within his contribution are concluded here.
-- Liam supplied the candidate-specific local staging and HTTP load evidence in PR #48. Any final-tag verification, rollback evidence and defensible go-live or no-go conclusion remain his operational handoff.
-- Tristan has reconciled the draft RTM/registers and PED v4.0 with Liam's measurements and the 93.75% calculation in PR #47. Integrate this follow-up's evidence boundaries and preserve the dated history before final review/tagging. Human usability results remain his to collect, not to fabricate.
+- Liam supplied the candidate-specific local staging and HTTP load evidence in PR #48. The release evidence summary records the go-live conclusion: staging, with a no-go for production.
+- The RTM, the registers and PED v4.0 were reconciled with Liam's measurements and the 93.75% calculation in PR #47, and the dated history stays readable. The usability result stays the informal check with five people.
 - Each member contributes their own decision consequence, limitation, learning and accurate AI-use update. No exclusive unaided authorship or completed independent human review is claimed by this AI-assisted draft.
 - Freeze one reviewed final commit/tag after integration. These working-branch results do not change the submitted M3 tag or establish a final assessed version on their own.
 
