@@ -63,4 +63,16 @@ No Windows embedded-worker crash occurred in these default runs. That does not e
 
 The data implementation remains the existing ADR-002 transaction design. The [continued architecture/data PED section](../PED/architecture-and-data.md#m4-data-conclusion-17-october-2026) explains its observed benefit, the rejected independent-save alternative and the remaining single-store/performance consequences. Each member still owns their own evidence, human review and final defence. This contribution does not declare the whole project complete.
 
+## Evidence reconciliation, 18 October 2026
+
+The results above are the dated 17 October data-verification record, not a claim that later team evidence does not exist. PR #46 merged as `5d5e1bcc45a6e8445904dde4838c82876313a98f`. Liam subsequently recorded local staging and the existing HTTP performance exercise against that exact application candidate in [PR #48](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/48).
+
+The [original report](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json) records 300 seeded requests, 304 total, a scoped staff queue of 154, and 600 measured HTTP calls at concurrency 10 with no reported errors. All three operation types met the runner's proposed two-second target. The original JSON and generated Markdown SHA-256 values were independently recomputed during this AI-assisted reconciliation and match Liam's provenance note. No shared data was seeded or deleted during this review.
+
+The [reconciled scope assessment](../PED/final-scope-assessment.md#calculation-and-interpretation) now proposes 35 Met, 5 Partially Met and 0 Not Met, or 37.5 / 40 = 93.75%. It keeps NFR-005 partial because formal environment/target acceptance and browser-rendered end-to-end timing are not established. The original 88.75% verification row and structured execution record above remain unchanged as the historical result of the 17 October run.
+
+The staging log excerpt identifies the tested candidate, not a later final tag. Its runtime-permission outcome is reported evidence with the original temporary transcript unavailable, and the performance wrapper displayed a blank exit-code value. Preserve these limits. Successful local HTTP measurements do not establish production readiness, a database restore, rollback of a deployed release, or operational staff coverage for Lost property and Other. Tristan owns reconciling the final RTM, PED and registers; this data contribution supplies the evidence interpretation without silently approving the final release.
+
+Reconciliation verification on 18 October: local lint and TypeScript checks passed, and the default backend suite passed 153 tests with 2 intentional skips across 11 files. The scope checker confirmed all 40 original criteria and 93.75%; 149 document links were checked for local-file or pinned evidence-object existence. All existing AI-register rows were preserved, and the new row's table structure, added-text dash/connection-URL scan and `git diff --check` passed. These checks support this documentation reconciliation; they are not a new load, staging or hosted PostgreSQL run.
+
 Source: `SRC-M4`, sections 5-11 and 15, pp. 3-8; source identity in the [existing register](../sources.md).
