@@ -1,0 +1,95 @@
+{
+  "measuredAt": "2026-10-18T18:39:19.613Z",
+  "target": {
+    "milliseconds": 2000,
+    "minimumPercent": 95,
+    "status": "PROPOSED (DEC-010, P-05): not a baselined number"
+  },
+  "load": {
+    "concurrency": 10,
+    "observedPerType": 200,
+    "warmupPerType": 20,
+    "timeoutMs": 10000
+  },
+  "data": {
+    "seededThisRun": 300,
+    "totalRequestsInSystem": 304,
+    "requestsVisibleToStaffQueue": 154,
+    "requesters": 2,
+    "categories": 6
+  },
+  "environment": {
+    "baseUrl": "http://localhost:4000",
+    "serverVersion": "5d5e1bcc45a6e8445904dde4838c82876313a98f (5d5e1bcc45a6)",
+    "node": "v22.14.0",
+    "os": "Windows_NT 10.0.26300 x64",
+    "cpu": "Intel(R) Core(TM) i5-9400F CPU @ 2.90GHz x6",
+    "memoryGB": 31.9,
+    "loadGeneratorOnSameMachine": "Yes: base URL is local, so server and load generator compete for the same CPU"
+  },
+  "results": [
+    {
+      "type": "list",
+      "label": "List: staff queue, oldest first",
+      "observed": 200,
+      "succeeded": 200,
+      "withinTarget": 200,
+      "withinTargetPercent": 100,
+      "verdict": "PASS",
+      "ms": {
+        "min": 176,
+        "mean": 219.2,
+        "p50": 180.9,
+        "p95": 388.1,
+        "p99": 538,
+        "max": 1594.4
+      },
+      "throughputPerSecond": 43.6,
+      "firstRequestMs": 176.6,
+      "warmupRequests": 20,
+      "errors": {}
+    },
+    {
+      "type": "detail",
+      "label": "Detail: one request",
+      "observed": 200,
+      "succeeded": 200,
+      "withinTarget": 200,
+      "withinTargetPercent": 100,
+      "verdict": "PASS",
+      "ms": {
+        "min": 173.3,
+        "mean": 177.1,
+        "p50": 176.3,
+        "p95": 181.7,
+        "p99": 189.3,
+        "max": 192.8
+      },
+      "throughputPerSecond": 56.3,
+      "firstRequestMs": 176.2,
+      "warmupRequests": 20,
+      "errors": {}
+    },
+    {
+      "type": "summary",
+      "label": "Summary: management counts",
+      "observed": 200,
+      "succeeded": 200,
+      "withinTarget": 200,
+      "withinTargetPercent": 100,
+      "verdict": "PASS",
+      "ms": {
+        "min": 345.8,
+        "mean": 410.2,
+        "p50": 352.9,
+        "p95": 529,
+        "p99": 1118.4,
+        "max": 1738.3
+      },
+      "throughputPerSecond": 24,
+      "firstRequestMs": 350.6,
+      "warmupRequests": 20,
+      "errors": {}
+    }
+  ]
+}
