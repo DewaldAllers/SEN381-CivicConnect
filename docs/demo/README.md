@@ -1,10 +1,10 @@
 # Demonstration guide
 
-How to start the release candidate and the steps for the demonstration. The steps use made-up people and requests. Each one says what to show and what you should see.
+How to start the final version and the steps for the demonstration. The steps use made-up people and requests. Each one says what to show and what you should see.
 
 ## Before you start
 
-You need Node.js 22 and Google Chrome. The database address is private and stays out of the repository. Dewald shares the restricted app login privately, and it goes in `app/backend/.env` as one line:
+Run the demonstration from the final version with `git checkout v4.0-final`, the tag the [release evidence summary](../release/README.md) names. You need Node.js 22 and Google Chrome. The database address is private and stays out of the repository. Dewald shares the restricted app login privately, and it goes in `app/backend/.env` as one line:
 
 ```text
 DATABASE_URL=<the PostgreSQL address>
@@ -54,7 +54,20 @@ Use a separate browser tab or window for each person. Each tab keeps its own sig
 7. **Management.** Sign in as `mary`. The summary shows Open, Overdue, Resolved and Closed. Click each card. The list below always has as many rows as the number on the card. Overdue is also counted as open, and the page says so.
 8. **A script in a title.** As Thandi, send a request titled `<script>alert(1)</script> test`. It shows as plain text, and no alert appears.
 9. **Saved across a restart** (database mode only). Stop the server with Ctrl+C and start it again. Sign in as Thandi. The requests are still there, with the same history.
-10. **The evidence.** Show `npm test` in `app/backend`, which passes 151 tests, and `npm run lint` and `npx tsc --noEmit`, which are clean. Run `npm test` in `app/e2e` to show both browser journeys. Open the GitHub Actions page for the repository and show the runs. Open the [RTM acceptance check](../requirements/RTM.md#acceptance-check) and the [release evidence summary](../release/README.md), which reads NOT READY and says why.
+10. **The evidence.** Show `npm test` in `app/backend`, which passes 153 tests, and `npm run lint` and `npx tsc --noEmit`, which are clean. Run `npm test` in `app/e2e` to show both browser journeys. Open the GitHub Actions page for the repository and show the runs. Open the [RTM acceptance check](../requirements/RTM.md#acceptance-check) and the [release evidence summary](../release/README.md), which reads NOT READY and says why.
+
+## Final demonstration flow
+
+SRC-M4 section 12 (p. 5) sets six stages. This table says where each one is shown from, with the time the brief suggests.
+
+| Stage | About | What to show | Where it is |
+| --- | --- | --- | --- |
+| 1. Final product | 6 minutes | The final version, then a request from sent to Resolved across three people | Steps 1 to 5 and step 7 above. `git describe --tags` prints `v4.0-final` |
+| 2. M1 scope to final delivery | 6 minutes | What was committed, what was delivered and why, one row for each requirement | The [final outcome table](../requirements/RTM.md#final-outcome) in the RTM and the [scope assessment](../PED/final-scope-assessment.md), which gives 88.75% |
+| 3. M3 to final closure | 4 minutes | The fixes, the closed defects and the limits that remain | The [Defect Register](../defects/README.md), the [Technical Debt Register](../technical-debt/README.md) and the [Risk Register final status](../risks/README.md#final-status-m4) |
+| 4. Final evidence | 4 minutes | Chosen acceptance criteria against their evidence | The [acceptance check](../requirements/RTM.md#acceptance-check), step 10 above and the [release evidence summary](../release/README.md) |
+| 5. Project conclusion | 4 minutes | What the project achieved, the decisions with the clearest consequences and what remains | The conclusion in the [PED](../PED/README.md) |
+| 6. Individual defence | Assessed separately | Each person answers from their own work | |
 
 ## If something goes wrong
 
