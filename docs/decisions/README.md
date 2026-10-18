@@ -1,6 +1,6 @@
 # Engineering Decision Log and ADR index
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **18 decisions recorded, 7 ADRs recorded**
+Version 4.0 | 18 October 2026 | Owner: Tristan Els | Status: **final for M4; 18 decisions recorded, 7 ADRs recorded, and a final consequence written for each decision that was waiting on one**
 
 This log records decisions the team has actually taken, and decisions it has deliberately left open because the evidence needed to choose is not available yet. It does not record intentions or plans. SRC-MASTER section 13 (p. 13) sets the fields.
 
@@ -168,7 +168,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Trade-offs | There is no single printable artefact to hand over, and a reader can miss part of the document unless the index is maintained. The section map in the PED index carries that weight, and it has to list the parts that do not exist yet or the gap becomes invisible. |
 | Risks | An assessor navigating the repository may not find a section that is not on the map. Mitigated by the map listing unbuilt sections with their owners. |
 | Evidence | The PED index and its section map. The repository structure follows Appendix C of the Master Brief (p. 26). |
-| Later consequence | Recorded at M3. |
+| Later consequence | Held. The PED went from v1.0 to v4.0 as the same linked files, and git holds the history of every version. The M3 PDF was built from the tagged commit with its links pointed at GitHub at that tag, so the PDF and the repository agree. |
 | Revisit trigger | An assessor or the lecturer asks for the PED as one submitted document, or the section map stops being maintained. |
 
 ## DEC-010 Defer the P-05 quality targets rather than approving them
@@ -184,7 +184,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Risks | RSK-004, now rated 2 rather than 4, because the consequence of a wrong target is no longer a change against baselined content. |
 | Evidence | CR-002 in the [change control register](../change/README.md). The deferral is recorded against NFR-004 and NFR-005 in the RTM and in BL-002 as a decision held outside the baseline. |
 | Missing information | The verification environment and its data volume, which depend on DEP-002. How the five representative participants would be selected. How elapsed time would be measured. |
-| Later consequence | Recorded at M3, after the first measurement. |
+| Later consequence | Held to the end. NFR-004 and NFR-005 keep their wording and their numbers, and neither number was approved. NFR-004 has an informal result from five people ([results](../testing/nfr-004-results.md)). NFR-005 has one measured run, a local one, and all 600 observed cases finished within the proposed two seconds ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)). Both read Partially implemented in the RTM, and TD-008 stays open. |
 | Revisit trigger | The verification environment is defined, or a first measurement in M3 gives the team real numbers to approve against. |
 
 ## DEC-011 Design as though the data protection obligation applies, without claiming compliance
@@ -200,7 +200,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Risks | RSK-006 and RSK-016. |
 | Evidence | CR-004 in the [change control register](../change/README.md). The constraint appears against NFR-002 and FR-011 in the RTM. The unconfirmed obligation is held as ASM-002. |
 | Missing information | Whether the Act binds this project. A retention period. Which role holds the redaction permission, which is part of DEP-001. |
-| Later consequence | Recorded at M3, when the route is built or deliberately not built. |
+| Later consequence | Held. No document describes CivicConnect as compliant with any data protection law, and ASM-002 still records the obligation as unconfirmed. Ordinary users cannot edit or delete history events. The administrative route from CR-004 is not built and is recorded as TD-016, so the system has no way to remove personal data from a request. |
 | Revisit trigger | A confirmed answer on applicability, or a lecturer instruction on how student projects should treat personal data. |
 
 ## DEC-012 Adopt automated checks now rather than deferring them to M3
@@ -215,7 +215,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Trade-offs | The workflow is not a quality gate yet. It reports, and branch protection does not require it to pass before a merge, so a red run can still be merged. Making it a required check is an M3 decision once the team trusts it not to fail for unrelated reasons. |
 | Risks | A green run says the 23 tests passed and the types compile. It says nothing about the requirements the tests do not cover, which is most of them. Presenting it as broader assurance than that is the risk, and it is the same shape as RSK-022. |
 | Evidence | `.github/workflows/ci.yml`. The workflow pins Node 22.14.0, which is the version ADR-003 records and the one the lock file was resolved against. |
-| Later consequence | Recorded at M3. |
+| Later consequence | Went further than this entry says. The workflow now runs the audit (TD-006), `backend-checks` is a required check on `main` (TD-005), and the browser journeys run in `e2e.yml`, once in memory and once on PostgreSQL. Pull request #45 carried a test that fails on purpose, the required check went red and GitHub blocked the merge. No secret scanner runs in CI (TD-013). |
 | Revisit trigger | The workflow becomes a required status check, or a second check is added that the team wants to gate on. |
 
 ## DEC-013 Keep installed dependencies out of version control
@@ -230,7 +230,7 @@ The M2 entries DEC-009 to DEC-013 were approved on the merges of PR #27 and PR #
 | Trade-offs | The repository no longer contains everything needed to run offline. A developer has to run `npm install` first, which the backend README states. |
 | Risks | An install now depends on the registry being reachable and on the lock file staying committed. Related to RSK-017, because reviewing dependencies only matters if the lock file is the thing under review. |
 | Evidence | Commit `21ef085`. `git ls-files` returns no path under `node_modules`. |
-| Later consequence | Recorded at M3. |
+| Later consequence | Held. `git ls-files` returns no path under `node_modules` in the final version, and CI installs from the lock file with `npm ci`. DEF-001 shows what tracking the packages cost. |
 | Revisit trigger | A dependency that cannot be installed from the registry, or a reproducibility failure that the lock file does not prevent. |
 
 ## DEC-014 Freeze the M3 core scope
@@ -286,7 +286,7 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Risks | The scope grows past the schedule, which is the same risk DEC-014 named. The cut order, and the rule that every cut is a recorded change, are the controls. |
 | Evidence | [CR-005](../change/README.md#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate). The [technical debt register](../technical-debt/README.md): TD-001, TD-003, TD-004 and TD-007 are the items the build pays off. The [release evidence summary](../release/README.md). |
 | Missing information | Whether all seventeen fit in the time. The release evidence summary reports this from test results, not from plans. |
-| Later consequence | Recorded at the M3 release review. |
+| Later consequence | All seventeen requirements are in the final version. Fifteen read Implemented in the RTM, and two, NFR-004 and NFR-005, read Partially implemented. No requirement left the scope, so no change request followed. The two that fall short are the first two in the order set above. |
 | Revisit trigger | Any requirement leaving the candidate. That goes through the [change control register](../change/README.md). |
 
 ## DEC-016 Build the client in HTML, CSS and JavaScript
@@ -302,7 +302,7 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Risks | User text shown as HTML. An end-to-end test that types a script tag into a field checks this. Express now serves the pages and the API. Keeping the `/api/v1` interface separate means we can split them later. |
 | Evidence | [CR-006](../change/README.md#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite). TD-007 in the [technical debt register](../technical-debt/README.md). The amendment note at the end of ADR-003. |
 | Missing information | Whether the plain client meets the NFR-004 target in the five-person check. We record the result when we have it. |
-| Later consequence | Recorded at the M3 release review. |
+| Later consequence | Held. The client is four pages, one stylesheet and a small folder of scripts, served by Express with no build step. Both browser journeys pass through it, and T-E2E-02 checks that a script typed into a title shows as text. The server still sets no Content-Security-Policy header (TD-012). |
 | Revisit trigger | The client needs something the plain pages cannot do without turning into a framework of their own, or the client must be deployed separately. Either one goes through the [change control register](../change/README.md). |
 
 ## DEC-017 Every change carries the version the page last read
@@ -318,7 +318,7 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Risks | A person gets a refusal and loses what they typed. The client shows the latest version and says what happened. The lifecycle limits are our proposals and no stakeholder has confirmed them. |
 | Evidence | [CR-008](../change/README.md#cr-008-require-the-observed-version-on-every-change-and-apply-the-lifecycle-limits-at-the-api). DEF-006 and DEF-009 in the [Defect Register](../defects/README.md). The tests and the verification note in PR #42. |
 | Missing information | Whether the lifecycle limits match what the organisation expects. Whether a person who loses a race needs more help than a message. |
-| Later consequence | Recorded at the M3 release review. |
+| Later consequence | Held. A stale change gets a 409 and leaves the history alone, in the API tests, the PostgreSQL checks and T-E2E-02. DEF-006 and DEF-009 are Closed. The lifecycle limits are still our proposals, because no stakeholder has confirmed them. |
 | Revisit trigger | A second caller of the API, or a change to P-02. Either one goes through the [change control register](../change/README.md). |
 
 ## DEC-018 Show requesters a generic label in place of staff names
@@ -334,7 +334,7 @@ The first candidates if the schedule allows more are FR-004, because FR-011 does
 | Risks | The page says "Nobody yet" when a hidden owner exists. The store now sends a flag that says an owner exists, and the page shows "Assigned staff" from it. |
 | Evidence | [CR-009](../change/README.md#cr-009-show-requesters-a-generic-label-in-place-of-staff-names). The privacy case in `request-store.test.ts`. The data [handoff note](../data/m3-repository-handoff.md). |
 | Missing information | Whether stakeholders want requesters to see a team name. The permission matrix needs a row for this once the position is confirmed. |
-| Later consequence | Recorded at the M3 release review. |
+| Later consequence | Held. Requester pages show "Assigned staff", and the history shows "Staff" for staff events. DEF-011 is Closed. No stakeholder has said whether requesters should see names or a team name, so the permission matrix has no row for this and the rule stays our proposal. |
 | Revisit trigger | A stakeholder asks for names or team names on requester pages. It goes through the [change control register](../change/README.md). |
 
 ## ADR index

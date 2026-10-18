@@ -1,6 +1,6 @@
 # Change control register
 
-Version 3.0 | 12 October 2026 | Owner: Tristan Els | Status: **nine changes raised, four against the PED v1.0 baseline and five during M3 construction. CR-001 to CR-006 are approved, and CR-007 to CR-009 are approved when their pull request merges**
+Version 4.0 | 18 October 2026 | Owner: Tristan Els | Status: **final for M4; nine changes raised, four against the PED v1.0 baseline and five during M3 construction. All nine are approved, and none was raised during M4**
 
 PED v1.0 was baselined on 9 September 2026. From that point a material change to a requirement, scope item, constraint or approved decision is controlled rather than absorbed into an edit. SRC-MASTER section 14 (p. 13) sets the path, and SRC-MASTER section 11 (p. 12) says baselined requirements may not be silently edited after sign-off.
 
@@ -32,9 +32,9 @@ Planned milestone progression is also not a change. M1 recorded architecture, te
 | [CR-004](#cr-004-require-a-controlled-deletion-or-anonymisation-route-in-the-data-model) | 2026-09-29 | Require a controlled deletion or anonymisation route in the data model | NFR-002, data model constraint | Accept | Approved, PR #27 |
 | [CR-005](#cr-005-build-all-seventeen-requirements-for-the-m3-release-candidate) | 2026-10-12 | Build all seventeen requirements for the M3 release candidate, reversing the DEC-014 freeze | FR-004, FR-009, FR-010, FR-012, NFR-004, NFR-005, DEC-014, RTM, release evidence summary | Accept | Approved, PR #32 |
 | [CR-006](#cr-006-build-the-client-in-html-css-and-javascript-instead-of-react-and-vite) | 2026-10-12 | Build the client in HTML, CSS and JavaScript instead of React and Vite | ADR-003 frontend selection, ADR-006 wording, ASM-005, TD-007 | Accept | Approved, PR #32 |
-| [CR-007](#cr-007-ignore-the-hasowner-field-in-the-status-request) | 2026-10-14 | Ignore the `hasOwner` field in the status request and read the owner from the stored request | FR-008, AC-FR-008, API v1 status endpoint | Accept | Raised |
-| [CR-008](#cr-008-require-the-observed-version-on-every-change-and-apply-the-lifecycle-limits-at-the-api) | 2026-10-15 | Require the observed version on every change and apply the lifecycle limits at the API | FR-007, FR-008, FR-009, AC-FR-007 to AC-FR-009, API v1 write endpoints | Accept | Raised |
-| [CR-009](#cr-009-show-requesters-a-generic-label-in-place-of-staff-names) | 2026-10-15 | Show requesters a generic label in place of staff names | FR-004, FR-011, AC-FR-004, AC-FR-011, requester pages | Accept | Raised |
+| [CR-007](#cr-007-ignore-the-hasowner-field-in-the-status-request) | 2026-10-14 | Ignore the `hasOwner` field in the status request and read the owner from the stored request | FR-008, AC-FR-008, API v1 status endpoint | Accept | Approved, PR #43 |
+| [CR-008](#cr-008-require-the-observed-version-on-every-change-and-apply-the-lifecycle-limits-at-the-api) | 2026-10-15 | Require the observed version on every change and apply the lifecycle limits at the API | FR-007, FR-008, FR-009, AC-FR-007 to AC-FR-009, API v1 write endpoints | Accept | Approved, PR #43 |
+| [CR-009](#cr-009-show-requesters-a-generic-label-in-place-of-staff-names) | 2026-10-15 | Show requesters a generic label in place of staff names | FR-004, FR-011, AC-FR-004, AC-FR-011, requester pages | Accept | Approved, PR #43 |
 
 ---
 
@@ -187,7 +187,7 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Cost impact | None. |
 | Risk impact | Removes one way a status could be changed wrongly. No entry in the Risk Register needed to change. |
 | Recommendation | ACCEPT |
-| Authorisation | The code change merged in PR #38 on 15 October 2026 with approvals from Dewald Allers and me. The code cited this identifier before the register held it, which is DEF-012. This entry closes that gap, and it is approved when its own pull request merges. |
+| Authorisation | The code change merged in PR #38 on 15 October 2026 with approvals from Dewald Allers and me. The code cited this identifier before the register held it, which is DEF-012. This entry closes that gap. It was approved when PR #43 merged on 16 October 2026. |
 
 ## CR-008 Require the observed version on every change and apply the lifecycle limits at the API
 
@@ -208,7 +208,7 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Cost impact | None. |
 | Risk impact | Reduces the chance that two people change one request and one change is lost. No register entry covered it before, and DEF-006 does now. |
 | Recommendation | ACCEPT. The lifecycle limits are proposals from the data work. No stakeholder has confirmed them, and they are recorded as proposals in the [handoff note](../data/m3-repository-handoff.md). |
-| Authorisation | The code merged in PR #42 on 15 October 2026 with approvals from Liam de Villiers and me. This entry is approved when its own pull request merges. |
+| Authorisation | The code merged in PR #42 on 15 October 2026 with approvals from Liam de Villiers and me. This entry was approved when PR #43 merged on 16 October 2026. |
 
 ## CR-009 Show requesters a generic label in place of staff names
 
@@ -229,17 +229,19 @@ Deferring P-05 is a decision, not an omission. The numbers in NFR-004 and NFR-00
 | Cost impact | None. |
 | Risk impact | A requester may want to know who to ask. They ask through the request, which staff can see. We accept that. |
 | Recommendation | ACCEPT |
-| Authorisation | The store change merged in PR #31 with approvals from Liam de Villiers and me. The client change merged in PR #39 with approvals from Dewald Allers and Liam de Villiers. The API change merged in PR #42 with approvals from Liam de Villiers and me. This entry is approved when its own pull request merges. |
+| Authorisation | The store change merged in PR #31 with approvals from Liam de Villiers and me. The client change merged in PR #39 with approvals from Dewald Allers and Liam de Villiers. The API change merged in PR #42 with approvals from Liam de Villiers and me. This entry was approved when PR #43 merged on 16 October 2026. |
 
 ---
 
 ## Considered and not raised
 
-Two things looked like changes and are not.
+Three things looked like changes and are not.
 
 The M1 out of scope list named final technology stack, architecture, database schema, interface implementation, API implementation, design patterns, CI and production deployment. All of those enter scope at M2. That is the milestone structure in SRC-MASTER section 20 (pp. 17-20) working as intended, so it is recorded in the PED version history rather than as a departure from the baseline.
 
 The numbers in NFR-004 and NFR-005 have not been changed. CR-002 defers their approval; it does not relax them. If a measurement in M3 shows the target is wrong, that is a new change request with its own impact analysis, and the number moves then rather than being quietly loosened now.
+
+The final scope assessment leaves NFR-004 and NFR-005 in scope as Partially implemented. A requirement that stays in scope with partial evidence is a result, so it needs no change request. DEC-015 said a requirement that left the candidate would get its own request, and none left. CR-004 stays approved as a constraint on the data model. The administrative route it describes is not built, which TD-016 records as debt.
 
 ## References
 

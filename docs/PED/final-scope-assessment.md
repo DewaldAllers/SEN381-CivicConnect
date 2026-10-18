@@ -2,7 +2,7 @@
 
 Updated: 18 October 2026 | Contribution: Dewald Allers | Branch: `m4-scope-evidence-reconciliation` | Status: **evidence-reconciled contribution for team review, not the frozen final baseline**
 
-This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. Tristan can incorporate this section in PED v4.0 and reconcile the existing RTM with the reviewed evidence. All three members must review the classifications before final submission.
+This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. The draft PED v4.0 incorporates this section, and its RTM final outcome carries the same results. Each classification is subject to the reviews on the pull requests that carry it; this contribution does not itself freeze the final baseline.
 
 ## Baseline and counting rule
 
@@ -41,7 +41,7 @@ The M1 list of architecture, schema, client, API, CI and production work that wa
 
 ## Criterion ledger
 
-The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The M3 [RTM acceptance check](../requirements/RTM.md#acceptance-check) is retained as historical evidence, not rewritten to claim this branch is already approved. A newly passing case must still be linked to the final reviewed release by Tristan.
+The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The [RTM acceptance check](../requirements/RTM.md#acceptance-check) carries the same results for FR-002 and NFR-003, and the [RTM final outcome](../requirements/RTM.md#final-outcome) links each requirement to the final version.
 
 | Criterion | Result | Evidence and qualification |
 | --- | --- | --- |
@@ -102,7 +102,7 @@ The original JSON and generated Markdown hashes match the hashes in Liam's note.
 
 The wrapper's blank exit-code display is a recorded evidence limitation; the preserved reports are not replaced by an invented successful process exit. This reconciliation reviewed those artefacts and did not rerun the load script, add requests or remove existing rows. Links above are pinned to the reviewed evidence commit so they remain inspectable before PR #48 merges.
 
-PR #47's draft PED/RTM/release record predates these results and still says no measured run exists and completion is 88.75%. Tristan must reconcile those current-state claims with this assessment before freezing the final version, while preserving the earlier M3 and 17 October history. A final release classification requires team review of the remaining security, privacy, permission, recovery and usability limitations; a passing HTTP exercise alone does not settle it.
+The first PR #47 draft predated these results and used 88.75%. Tristan subsequently reconciled its PED, RTM, release record and registers with the new evidence and the same 93.75% calculation. This follow-up adds the explicit evidence boundary and keeps the earlier M3 and 17 October history readable. A final release classification requires team review of the remaining security, privacy, permission, recovery and usability limitations; a passing HTTP exercise alone does not settle it.
 
 The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. The [data handoff](../data/m4-data-finalisation.md#consequences-and-handoff) also identifies the lack of seeded Staff grants for Lost property and Other; passing category persistence does not prove an operational journey for every category. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
 
@@ -110,7 +110,7 @@ The remaining Must qualification is the exact permission matrix approval. The ex
 
 - Dewald supplies data evidence and this calculation; only data findings within his contribution are concluded here.
 - Liam supplied the candidate-specific local staging and HTTP load evidence in PR #48. Any final-tag verification, rollback evidence and defensible go-live or no-go conclusion remain his operational handoff.
-- Tristan reconciles the existing RTM/registers and incorporates this contribution into the continued PED v4.0, replacing the stale current-state no-measurement and 88.75% claims. Human usability results remain his to collect, not to fabricate.
+- Tristan has reconciled the draft RTM/registers and PED v4.0 with Liam's measurements and the 93.75% calculation in PR #47. Integrate this follow-up's evidence boundaries and preserve the dated history before final review/tagging. Human usability results remain his to collect, not to fabricate.
 - Each member contributes their own decision consequence, limitation, learning and accurate AI-use update. No exclusive unaided authorship or completed independent human review is claimed by this AI-assisted draft.
 - Freeze one reviewed final commit/tag after integration. These working-branch results do not change the submitted M3 tag or establish a final assessed version on their own.
 
