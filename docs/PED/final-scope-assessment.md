@@ -41,7 +41,7 @@ The M1 list of architecture, schema, client, API, CI and production work that wa
 
 ## Criterion ledger
 
-The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The [RTM acceptance check](../requirements/RTM.md#acceptance-check) carries the same results for FR-002 and NFR-003, and the [RTM final outcome](../requirements/RTM.md#final-outcome) links each requirement to the final version.
+The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The M3 [RTM acceptance check](../requirements/RTM.md#acceptance-check) is retained as historical evidence, not rewritten to claim this branch is already approved. A newly passing case must still be linked to the final reviewed release by Tristan.
 
 | Criterion | Result | Evidence and qualification |
 | --- | --- | --- |
@@ -88,7 +88,7 @@ The evidence below uses the current branch's test sources and the [M4 data verif
 
 ## Calculation and interpretation
 
-Declared calculation: 37.5 / 40 = 93.75%.
+Declared calculation: 35.5 / 40 = 88.75%.
 
 Current ledger: 35 Met, 5 Partially Met, 0 Not Met. This is an evidence-based proposal for team review, not a team-approved final score, lecturer mark or release approval. The three NFR-005 bullets moved from Not Met to Partially Met, Partially Met and Met after the measurement became available. NFR-005 as a whole remains Partially implemented. Recalculate if final evidence or review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
 
