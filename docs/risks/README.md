@@ -1,8 +1,8 @@
 # Risk Register
 
-Version 2.1 | 30 September 2026 | Owner: Tristan Els | Status: **reviewed against the M2 evidence; 22 entries, 2 closed**
+Version 3.0 | 18 October 2026 | Owner: Tristan Els | Status: **final review at M4; 22 entries, 8 closed, 14 open**
 
-Next review: Milestone 3. SRC-MASTER section 12 (p. 12) makes this a live artefact that has to be reviewed at every milestone, so a register that still reads the same at M2 has not been maintained.
+SRC-MASTER section 12 (p. 12) makes this a live artefact that has to be reviewed at every milestone. The [final status](#final-status-m4) section is the review at Milestone 4, and the open entries carry into the PED residual risk statement.
 
 Each entry names a cause, an uncertain event and a consequence. SRC-MASTER section 12 (p. 12) rejects vague entries such as "coding problems", because a risk that does not name its cause cannot be mitigated and a risk that does not name its consequence cannot be prioritised.
 
@@ -91,6 +91,37 @@ RSK-019 materialised on 30 September and was handled as the mitigation set out. 
 | RSK-021 | Because the application will need configuration holding a database connection, and the repository has been public since DEC-008, a committed credential would be readable by anyone the moment it is pushed and would stay in the history after it was removed. | 2 | 3 | 6 | Decide the configuration and secrets structure before the first connection string exists, and commit an example file with placeholder values rather than a real one. Keep the local configuration file ignored by git from the point the file exists. | Rotate the exposed credential first, then remove it from the history, and record the exposure rather than quietly deleting it. Trigger: any tracked file containing a connection string, key or token. | All three, coordinated by Liam | Open. `.gitignore` now covers `.env` and `.env.*`, and no tracked file holds a connection string. No real credential exists yet, so the control is untested |
 | RSK-022 | Because the backend vertical slice stores requests in an in-memory map, supplies the caller identity from the endpoint rather than from an authenticated session, and writes no history event, its 23 passing tests could be read as evidence that NFR-001, NFR-002 and NFR-003 are satisfied. They verify the rules, not the enforcement boundary, the exactly-one-event obligation or durability. Presenting the slice as broader assurance than it is would be the unsupported quality claim SRC-MASTER section 23 (p. 22) rejects. | 2 | 3 | 6 | State the three limitations wherever the slice is cited: the RTM evidence cells, the [API contract](../integration/api-v1.md), the backend README and ADR-006. Hold FR-008, NFR-001 and NFR-002 at In Development rather than Implemented. | Say what the tests prove and what they do not, in that order, whenever the slice is shown. Trigger: any artefact describing the vertical slice without naming the in-memory store or the supplied identity. | Tristan | Open |
 
+## Final status (M4)
+
+This is the final review. It covers everything since 30 September in one pass, against the final version. Each row gives the rating the entry ends on and the evidence behind it. The original ratings and the earlier review notes stay in the register above.
+
+Eight entries are Closed: RSK-001, RSK-003, RSK-007, RSK-014, RSK-018, RSK-019, RSK-020 and RSK-022. Four ratings moved. RSK-010 rose from 4 to 6. RSK-013 and RSK-016 fell from 6 to 3, and RSK-017 fell from 6 to 2. The other ten open entries keep their rating. Fourteen entries stay open, and they carry into the residual risk statement in the PED. The three that matter most for the final version are RSK-009 (defence readiness, 9), RSK-010 (staging evidence and the database expiry, 6) and RSK-021 (secrets, 6).
+
+| ID | P | I | Pri | Final status | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| RSK-001 | 3 | 3 | 9 | Closed | Closed on 29 September 2026. Branch protection enforces two approvals from other members, and the required check blocks a red run (PR #45). |
+| RSK-002 | 2 | 3 | 6 | Open, unchanged | Pull request #46 and the pull request that carries this record each need two approvals from other members before the deadline. |
+| RSK-003 | 3 | 2 | 6 | Closed | Closed on 29 September 2026. All three parts merged and the one contradiction was resolved. |
+| RSK-004 | 2 | 1 | 2 | Open, unchanged | NFR-004 met its proposed target in an informal run with five people. NFR-005 has no measurement, so the trigger has not fired. |
+| RSK-005 | 1 | 3 | 3 | Open on the residual, unchanged | The permission matrix exists and is approved in principle (CR-002, P-03). AC-NFR-001.1 reads Partially Met for that reason. |
+| RSK-006 | 2 | 3 | 6 | Open, unchanged | The route CR-004 asked for is not built (TD-016). No document claims compliance with any data protection law, and ASM-002 still holds the obligation as unconfirmed. |
+| RSK-007 | 2 | 2 | 4 | Closed | Closed on 18 October 2026. The stack installs and runs on the team machines and on the CI runner, and the trigger, a proof of concept that will not run, did not fire. Campus machines were not part of the check. |
+| RSK-008 | 3 | 2 | 6 | Open, unchanged | Stays open until the last M4 pull request merges, because the pattern at a deadline cannot be judged before then. |
+| RSK-009 | 3 | 3 | 9 | Open, unchanged | The individual defence is the test, and no document can show it. |
+| RSK-010 | 3 | 2 | 6 | Open, raised from 4 to 6 | The platform is chosen (Render free tier, ADR-003). A staging run of the tagged version is not yet in the repository, and the free database expires on 13 November 2026 (TD-010). Probability rises from 2 to 3 because the trigger is already showing. |
+| RSK-011 | 2 | 3 | 6 | Open, unchanged | DEC-013 removed the installed packages from tracking, and none is tracked in the final version. Since 30 September `main` has received 74 commits through 16 merged pull requests. |
+| RSK-012 | 2 | 3 | 6 | Open, unchanged | The defence is the test. Each member answers for the rows in the AI Usage Register that carry their name. |
+| RSK-013 | 1 | 3 | 3 | Open, lowered from 6 to 3 | The cause is gone. `AuthorizationPolicy` reads category grants from the signed-in user on every request (ADR-005, ADR-007, TD-002 repaid in PR #38). What stays open is the matrix being approved in principle only, and grants being fixed server settings (TD-009). |
+| RSK-014 | 2 | 2 | 4 | Closed | Closed on 18 October 2026. ADR-003 recorded the alternatives before the code. The one change since, the client in HTML, CSS and JavaScript, went through CR-006 with its reason recorded. |
+| RSK-015 | 2 | 3 | 6 | Open, unchanged | One database and no backup or restore evidence (TD-010). T-NFR-003-01 proves a restart only, and the RTM says so. |
+| RSK-016 | 1 | 3 | 3 | Open, lowered from 6 to 3 | The route is not built, so it cannot remove evidence. The contingency in the entry applies: CivicConnect has no deletion path (TD-016), and the privacy consequence stays with RSK-006. |
+| RSK-017 | 1 | 2 | 2 | Open, lowered from 6 to 2 | `npm audit` runs in CI and fails the build on a high or critical finding in shipped code (TD-006, repaid in PR #36). On 18 October 2026 it reported 0 vulnerabilities across 355 packages. |
+| RSK-018 | 1 | 2 | 2 | Closed | Closed on 18 October 2026. ADR-004 rejected the State pattern for a six-status lifecycle. The two patterns that were built, the central status policy and the central authorisation policy, are in the code with tests, and none was withdrawn. |
+| RSK-019 | 3 | 2 | 6 | Closed | Closed on 18 October 2026. It materialised on 30 September and was managed as planned. BL-002 was approved when PR #30 merged on 1 October, and the one later change to an ADR went through CR-006. |
+| RSK-020 | 3 | 2 | 6 | Closed | Closed on 18 October 2026. The window has passed, and the change register holds no change raised because later research contradicted a baselined decision. |
+| RSK-021 | 2 | 3 | 6 | Open, unchanged | Real database logins now exist. A scan of all 194 commits finds no hosted database address or password. The only connection strings are the throwaway logins CI uses for its own test database on localhost. No secret scanner runs in CI (TD-013). Dewald's restricted runtime login (PR #44) limits what the app login can do. |
+| RSK-022 | 2 | 3 | 6 | Closed | Closed on 18 October 2026. The in-memory slice was replaced by the database-backed server (PR #41 and PR #42). The RTM says what each case proves and names the open limits. |
+
 ## Highest priority risk
 
 One entry scores 9.
@@ -107,7 +138,7 @@ Dependency and vulnerability risk was left out at M1 because no application depe
 
 Stakeholder availability is not carried as a risk. The Master Brief is the stakeholder source for this project, and the detail it does not supply is held as proposals P-01 to P-05 under change control rather than as assumptions.
 
-CI pipeline failure is not carried as a risk. The workflow reports rather than gates under DEC-012, so a failed run blocks nothing. It becomes a risk in M3, when the check is made a required one.
+CI pipeline failure is not carried as a risk. The workflow gates since 15 October (TD-005), so a red run blocks the merge. That is the control working. The deadline pressure behind it sits with RSK-002.
 
 ## References
 
