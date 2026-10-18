@@ -22,7 +22,7 @@ Version 3.0 then fills the implementation and verification columns from `main` a
 
 No functional requirement reads Not yet implemented any more. NFR-004 reads deferred with an informal result from five people, and NFR-005 reads planned, because the measured load run has not taken place. That is the accurate state of the build, and the matrix says so rather than describing intent as progress.
 
-Version 4.0 closes the matrix. Dewald's final scope assessment gives each of the 40 original acceptance criteria a final result, and the new Final outcome section gives each requirement one of the four final outcomes. Two cases written for the gaps in the acceptance check, T-FR-002-01 and the extended T-NFR-003-01, now pass, so FR-002 and NFR-003 read Implemented. NFR-001 reads Partly in the acceptance check because the permission matrix is approved in principle only, which matches the ledger. Nothing is recreated, and the earlier tables and traces stay as they were, with their dates.
+Version 4.0 closes the matrix. Dewald's final scope assessment gives each of the 40 original acceptance criteria a final result, and the new Final outcome section gives each requirement one of the four final outcomes. Two cases written for the gaps in the acceptance check, T-FR-002-01 and the extended T-NFR-003-01, now pass, so FR-002 and NFR-003 read Implemented. NFR-001 reads Partly in the acceptance check because the permission matrix is approved in principle only, which matches the ledger. The load check of 18 October 2026 gave NFR-005 its first measured result, so it no longer reads planned. Nothing is recreated, and earlier text keeps its dates.
 
 ## Status vocabulary
 
@@ -102,7 +102,7 @@ Two sets of case ids appear in this matrix. The designs in the verification plan
 | NFR-002 | The store commits a request change and exactly one event together (`request-store.ts`, ADR-002). Database triggers reject any update or delete of history. | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 pass. T-NFR-002-02 makes the database refuse the event and checks that the note, the work record and the version roll back, and it runs on PostgreSQL. The store cases check one event for each change and the triggers that block edits and deletes. `npm run db:verify` checks the same against PostgreSQL 18. | CR-004, ADR-002, ADR-004, FEC-002, RSK-016, RSK-022 |
 | NFR-003 | Requests, events and work records live in PostgreSQL through `request-store.ts`. The server uses `PostgresRequestRepository` when `DATABASE_URL` is set (PR #41), and staging and production refuse to start without it. | T-NFR-003-01 passes on PostgreSQL 18.6. It builds the server, runs the migrations, creates a request in each of the six statuses with owners, private notes and due dates through the real API, restarts the server and compares every stored row and every reply. `persistence-lifecycle.test.ts` closes and reopens storage and compares the values and the history, and `npm run db:verify` reads a request back in a new process. | ADR-002, FEC-005, FEC-008, RSK-015, RSK-022 |
 | NFR-004 | The pages in `app/frontend`, plain HTML, CSS and JavaScript (CR-006). Wireframes in `docs/design/wireframes`. | T-NFR-004-01 ran informally on 16 October. Five people completed both tasks and I saw each finish in under five minutes. I did not record the times and I explained the pages first, so AC-NFR-004 is not confirmed. See [the results](../testing/nfr-004-results.md). | CR-002, P-05, DEC-010, RSK-004, FEC-003 |
-| NFR-005 | `scripts/perf-nfr005.mjs` (PR #40) measures the list, detail and summary calls. `scripts/seed-performance.ts` (PR #31) loads test data. | T-NFR-005-01 planned, not run. The script is built and has no result yet. | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
+| NFR-005 | `scripts/perf-nfr005.mjs` (PR #40) measures the list, detail and summary calls. `scripts/seed-performance.ts` (PR #31) loads test data. | T-NFR-005-01 ran once, on 18 October 2026, on local staging: 10 concurrent requesters and 200 observed cases for each call, all within 2 seconds ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)). | CR-002, P-05, DEC-010, RSK-004, FEC-003, FEC-007 |
 
 ## Acceptance check
 
@@ -126,9 +126,9 @@ This is my reading of each acceptance criterion against the executed cases, made
 | NFR-002 | Covered | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01, T-NFR-002-02 (a database-rejected event rolls back, run on PostgreSQL), T-NFR-002-03, the store rollback cases and the case that blocks event edits and deletes | |
 | NFR-003 | Covered | T-NFR-003-01 builds the server, runs the migrations, creates a request in each of the six statuses with owners, private notes and due dates through the real API, restarts the server and compares every stored row and every reply, on PostgreSQL 18.6. The reopen case and `npm run db:verify` check the same at the store | |
 | NFR-004 | Partly | T-NFR-004-01, run informally with five people on 16 October ([results](../testing/nfr-004-results.md)). All five completed both tasks, and I saw each finish in under five minutes | I did not record the times, I made no recording, and I explained the pages first, so the pass rule is not confirmed |
-| NFR-005 | Not run | | The measured load run |
+| NFR-005 | Partly | T-NFR-005-01 ran 10 concurrent requesters and 200 observed cases for each of the list, detail and summary calls. All 600 finished within 2 seconds with no errors, and the warm-up was kept apart | The timing is HTTP time on one local machine shared with the load generator, with no browser display time (AC-NFR-005.1 and AC-NFR-005.2) |
 
-Fourteen requirements are Covered, two are Partly and one is Not run. The Final outcome section below gives the same result for each acceptance criterion.
+Fourteen requirements are Covered and three are Partly. None is Not run. The Final outcome section below gives the same result for each acceptance criterion.
 
 ## Final outcome
 
@@ -152,9 +152,9 @@ This is the closing view of the matrix for M4. Each requirement gets one of the 
 | NFR-002 | Must | Implemented | 2 Met | TC-API-19, TC-REPO-01 to TC-REPO-04, T-NFR-002-01 to T-NFR-002-03 | The administrative redaction route from CR-004 is not built (TD-016) |
 | NFR-003 | Must | Implemented | 2 Met | T-NFR-003-01, with a request in each of the six statuses, through the compiled server on PostgreSQL | The check restarts the application only. There is no backup or restore evidence (TD-010) |
 | NFR-004 | Should | Partially implemented | 1 Met, 2 Partially Met | T-NFR-004-01, informal, with five people ([results](../testing/nfr-004-results.md)) | The five people were not timed one by one and had the pages explained first |
-| NFR-005 | Should | Partially implemented | 3 Not Met | The load script `scripts/perf-nfr005.mjs` exists | No measured result exists (TD-008) |
+| NFR-005 | Should | Partially implemented | 1 Met, 2 Partially Met | T-NFR-005-01, one local run ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)) | One run on one machine shared with the load generator, with HTTP timing only. The target stays proposed (TD-008) |
 
-**Scope completion.** 34 criteria are Met, 3 are Partially Met and 3 are Not Met. The calculation is (34 + 0.5 × 3) ÷ 40 × 100 = 35.5 ÷ 40 × 100 = **88.75%**, inside the 80 to 89 band. Every Must requirement is Implemented. The one qualification on a Must is the permission matrix approval under NFR-001. The three Not Met criteria all belong to NFR-005, a Should requirement. CR-005 set the order in which requirements would leave if time ran out, and NFR-004 and NFR-005 came first, so the two requirements that are incomplete are the two the change record named.
+**Scope completion.** 35 criteria are Met, 5 are Partially Met and none is Not Met. The calculation is (35 + 0.5 × 5) ÷ 40 × 100 = 37.5 ÷ 40 × 100 = **93.75%**, above the 80% target. Every Must requirement is Implemented. The one qualification on a Must is the permission matrix approval under NFR-001. NFR-004 and NFR-005, both Should requirements, hold the other four Partially Met criteria. CR-005 set the order in which requirements would leave if time ran out, and NFR-004 and NFR-005 came first, so the two requirements that read Partially implemented are the two the change record named.
 
 No criterion was dropped to raise the percentage, and the open items stay visible in the last column.
 
@@ -180,7 +180,7 @@ Each requirement lists the [test cases](../testing/test-cases.md) designed for i
 | NFR-002 | T-NFR-002-01 to T-NFR-002-04 | API | Designed, T-NFR-002-01 (notes), T-NFR-002-02 and T-NFR-002-03 passed | TC-API-19 and the store cases pass on the final version, tag `v4.0-final` |
 | NFR-003 | T-NFR-003-01 | API | Designed, T-NFR-003-01 passed for all six statuses | T-NFR-003-01 passes on PostgreSQL 18.6 with a request in each of the six statuses, and the reopen check passes, both on the final version, tag `v4.0-final` |
 | NFR-004 | T-NFR-004-01 | Manual | Designed, run informally | Five people completed both tasks on 16 October, not timed ([results](../testing/nfr-004-results.md)) |
-| NFR-005 | T-NFR-005-01 | Performance | Designed | None yet |
+| NFR-005 | T-NFR-005-01 | Performance | Designed, T-NFR-005-01 ran once | The load check of 18 October 2026 on commit `5d5e1bc`, which carries the same code as the final version ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)) |
 | Journeys | T-E2E-01, T-E2E-02 | E2E | Passed | T-E2E-01 and T-E2E-02 pass in memory and on PostgreSQL 18.6, run by me on 15 October 2026. GitHub ran both modes on pull request #43 at commit `13c3206` and both passed, in [run 38784039455](https://github.com/DewaldAllers/SEN381-CivicConnect/actions/runs/38784039455). The tests are in [the journeys](../../app/e2e/tests/journeys.spec.js) and `app/e2e/README.md` says how to rerun them |
 
 ## The end to end trace
@@ -215,7 +215,7 @@ What is still missing. Nothing for FR-008 itself. The database store sits behind
 
 FR-003 and NFR-003 both stopped short earlier in M3, and both now run the whole way. FR-003 runs from the visibility problem in the scenario, through NEED-P2-01 and ASR-01 scoped access, to the requester scope rule in the permission matrix, to ADR-005, to `GET /api/v1/requests/mine`, to the requester page, and to TC-API-10 and T-E2E-01. NFR-003 runs from the need for records that survive a restart, through ASR-03 and ADR-002, to the PostgreSQL store, to T-NFR-003-01, which restarts the built server and reads the request back.
 
-NFR-005 is the trace that stops short now. It runs from the need for pages that answer in good time, through NFR-005 and ASR-05, to the three query shapes in the store, to the load script in `scripts/perf-nfr005.mjs`. It stops there. The script is built and has no result, so there is nothing to compare against the proposed target. The target stays a proposal under DEC-010 until a result exists. NFR-004 has moved a little. Five people tried the pages on 16 October, but I did not time them, so there is still no measured result.
+NFR-005 is the trace that reaches its end last. It runs from the need for pages that answer in good time, through NFR-005 and ASR-05, to the three query shapes in the store, to the load script in `scripts/perf-nfr005.mjs`, and now to a result. On 18 October 2026 one run put all 600 observed cases within the proposed two seconds ([results](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md)). It was one run on one local machine, so the target stays a proposal under DEC-010. NFR-004 has moved a little. Five people tried the pages on 16 October, but I did not time them, so there is still no measured result.
 
 The earlier stops were joins between work done by different people, and the joins are done. This one is a measurement, and nobody can build a measurement, only run it.
 
