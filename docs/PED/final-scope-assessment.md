@@ -1,6 +1,6 @@
 # M1 scope to final delivery assessment
 
-Date: 17 October 2026 | Contribution: Dewald Allers | Branch: `m4-data-scope-finalisation` | Status: **working assessment for team review, not the frozen final baseline**
+Updated: 18 October 2026 | Contribution: Dewald Allers | Branch: `m4-scope-evidence-reconciliation` | Status: **evidence-reconciled contribution for team review, not the frozen final baseline**
 
 This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. Tristan can incorporate this section in PED v4.0 and reconcile the existing RTM with the reviewed evidence. All three members must review the classifications before final submission.
 
@@ -35,7 +35,7 @@ The original [scope statement, section 3.2](Member1_Part1.md) contains the items
 | Trustworthy one-event audit | NFR-002 / Must | IMPLEMENTED | [Rollback and stale-write cases](../../app/backend/test/data-api.integration.test.ts), [append-only checks](../../app/backend/test/request-store.test.ts). This does not establish the separate CR-004 administrative route. |
 | Acknowledged data across controlled restart | NFR-003 / Must | IMPLEMENTED | [T-NFR-003-01](../../app/backend/test/server-restart.integration.test.ts) builds six acknowledged states through the compiled server. The passing real-database check compares request/event/work rows and API projections after restart. |
 | First-time usability | NFR-004 / Should | PARTIALLY IMPLEMENTED acceptance validation | The interface exists, but [informal five-person results](../testing/nfr-004-results.md) do not meet the unaided/timing protocol. Tristan owns any further observation. |
-| Responsiveness at proposed load | NFR-005 / Should | PARTIALLY IMPLEMENTED verification preparation | The [existing load script](../../app/backend/scripts/perf-nfr005.mjs) has no measured result. HTTP timing also excludes browser render time. Liam owns the run and interpretation. |
+| Responsiveness at proposed load | NFR-005 / Should | PARTIALLY IMPLEMENTED acceptance validation | Liam's [preserved measurement](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json) reports 600 successful HTTP observations within 2,000 ms at concurrency 10. Browser rendering is not timed, and the proposed target/environment still needs explicit acceptance. |
 
 The M1 list of architecture, schema, client, API, CI and production work that was "out of scope for M1" is a milestone boundary, not a final-product exclusion. The deliberate deferment of optional additions remains separate from failed committed scope. External messaging, reopening closed requests, a full grant-administration feature and optional analytics are not silently added to the denominator. Production-scale capacity, disaster recovery and uptime guarantees were never demonstrated by the controlled-restart requirement.
 
@@ -82,23 +82,35 @@ The evidence below uses the current branch's test sources and the [M4 data verif
 | AC-NFR-004.1 | Partially Met | [Five-person results](../testing/nfr-004-results.md): tasks completed, but an explanation was given and individual timings were not recorded. |
 | AC-NFR-004.2 | Partially Met | [Same results](../testing/nfr-004-results.md): completion is observed, but the four-of-five unaided timed pass rule is not established. |
 | AC-NFR-004.3 | Met | [Results limitations](../testing/nfr-004-results.md) explicitly restrict the five-person finding; this methodological bullet is not proof of the usability target. |
-| AC-NFR-005.1 | Not Met | [Load script](../../app/backend/scripts/perf-nfr005.mjs) is prepared, but the agreed-environment ten-user measured run is absent. |
-| AC-NFR-005.2 | Not Met | [Release evidence](../release/README.md) contains no response-time result; HTTP timing alone also omits browser display latency. |
-| AC-NFR-005.3 | Not Met | [Release evidence](../release/README.md): no executed measurement/configuration/result bundle is preserved for this criterion. |
+| AC-NFR-005.1 | Partially Met | [Liam's report](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json) records the environment, 304 requests, two seeded requesters, six categories, concurrency 10 and 200 observations per operation. This proves the executed HTTP workload, not ten distinct signed-in people or prior formal acceptance of the environment/target under DEC-010. |
+| AC-NFR-005.2 | Partially Met | [Measured HTTP results](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json): all three operations separately report 200/200 successful responses within 2,000 ms, with 20 warm-ups per type excluded and no reported errors. The runner times HTTP through JSON parsing, not browser rendering from a user action, so the full end-to-end criterion is not proven. |
+| AC-NFR-005.3 | Met | [Preserved configuration and timing report](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.json) and [provenance/limitations note](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/liam-staging-runtime-performance-2026-10-18.md) retain candidate, environment, load and results. This meets the recording obligation, not approval of the proposed target or production readiness. |
 
 ## Calculation and interpretation
 
-Declared calculation: 35.5 / 40 = 88.75%.
+Declared calculation: 37.5 / 40 = 93.75%.
 
-Current ledger: 34 Met, 3 Partially Met, 3 Not Met. This is a provisional evidence assessment, not a team-approved final score, lecturer mark or release approval. Recalculate when either teammate's final evidence or team review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
+Current ledger: 35 Met, 5 Partially Met, 0 Not Met. This is an evidence-based proposal for team review, not a team-approved final score, lecturer mark or release approval. The three NFR-005 bullets moved from Not Met to Partially Met, Partially Met and Met after the measurement became available. NFR-005 as a whole remains Partially implemented. Recalculate if final evidence or review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
+
+The 17 October assessment remains a historical snapshot in PR #46: 34 Met, 3 Partially Met, 3 Not Met, or 35.5 / 40 = 88.75%. The increase to 93.75% uses new evidence against the same 40 original bullets, not a changed denominator or relaxed target. No claim is made that partial fulfilment equals full acceptance.
+
+## Staging and performance evidence reconciliation, 18 October 2026
+
+Liam's [PR #48](https://github.com/DewaldAllers/SEN381-CivicConnect/pull/48) preserves results for application commit `5d5e1bcc45a6e8445904dde4838c82876313a98f`, the merge of PR #46. Its [staging record](https://github.com/DewaldAllers/SEN381-CivicConnect/blob/a9bedd1d7fde00fd23fa542d9c6332eaea57bb61/evidence/m4-performance/liam-staging-runtime-performance-2026-10-18.md) quotes the launcher confirming that exact version at `http://localhost:4000`, migrations already applied and the PostgreSQL repository in use. This is local staging, not an Internet deployment, proof of rollback, or a run of a later final tag. The runtime-permission result is reported from Liam's transcript; the original temporary transcript was not available when he generated the note.
+
+The original JSON and generated Markdown hashes match the hashes in Liam's note. The repository-friendly Markdown differs only in typography. The JSON records 300 newly seeded requests, 304 total requests and 154 visible in the measured staff queue. All 600 observations passed the runner's proposed HTTP target. Staff-list, detail and management-summary p95 times are 388.1 ms, 181.7 ms and 529 ms respectively. The server and load generator shared one Windows machine running Node 22.14.0. These figures are not browser timings, production capacity, or evidence that all six categories can be processed by the seeded staff.
+
+The wrapper's blank exit-code display is a recorded evidence limitation; the preserved reports are not replaced by an invented successful process exit. This reconciliation reviewed those artefacts and did not rerun the load script, add requests or remove existing rows. Links above are pinned to the reviewed evidence commit so they remain inspectable before PR #48 merges.
+
+PR #47's draft PED/RTM/release record predates these results and still says no measured run exists and completion is 88.75%. Tristan must reconcile those current-state claims with this assessment before freezing the final version, while preserving the earlier M3 and 17 October history. A final release classification requires team review of the remaining security, privacy, permission, recovery and usability limitations; a passing HTTP exercise alone does not settle it.
 
 The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. The [data handoff](../data/m4-data-finalisation.md#consequences-and-handoff) also identifies the lack of seeded Staff grants for Lost property and Other; passing category persistence does not prove an operational journey for every category. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
 
 ## Finalisation handoff
 
 - Dewald supplies data evidence and this calculation; only data findings within his contribution are concluded here.
-- Liam supplies final backend/deployment/load evidence and the defensible go-live or no-go position.
-- Tristan reconciles the existing RTM/registers and incorporates this contribution into the continued PED v4.0. Human usability results remain his to collect, not to fabricate.
+- Liam supplied the candidate-specific local staging and HTTP load evidence in PR #48. Any final-tag verification, rollback evidence and defensible go-live or no-go conclusion remain his operational handoff.
+- Tristan reconciles the existing RTM/registers and incorporates this contribution into the continued PED v4.0, replacing the stale current-state no-measurement and 88.75% claims. Human usability results remain his to collect, not to fabricate.
 - Each member contributes their own decision consequence, limitation, learning and accurate AI-use update. No exclusive unaided authorship or completed independent human review is claimed by this AI-assisted draft.
 - Freeze one reviewed final commit/tag after integration. These working-branch results do not change the submitted M3 tag or establish a final assessed version on their own.
 
