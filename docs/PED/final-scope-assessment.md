@@ -1,8 +1,8 @@
 # M1 scope to final delivery assessment
 
-Date: 17 October 2026 | Contribution: Dewald Allers | Branch: `m4-data-scope-finalisation` | Status: **final scope assessment for M4, approved when its pull request merges**
+Date: 17 October 2026 | Contribution: Dewald Allers | Branch: `m4-data-scope-finalisation` | Status: **working assessment for team review, not the frozen final baseline**
 
-This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. PED v4.0 incorporates this section, and the RTM final outcome carries the same results. Each classification is approved by the reviews on the pull requests that carry it.
+This section continues the existing PED. It supplies the scope conclusion required by SRC-M4 sections 5 and 15, not a new RTM or a separate final report. Tristan can incorporate this section in PED v4.0 and reconcile the existing RTM with the reviewed evidence. All three members must review the classifications before final submission.
 
 ## Baseline and counting rule
 
@@ -35,13 +35,13 @@ The original [scope statement, section 3.2](Member1_Part1.md) contains the items
 | Trustworthy one-event audit | NFR-002 / Must | IMPLEMENTED | [Rollback and stale-write cases](../../app/backend/test/data-api.integration.test.ts), [append-only checks](../../app/backend/test/request-store.test.ts). This does not establish the separate CR-004 administrative route. |
 | Acknowledged data across controlled restart | NFR-003 / Must | IMPLEMENTED | [T-NFR-003-01](../../app/backend/test/server-restart.integration.test.ts) builds six acknowledged states through the compiled server. The passing real-database check compares request/event/work rows and API projections after restart. |
 | First-time usability | NFR-004 / Should | PARTIALLY IMPLEMENTED acceptance validation | The interface exists, but [informal five-person results](../testing/nfr-004-results.md) do not meet the unaided/timing protocol. Tristan owns any further observation. |
-| Responsiveness at proposed load | NFR-005 / Should | PARTIALLY IMPLEMENTED | The [load check of 18 October 2026](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md) ran 10 concurrent requesters and 200 observed cases for each call, and all 600 finished within two seconds. It is one run on one local machine, and HTTP timing excludes browser render time. The target stays a proposal. Liam owns the run and its interpretation. |
+| Responsiveness at proposed load | NFR-005 / Should | PARTIALLY IMPLEMENTED verification preparation | The [existing load script](../../app/backend/scripts/perf-nfr005.mjs) has no measured result. HTTP timing also excludes browser render time. Liam owns the run and interpretation. |
 
 The M1 list of architecture, schema, client, API, CI and production work that was "out of scope for M1" is a milestone boundary, not a final-product exclusion. The deliberate deferment of optional additions remains separate from failed committed scope. External messaging, reopening closed requests, a full grant-administration feature and optional analytics are not silently added to the denominator. Production-scale capacity, disaster recovery and uptime guarantees were never demonstrated by the controlled-restart requirement.
 
 ## Criterion ledger
 
-The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The [RTM acceptance check](../requirements/RTM.md#acceptance-check) carries the same results for FR-002 and NFR-003, and the [RTM final outcome](../requirements/RTM.md#final-outcome) links each requirement to the final version.
+The evidence below uses the current branch's test sources and the [M4 data verification record](../data/m4-data-finalisation.md). The M3 [RTM acceptance check](../requirements/RTM.md#acceptance-check) is retained as historical evidence, not rewritten to claim this branch is already approved. A newly passing case must still be linked to the final reviewed release by Tristan.
 
 | Criterion | Result | Evidence and qualification |
 | --- | --- | --- |
@@ -82,15 +82,15 @@ The evidence below uses the current branch's test sources and the [M4 data verif
 | AC-NFR-004.1 | Partially Met | [Five-person results](../testing/nfr-004-results.md): tasks completed, but an explanation was given and individual timings were not recorded. |
 | AC-NFR-004.2 | Partially Met | [Same results](../testing/nfr-004-results.md): completion is observed, but the four-of-five unaided timed pass rule is not established. |
 | AC-NFR-004.3 | Met | [Results limitations](../testing/nfr-004-results.md) explicitly restrict the five-person finding; this methodological bullet is not proof of the usability target. |
-| AC-NFR-005.1 | Partially Met | [Load check](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md): 10 concurrent requesters and 200 observed cases for each of the list, detail and summary calls, with the environment and data volume recorded in the result. The target and the environment were never baselined (CR-002, P-05), so the agreed-beforehand part of the criterion is not met. |
-| AC-NFR-005.2 | Partially Met | [Load check](../../evidence/m4-performance/nfr-005-2026-10-18T18-39-19-613Z.md): all 600 observed cases finished within 2,000 ms with no errors, and the warm-up was kept apart. The timing is HTTP time on a machine shared with the load generator and it omits browser display time, so it is not the end-to-end measure the criterion names. |
-| AC-NFR-005.3 | Met | [Evidence record](../../evidence/m4-performance/liam-staging-runtime-performance-2026-10-18.md) and the original JSON and Markdown results in the same folder hold the configuration, the load level and the timings. |
+| AC-NFR-005.1 | Not Met | [Load script](../../app/backend/scripts/perf-nfr005.mjs) is prepared, but the agreed-environment ten-user measured run is absent. |
+| AC-NFR-005.2 | Not Met | [Release evidence](../release/README.md) contains no response-time result; HTTP timing alone also omits browser display latency. |
+| AC-NFR-005.3 | Not Met | [Release evidence](../release/README.md): no executed measurement/configuration/result bundle is preserved for this criterion. |
 
 ## Calculation and interpretation
 
-Declared calculation: 37.5 / 40 = 93.75%.
+Declared calculation: 35.5 / 40 = 88.75%.
 
-Current ledger: 35 Met, 5 Partially Met, 0 Not Met. This is the final calculation for M4, approved when the pull request that carries it merges. It is not a lecturer mark or release approval. It is recalculated if either teammate's evidence or a review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
+Current ledger: 34 Met, 3 Partially Met, 3 Not Met. This is a provisional evidence assessment, not a team-approved final score, lecturer mark or release approval. Recalculate when either teammate's final evidence or team review changes a row. The 80% target is not a reason to weaken a criterion, drop the proposed NFRs or overlook a critical omission.
 
 The remaining Must qualification is the exact permission matrix approval. The existing implemented permissions are exercised, but team acceptance is not invented. The [data handoff](../data/m4-data-finalisation.md#consequences-and-handoff) also identifies the lack of seeded Staff grants for Lost property and Other; passing category persistence does not prove an operational journey for every category. Administrative redaction under CR-004, expiring hosted data, session limitations and the final go-live state must also be concluded in PED v4.0 even where they do not add a scored original M1 bullet. The team cannot infer readiness merely from a percentage above 80.
 
