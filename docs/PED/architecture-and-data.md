@@ -116,3 +116,13 @@ Tristan's open PR #27 carries the PED v2 index, RTM, change requests and baselin
 | FR-005/006/010/012 + NFR-005 → ASR-05 | Scoped filtered/ordered queries and computed overdue | This PED section; ADR-002 | Index and performance measurement pending; NFR-005 target remains proposed |
 
 This is our Criterion F technical-documentation contribution and a hand-off contract for implementation. It is **not** a claim that application code, tests, reviews, a migration, or a database are present. Tristan can use these references when updating the RTM; we have not overwritten its structure.
+
+## M4 data conclusion, 17 October 2026
+
+The sections above preserve the M2 proposal and its then-pending construction state. M3 subsequently implemented the modular server and the PostgreSQL request/event/work store. This M4 contribution finalises evidence for that design rather than selecting a new architecture. The [data finalisation record](../data/m4-data-finalisation.md) and [scope assessment](final-scope-assessment.md) supply the current evidence boundary and original-criterion calculation for the continued PED.
+
+ADR-002's strongest observed consequence is the single commit boundary: an injected event rejection leaves no changed request version, work record or extra event, and a stale write receives a conflict. The new category case rereads every seeded category through the actual API and SQL store. The expanded compiled-server case preserves six acknowledged request states, owners, notes, due dates and attributable history across a controlled restart. These close the two specific data evidence gaps identified in the M3 RTM, subject to peer review and final RTM integration.
+
+The alternative of saving request and history independently would need repair when only one save succeeded. A separate asynchronous audit service would also need delivery, duplication and ordering controls without a demonstrated project need. One relational transaction is proportionate here, but it ties the audited operation to database availability and serialises concurrent changes on one request. Indexes and correctness tests do not establish response-time performance; the measured load evidence remains Liam's contribution.
+
+The database runtime role is restricted under PR #44. A database administrator still has powers that ordinary application users do not. The free hosted development instance expires on 13 November 2026, and restart evidence is not backup/restore evidence. The CR-004 administrative redaction path, exact matrix approval, unpaginated lists and final deployment decision must remain visible in project closure. No replication, paid hosting, new feature or new recovery guarantee is added by this contribution.

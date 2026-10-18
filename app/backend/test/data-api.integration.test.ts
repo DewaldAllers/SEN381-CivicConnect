@@ -16,6 +16,46 @@ describe.each(["memory", "postgres"] as const)("Data/API integration: %s", (kind
     return response.body.data.id as string;
   }
 
+  it("[T-FR-002-01][AC-FR-002] every configured category survives submission and a fresh read", async () => {
+    // Fix the expected set independently of the endpoint so an accidentally
+    // missing category does not turn into a smaller, silently passing fixture.
+    const expected = [
+      { id: "c-facilities", name: "Facilities" },
+      { id: "c-it", name: "IT support" },
+      { id: "c-security", name: "Security" },
+      { id: "c-maintenance", name: "Maintenance" },
+      { id: "c-lost", name: "Lost property" },
+      { id: "c-other", name: "Other" },
+    ];
+    const categories = await fixture.as("thandi").get("/categories");
+    expect(categories.status).toBe(200);
+    expect(categories.body.data).toEqual(expected);
+    if (fixture.database) {
+      const stored = await fixture.database.query("SELECT id, name FROM request_categories WHERE active = TRUE ORDER BY id");
+      expect(stored.rows).toEqual([...expected].sort((a, b) => a.id.localeCompare(b.id)));
+    }
+    const ids: string[] = [];
+    for (const category of expected) {
+      const submitted = await fixture.as("thandi").post("/requests", {
+        ...validSubmission, categoryId: category.id,
+      });
+      expect(submitted.status).toBe(201);
+      const id = submitted.body.data.id as string;
+      ids.push(id);
+      const reread = await fixture.as("thandi").get(`/requests/${id}`);
+      expect(reread.status).toBe(200);
+      expect(reread.body.data).toMatchObject({ id, categoryId: category.id, status: "Submitted", version: 0 });
+      const history = await fixture.as("thandi").get(`/requests/${id}/history`);
+      expect(history.status).toBe(200);
+      expect(history.body.data).toHaveLength(1);
+    }
+    expect(new Set(ids).size).toBe(expected.length);
+    const own = await fixture.as("thandi").get("/requests/mine");
+    expect(own.status).toBe(200);
+    expect(own.body.data.map((row: { categoryId: string }) => row.categoryId).sort())
+      .toEqual(expected.map((category) => category.id).sort());
+  });
+
   it("[T-NFR-002-03] refuses the browser's stale assignment with code stale and no extra event", async () => {
     const id = await create();
     expect((await fixture.as("sipho").patch(`/requests/${id}/status`, { status: "Accepted", expectedVersion: 0 })).status).toBe(200);
